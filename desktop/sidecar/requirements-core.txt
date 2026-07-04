@@ -1,0 +1,28 @@
+# Sidecar CORE dependency set — what the packaged desktop backend ships with.
+#
+# Heavyweight ML stacks (paddleocr / paddlepaddle / torch / transformers /
+# sentence-transformers / faiss / vietocr / argostranslate / underthesea) are
+# NOT bundled in the initial desktop package: every service imports them
+# lazily and degrades to its existing "engine not available" status when
+# missing. Packaging them with PyInstaller is per-platform follow-up work
+# (see docs/DESKTOP_ARCHITECTURE.md → "Platform limitations").
+#
+# Keep this list in sync with what `import app` actually needs at startup.
+
+flask>=3.0.0
+flask-login>=0.6.3
+flask-sqlalchemy>=3.1.0
+werkzeug>=3.0.0
+python-dotenv>=1.0.0
+keyring>=24.0
+requests>=2.31.0
+
+# Lightweight document/text handling used by upload + text extraction paths
+Pillow>=10.0.0
+pypdfium2>=4.0.0
+python-docx>=1.1.0
+langdetect>=1.0.9
+deep-translator>=1.11.4
+numpy>=1.26.0
+# layout/geometry services import cv2 at module level
+opencv-python-headless>=4.9.0

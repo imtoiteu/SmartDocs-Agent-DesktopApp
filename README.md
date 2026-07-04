@@ -1,254 +1,152 @@
-# SmartDocs-Agent
+# SmartDocs Desktop
 
-An offline-first, document-centric AI platform built on Flask. It combines four OCR
-engines, classical + neural AI services (correction, translation, summarization,
-RAG chat), and an LLM **agent** that orchestrates those capabilities as tools — all
-behind one web UI and HTTP API.
+Cross-platform desktop packaging of **SmartDocs-Agent** — the offline-first,
+document-centric AI platform (OCR, translation, summarization, RAG chat, and an
+LLM agent) — as a native app: a **Tauri v2** shell rendering the existing web
+UI in the OS WebView, backed by the existing Python backend running as a
+**PyInstaller sidecar** bound to `127.0.0.1`.
 
-- **OCR**: Legacy PaddleOCR (PP-OCRv5), PaddleOCR Modern (PP-StructureV3 + PP-OCRv6), VietOCR, GLM-OCR
-- **AI services**: text correction, translation (Google / Argos), summarization (TF-IDF / PhoBERT / Qwen rewrite), RAG chat
-- **Agent**: plans and chains the tools above, with document scoping and durable sessions
-- **Storage**: SQLite + an in-memory RAG index, files under `uploads/`
-
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full technical architecture and
-[docs/diagrams/](docs/diagrams/) for editable diagrams.
+The web application itself is unchanged; its own documentation lives in
+[docs/WEBAPP_README.md](docs/WEBAPP_README.md). This repository was imported
+from [SmartDocs-Agent-WebApp](https://github.com/imtoiteu/SmartDocs-Agent-WebApp)
+(commit `ce3589a`) and evolves independently.
 
 ---
 
-## Quick Start
+## Architecture
 
-**Prerequisites:** Python **3.10** and `git`. **Node/npm are *not* required** —
-the frontend is plain vendored JavaScript with no build step. macOS, Ubuntu/Linux, and
-Windows are supported (see [docs/INSTALLATION.md](docs/INSTALLATION.md) for per-OS details).
+```
+┌────────────────────────────────────────────────────────────┐
+│ SmartDocs.app / .deb / .msi          (Tauri v2, Rust)      │
+│                                                            │
+│  native WebView ──── http://127.0.0.1:<dynamic port> ────┐ │
+│  (existing SmartDocs UI)                                 │ │
+│                                                          ▼ │
+│  Rust shell ── owns ──► smartdocs-sidecar (PyInstaller)    │
+│   • per-launch token    • Flask app, 127.0.0.1 ONLY        │
+│   • spawn + handshake   • dynamic free port                │
+│   • health-check gate   • token required on every /api     │
+│   • graceful shutdown   • per-user data dir (env-mapped)   │
+└────────────────────────────────────────────────────────────┘
+```
 
-> **Python 3.10 is REQUIRED for the main venv** (3.11 tolerated, unverified).
-> **3.12/3.13/3.14 do not work**: `paddlepaddle>=3.0.0` and `Pillow==10.2.0`
-> (pinned by VietOCR) publish no wheels there, so `pip install -r requirements.txt`
-> fails. `scripts/setup.sh` auto-picks `python3.10` and refuses newer interpreters
-> (recreate a bad venv with `scripts/setup.sh --reset-venv`). macOS:
-> `brew install python@3.10`. This applies only to the **main** venv — the GLM
-> venvs (`GLM-OCR/.venv-mlx` / `.venv-sdk`) are separate and may use Python
-> 3.10–3.12 (see `scripts/setup_glm.sh`).
+Full lifecycle, token, and security details: [docs/DESKTOP_ARCHITECTURE.md](docs/DESKTOP_ARCHITECTURE.md).
 
-### Fastest start — the `scripts/` launchers (recommended)
+## Development
 
-The scripts resolve the virtualenv and repo paths for you — **you never have to
-activate a venv or know where it lives.** Run them from anywhere.
+Prerequisites: Rust (stable), Node 20+, Python 3.12, and on Linux the Tauri v2
+system packages (`libwebkit2gtk-4.1-dev`, `librsvg2-dev`, …).
 
 ```bash
-cd SmartDocs-Agent
-scripts/setup.sh        # create/find .venv, install deps, seed .env, make folders
-scripts/check.sh        # verify Python, deps, ports, GLM + SmartDocs health
-scripts/start.sh        # start the full local stack (GLM too, if enabled/available)
+npm install                    # Tauri CLI
+scripts/build-sidecar.sh       # sidecar venv + PyInstaller one-dir build
+scripts/dev-desktop.sh         # tauri dev against desktop_server.py (no freeze step)
+scripts/test-desktop.sh        # unit suites + integration tests vs a real sidecar
 ```
 
-Then open **http://localhost:5002** (or the `SMARTDOCS_PORT` you set in `.env`) and log in.
+`desktop_server.py` can also run standalone (see its docstring) — it never
+opens a browser and prints a one-line JSON handshake on stdout.
 
-**Offline-first note:** with `OFFLINE=1` (the default) AI models load only from
-local caches. The web app, login, upload, document management and basic correction
-work immediately, but **chat, AI rewrite, VietOCR, offline translation and GLM OCR
-need a one-time online priming**:
+## Building packages
+
+PyInstaller does not cross-compile: each OS builds its own sidecar and bundle.
+The GitHub Actions matrix in
+[.github/workflows/desktop-build.yml](.github/workflows/desktop-build.yml)
+builds all three natively. Icons are generated once per clone:
+`node desktop/gen-icon.js && npx tauri icon desktop/icon.png`.
+
+### macOS  (full guide: [docs/MACOS_BUILD.md](docs/MACOS_BUILD.md))
 
 ```bash
-scripts/setup_offline.sh                  # cache local LLM (Qwen 2.5 1.5B — chat/rewrite/agent),
-                                          # PhoBERT, embeddings, VietOCR weights+config.yml, Argos
-                                          # (wrapper — always uses the main venv Python)
-scripts/check_offline.sh                  # report: each feature usable / needs-setup / fallback
+brew install rustup node@20 python@3.12 && rustup-init -y
+npm install
+PYTHON=python3.12 scripts/build-sidecar.sh
+npx tauri build --bundles app,dmg
+# → src-tauri/target/release/bundle/macos/SmartDocs.app
+# → src-tauri/target/release/bundle/dmg/SmartDocs_0.1.0_aarch64.dmg
 ```
 
-Full guide: **[docs/OFFLINE_SETUP_EN.md](docs/OFFLINE_SETUP_EN.md)** · **[docs/OFFLINE_SETUP_VI.md](docs/OFFLINE_SETUP_VI.md)**.
-
-Individual services:
+### Linux  (built + sidecar-tested on Ubuntu 24.04; GUI validation pending)
 
 ```bash
-scripts/start_web.sh    # only the web app        (add -b to run in the background)
-scripts/start_glm.sh    # only the GLM OCR server  (Apple-Silicon / MLX only, optional)
-scripts/stop.sh         # stop background services (web + GLM)
+sudo apt-get install libwebkit2gtk-4.1-dev librsvg2-dev build-essential \
+     libxdo-dev libssl-dev libayatana-appindicator3-dev
+npm install
+scripts/build-sidecar.sh
+npx tauri build --bundles deb        # add: --bundles deb,appimage for AppImage
+# → src-tauri/target/release/bundle/deb/SmartDocs_0.1.0_amd64.deb
 ```
 
-**Optional GLM OCR — local MLX mode (Apple Silicon)** — uses the GLM-OCR vendored
-inside this repo (`GLM-OCR/`); no external path needed on a clean clone. This is
-`GLM_OCR_MODE=local_mlx`, the default on macOS Apple Silicon; on Windows/Linux
-GLM defaults to `disabled` and can instead point at an external GLM server or
-the MaaS cloud API (see the platform support matrix below and `.env.example`):
+### Windows  (PREPARED, NOT YET VALIDATED on a real Windows machine)
 
-```bash
-scripts/setup.sh                       # main SmartDocs venv (keeps Pillow 10.2.0 for VietOCR)
-scripts/setup_glm.sh --precache        # BOTH GLM venvs + layout.model_dir + cache PP-DocLayoutV3 + GLM-OCR-bf16
-scripts/check.sh                       # verify both venvs' imports, Pillow, ports, server readiness
-scripts/check_offline.sh               # verify GLM layout config + BOTH GLM model caches
-scripts/start_glm.sh -b                # start the GLM model server in the background
-scripts/start.sh                       # full stack
+```powershell
+# Prereqs: Rust (rustup), Node 20, Python 3.12, WebView2 runtime (Win 11: preinstalled)
+npm install
+powershell -ExecutionPolicy Bypass -File scripts\build-sidecar.ps1
+npx tauri build --bundles msi,nsis
+# → src-tauri\target\release\bundle\msi\SmartDocs_0.1.0_x64_en-US.msi
+# → src-tauri\target\release\bundle\nsis\SmartDocs_0.1.0_x64-setup.exe
 ```
 
-> `--precache` caches BOTH GLM models into the **project-local** HF cache
-> (`models/huggingface/hub` — the same cache as every other model):
-> the PP-DocLayoutV3 layout checkpoint (`--precache-layout`; `glm_adapter.py`
-> points glmocr there) and the MLX server's own model
-> `mlx-community/GLM-OCR-bf16` (`--precache-mlx`; `tools/glm_serve.sh` points
-> `mlx_vlm.server` there). Copies already in `~/.cache/huggingface` from older
-> runs are migrated, not re-downloaded. Without a cached layout model + a
-> `pipeline.layout.model_dir` in `mlx_config.yaml`, GLM OCR fails with
-> *"pipeline.layout.model_dir is required for self-hosted layout detection"*;
-> without a cached MLX model the FIRST server start downloads it (internet once).
->
-> The server **preloads** its model at startup (port opens only when inference
-> is ready — `GLM_PRELOAD=false` for lazy loading). While a cold server is still
-> loading, the UI answers *"GLM server is still loading the OCR model. Please
-> wait and retry."* and `scripts/check.sh` reports the loading state instead of
-> pretending a listening port means ready.
+## Data locations
 
-**Three isolated Python environments** (this is the key to why GLM works without
-breaking VietOCR):
+The installation directory is read-only. All writable state lives in the
+per-user app-data directory resolved natively by Tauri and passed to the
+sidecar via `SMARTDOCS_DATA_DIR`:
 
-| Env | Purpose | Pillow | Notes |
-|---|---|---|---|
-| main SmartDocs venv | Flask app + Legacy/VietOCR/Modern OCR | **10.2.0** (VietOCR pins it) | never imports glmocr |
-| `GLM-OCR/.venv-mlx` | MLX **model server** (`mlx_vlm`) | 12.x | no torch, no glmocr; Apple Silicon |
-| `GLM-OCR/.venv-sdk` | glmocr **CLI / layout** — what the UI drives | 12.x | torch + editable glmocr |
+| OS      | Location                                              |
+|---------|--------------------------------------------------------|
+| Linux   | `~/.local/share/com.smartdocs.desktop/`                |
+| macOS   | `~/Library/Application Support/com.smartdocs.desktop/` |
+| Windows | `%APPDATA%\com.smartdocs.desktop\`                     |
 
-The SmartDocs UI never imports GLM-OCR in-process. `services/ocr_engines/glm_adapter.py`
-runs `glmocr.cli` as a **subprocess** using `GLM-OCR/.venv-sdk/bin/python`, so
-GLM's Pillow 12.x stays isolated and can't collide with the main venv's 10.2.0.
+Inside: `smartdocs.db` (SQLite), `uploads/`, `models/` (HF/Argos caches derive
+from it), `app_settings.json`. Data survives application updates. Cloud API
+keys are **never** stored there — they stay in the OS credential store
+(Keychain / Credential Manager / Secret Service) via the existing keyring
+integration.
 
-Reproducible dependency files:
+## Security model
 
-- `requirements/glm-mlx-lock.txt` — pinned freeze for `.venv-mlx` (MLX server).
-- `requirements/glm-sdk-lock.txt` — pinned freeze for `.venv-sdk` (torch + layout
-  deps); `glmocr` itself is added by an editable install of the vendored `GLM-OCR/`.
+- Backend binds `127.0.0.1` only, on a dynamically chosen port.
+- A random per-launch token is generated in the Rust shell, handed to Python
+  via **stdin**, and injected into the WebView as an initialization script.
+  It is never persisted, never logged, never in argv or the URL.
+- Every `/api` request must carry `X-SmartDocs-Token`; requests without it get
+  `401`. Page sessions are established through a token-authenticated bootstrap
+  (`/desktop/boot` → `/api/desktop/session`).
+- Desktop mode does **not** seed the web app's default `admin/admin123`
+  account; it provisions a `desktop` user with a random unusable password.
+- Host-header allowlist (DNS-rebinding hardening), WebView navigation
+  allowlist (splash + exactly the backend origin), minimal Tauri capabilities,
+  no shell/fs/http permissions exposed to page code.
+- One backend per data dir (PID lockfile) + single app instance
+  (tauri-plugin-single-instance). On close: graceful shutdown endpoint →
+  bounded wait → force-kill. No orphans.
 
-`setup_glm.sh` requires Python 3.10/3.11/3.12 (rejects 3.13/3.14 unless `--force`).
-To use an external GLM-OCR checkout, set `GLM_OCR_DIR=/path/to/GLM-OCR` in `.env`.
-GLM stays optional: `ENABLE_GLM=false scripts/start.sh` runs SmartDocs without it,
-and the other three OCR engines never depend on it.
+## Platform limitations
 
-Full guides: **[docs/RUN_EN.md](docs/RUN_EN.md)** · **[docs/RUN_VI.md](docs/RUN_VI.md)**.
-Desktop-app packaging plan: **[docs/DESKTOP_BUILD.md](docs/DESKTOP_BUILD.md)**.
+- **Bundled today (core)**: web UI, agent, documents, settings, keyring keys,
+  privacy modes, uploads, chat/RAG plumbing. **Not bundled yet**: the heavy ML
+  stacks (PaddleOCR, torch/transformers, VietOCR, Argos, faiss) — services
+  degrade to their existing "engine not available" statuses. Bundling them is
+  per-platform follow-up (note: the full stack pins Python 3.10; the core
+  sidecar uses 3.12).
+- **macOS/Windows are unverified**: built via CI definitions but not yet run
+  on real machines — Keychain/Credential Manager behavior, signing,
+  notarization, and installer UX all need native validation.
+- Linux packaged build is produced and smoke-tested (see
+  `desktop/tests/test_sidecar_integration.py`).
 
-### Manual start (equivalent, no scripts)
+## Troubleshooting
 
-```bash
-# 1. Get the code and enter the project
-cd SmartDocs-Agent
-
-# 2. Create and activate a virtual environment — MUST be Python 3.10
-python3.10 -m venv .venv           # macOS: brew install python@3.10 first
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
-
-# 3. Install dependencies (~several GB incl. torch + paddle)
-pip install -r requirements.txt
-
-# 4. Create your env file (safe defaults; edit later for API keys / models)
-cp .env.example .env
-
-# 5. Run — first launch creates and seeds the SQLite database
-python app.py
-```
-
-Then open **http://localhost:5002** (or the `SMARTDOCS_PORT` / `PORT` you set in `.env`) and log in.
-
-> **First-run accounts (CHANGE IMMEDIATELY):** `admin / admin123` and `user / user123`.
-> These are seeded on first launch ([models.py](models.py)). Reset passwords in the Admin
-> console (`/admin`) before exposing the app to anyone.
-
-**Convenience launchers** (create `.venv`, copy `.env`, install deps, then start):
-
-```bash
-bash run_mac.sh         # macOS / Linux
-run_windows.bat         # Windows
-```
-
-> Note: the launch scripts look for a virtualenv at `../.venv` (the repo's parent) first,
-> then a local `.venv`. Either works.
-
-### What works out of the box vs. needs setup
-
-| Capability | Works immediately | Needs extra setup |
-|---|---|---|
-| Legacy PaddleOCR, PaddleOCR Modern | ✅ (models fetched on first online OCR run) | pre-cache via `scripts/setup_offline.sh` for offline |
-| VietOCR | — | `scripts/setup_offline.sh` — needs `vgg_transformer.pth` **and** `models/vietocr/config.yml` (both created by it) |
-| GLM-OCR engine | — | local MLX (`scripts/setup_glm.sh --precache` + server) is **Apple Silicon only**; other OSes: `GLM_OCR_MODE=external_server` / `maas_api` (see matrix below) |
-| Correction (rule-based), extractive summarization, text reading | ✅ | — |
-| Translation (online) | ✅ (needs internet) | — |
-| Translation (offline / Argos) | — | `scripts/setup_offline.sh` (Argos packages in `MODEL_DIR`) |
-| RAG chat / AI rewrite / agent (local **Qwen 2.5 1.5B**, the default) | — with `OFFLINE=1` | `scripts/setup_offline.sh` caches the 1.5B model (larger models opt-in via `.env`) |
-| Agent with cloud LLMs (Groq / Gemini) | — | API keys in `.env` (falls back to local Qwen) |
-
-Verify readiness anytime with **`scripts/check_offline.sh`**.
-
-### Platform support matrix
-
-Development happens on macOS Apple Silicon and Linux; those columns are verified.
-Windows columns are *expected* from the codebase (CPU torch/paddle wheels,
-`run_windows.bat`, `platform_system` markers in `requirements.txt`) but not
-regularly tested — prefer **WSL** on Windows for the scripted flow.
-
-GLM OCR is **not** macOS-only: the *local MLX server* is, but `GLM_OCR_MODE`
-(see `.env.example`) also supports connecting to an **external GLM-OCR
-backend** (vLLM / SGLang / a Mac's MLX server over LAN) or the **Zhipu MaaS
-cloud API** from any OS.
-
-| Feature | macOS Apple Silicon | Linux | Windows | Notes |
-|---|---|---|---|---|
-| Web app / backend (Flask + SPA) | ✅ | ✅ | ✅ expected | `scripts/*.sh` need Git Bash/WSL on Windows; native: `run_windows.bat` or manual venv |
-| Desktop wrapper (Tauri/Electron) | 🔜 plan | 🔜 plan | 🔜 plan | [docs/DESKTOP_MIGRATION_PLAN.md](docs/DESKTOP_MIGRATION_PLAN.md) — plan only, not implemented |
-| PaddleOCR (Legacy + Modern) | ✅ | ✅ | ✅ expected | models auto-cache to `~/.paddlex/official_models/` on first online OCR run |
-| VietOCR | ✅ | ✅ | ✅ expected | needs `scripts/setup_offline.sh` (weights + `config.yml`) |
-| Argos offline translation | ✅ | ✅ | ✅ expected | packages in `models/argos/packages/` via `scripts/setup_offline.sh` |
-| Qwen local HF chat / AI rewrite / agent | ✅ (CPU) | ✅ (CPU / CUDA) | ✅ expected (CPU / CUDA) | `LOCAL_LLM_MODEL` default Qwen2.5-1.5B-Instruct; larger models opt-in via `.env` |
-| OpenAI-compatible LLM endpoint | ✅ | ✅ | ✅ expected | `LLM_PROVIDER=openai_compatible` + `OPENAI_COMPATIBLE_*` (vLLM/llama.cpp/LM Studio); wired into the agent chain today |
-| GLM OCR — **local MLX server** (`local_mlx`) | ✅ | ❌ | ❌ | `mlx`/`mlx-vlm` wheels are **macOS/arm64 only**; on other OSes the default is `GLM_OCR_MODE=disabled` and the app just runs without GLM |
-| GLM OCR — external server (`external_server`) | ✅ | ⚠️ unverified | ⚠️ unverified | `openai_compatible` protocol; the `glmocr` CLI venv (`GLM-OCR/.venv-sdk`, plain torch) + layout model are still needed locally |
-| GLM OCR — served via **vLLM** | n/a (server side) | ⚠️ unverified (NVIDIA GPU) | ⚠️ via WSL, unverified | deploy GLM-OCR separately with vLLM, then SmartDocs connects as a client (`external_server`) |
-| GLM OCR — served via **SGLang** | n/a (server side) | ⚠️ unverified (NVIDIA GPU) | ⚠️ via WSL, unverified | same client model as vLLM (`external_server`) |
-| GLM OCR — MaaS / cloud API (`maas_api`) | ⚠️ unverified | ⚠️ unverified | ⚠️ unverified | Zhipu `layout_parsing` API; needs `GLM_MAAS_API_KEY` + internet; implemented via `glmocr --mode maas`, not yet tested end-to-end |
-| GLM OCR — Ollama (`ollama`) | ❌ reserved | ❌ reserved | ❌ reserved | **not verified** — the adapter refuses the mode with a clear message until the integration is tested |
-| Embeddings / RAG | ✅ | ✅ | ✅ expected | char-hash retrieval fallback if the model is missing |
-| Offline model setup (`setup_offline.sh` / `--precache`) | ✅ | ✅ | ✅ via Git Bash/WSL expected | one-time online priming into `MODEL_DIR`; fully offline afterwards |
-
-**Per-OS guidance:**
-
-- **macOS Apple Silicon** — the fully-verified baseline. Local GLM MLX **is
-  supported**: `scripts/setup_glm.sh --precache` + `scripts/start_glm.sh -b`
-  (`GLM_OCR_MODE=local_mlx` is the default here).
-- **Linux** — do **not** use local MLX (no wheels; the default is
-  `GLM_OCR_MODE=disabled`). Use PaddleOCR/VietOCR locally for OCR. For GLM,
-  deploy GLM-OCR separately on an NVIDIA-GPU box via **vLLM or SGLang** and
-  connect SmartDocs as a client: `GLM_OCR_MODE=external_server` +
-  `GLM_OCR_API_URL=http://<server>:<port>`.
-- **Windows** — do **not** use local MLX. Use PaddleOCR/VietOCR locally;
-  connect to a GLM-OCR server over LAN (`external_server`) or, when internet
-  and an API key are acceptable, use `maas_api`. Running the GLM server itself
-  under WSL with a GPU is an advanced, **unverified** route.
-
-Full instructions: **[docs/INSTALLATION.md](docs/INSTALLATION.md)** (per-OS setup).
-GLM backend modes in depth: **[docs/OCR_ENGINES.md](docs/OCR_ENGINES.md)**.
-Clean-clone walkthrough: **[docs/RUN_EN.md](docs/RUN_EN.md)** · **[docs/RUN_VI.md](docs/RUN_VI.md)**.
-Production deployment: **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)**.
-
----
-
-## Running tests
-
-```bash
-pytest                 # full suite (root test_*.py + agent/tests)
-pytest agent/tests     # agent layer only
-```
-
-## Repository layout
-
-```text
-app.py                  Flask app + OCR/upload/document routes (entrypoint)
-auth.py  admin_bp.py    Auth + admin blueprints
-chat_bp.py agent_bp.py  Chat (RAG) + Agent blueprints
-config.py               Central configuration (reads .env)
-models.py               SQLAlchemy models + DB helpers (SQLite)
-services/               OCR engines + AI services (correction/translate/summary/chat)
-agent/                  Agent core, LLM providers, tools, skills, knowledge, memory
-static/  templates/     Frontend SPA + Jinja admin pages
-tools/                  Offline-setup / model-download / GLM-serve / benchmark helpers
-docs/                   Architecture, diagrams, installation, deployment
-uploads/                User-uploaded files (UUID-named)
-requirements.txt        Python dependencies
-run_mac.sh run_windows.bat  Convenience launchers
-```
+- *Window shows "Could not start the SmartDocs backend"* — run the sidecar
+  directly to see stderr:
+  `desktop/sidecar/dist/smartdocs-sidecar/smartdocs-sidecar` with
+  `SMARTDOCS_DESKTOP_TOKEN=<32+ chars>` and `SMARTDOCS_DATA_DIR=/tmp/sd-test`.
+- *"another SmartDocs sidecar is already running"* — a live process holds
+  `<data dir>/smartdocs-sidecar.lock`; stale locks from crashes are reclaimed
+  automatically.
+- *Port already in use* — impossible by design (the OS picks a free port);
+  if the UI can't connect, check a firewall isn't filtering loopback.
+- Dev shell logs: sidecar stderr is inherited by the Tauri process console.
