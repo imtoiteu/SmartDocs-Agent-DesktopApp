@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="700" viewBox="0 0 1240 700" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_B85450" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#B85450"/></marker>
+</defs>
+<rect x="0" y="0" width="1240" height="700" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">21 · Provider Fallback Chain</text>
+<line x1="40" y1="50" x2="1200" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="560" y="350" width="620" height="196" rx="11" fill="#FFFAEB" stroke="#D6B656" stroke-width="1.6"/>
+<path d="M560.0,384.0 L560.0,361.0 A11,11 0 0 1 571.0,350.0 L1169.0,350.0 A11,11 0 0 1 1180.0,361.0 L1180.0,384.0 Z" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="574.0" y="374.0" font-size="14.5" font-weight="700" fill="#10202E">FallbackProvider(chain) — degrade on exception · sticky _start · empty string = success</text>
+<path d="M630.0,116.0 L630.0,150.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M710.0,190.0 L840.0,191.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="756.0" y="181.5" width="38.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="775.0" y="193.0" font-size="10.5" fill="#243B4A" text-anchor="middle">local</text>
+<path d="M630.0,230.0 L630.0,250.0 L450.0,270.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="485.9" y="249.9" width="128.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="549.9" y="261.4" font-size="10.5" fill="#243B4A" text-anchor="middle">auto / groq / gemini</text>
+<path d="M450.0,320.0 L270.0,340.0 L270.0,350.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M270.0,398.0 L270.0,412.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M270.0,460.0 L270.0,474.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M734.0,445.0 L800.0,445.0" fill="none" stroke="#B85450" stroke-width="1.7" marker-end="url(#arr_B85450)"/>
+<rect x="742.0" y="436.0" width="50.0" height="16" rx="3" fill="#FFFFFF" stroke="#B85450" stroke-width="0.8" opacity="0.95"/>
+<text x="767.0" y="447.5" font-size="10.5" fill="#243B4A" text-anchor="middle">on fail</text>
+<path d="M950.0,445.0 L1016.0,445.0" fill="none" stroke="#B85450" stroke-width="1.7" marker-end="url(#arr_B85450)"/>
+<rect x="958.0" y="436.0" width="50.0" height="16" rx="3" fill="#FFFFFF" stroke="#B85450" stroke-width="0.8" opacity="0.95"/>
+<text x="983.0" y="447.5" font-size="10.5" fill="#243B4A" text-anchor="middle">on fail</text>
+<path d="M440.0,498.0 L560.0,448.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="460.0" y="464.0" width="80.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="500.0" y="475.5" font-size="10.5" fill="#243B4A" text-anchor="middle">≥2 providers</text>
+<path d="M870.0,546.0 L870.0,566.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="450.0" y="66.0" width="360.0" height="50.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="630.0" y="87.8" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">get_default_provider()</text>
+<text x="630.0" y="100.7" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">reads AGENT_LLM_PROVIDER (default: auto)</text>
+<polygon points="630.0,150.0 710.0,190.0 630.0,230.0 550.0,190.0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="630.0" y="192.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">AGENT_LLM_PROVIDER?</text>
+<rect x="840.0" y="168.0" width="300.0" height="46.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="990.0" y="194.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">LocalQwenProvider only</text>
+<rect x="300.0" y="270.0" width="300.0" height="50.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="450.0" y="298.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">build chain (auto / groq / gemini)</text>
+<rect x="100.0" y="350.0" width="340.0" height="48.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="270.0" y="371.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">if GROQ_API_KEY &amp; choice∈{auto,groq}</text>
+<text x="270.0" y="382.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">→ append GroqProvider</text>
+<rect x="100.0" y="412.0" width="340.0" height="48.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="270.0" y="433.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">if GEMINI_API_KEY &amp; choice∈{auto,gemini}</text>
+<text x="270.0" y="444.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">→ append GeminiProvider</text>
+<rect x="100.0" y="474.0" width="340.0" height="48.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="270.0" y="500.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">always append LocalQwenProvider (last)</text>
+<rect x="584.0" y="410.0" width="150.0" height="70.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="659.0" y="442.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">GroqProvider</text>
+<text x="659.0" y="453.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">llama-3.3-70b-versatile</text>
+<rect x="800.0" y="410.0" width="150.0" height="70.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="875.0" y="442.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">GeminiProvider</text>
+<text x="875.0" y="453.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">gemini-2.0-flash</text>
+<rect x="1016.0" y="410.0" width="150.0" height="70.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1091.0" y="442.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">LocalQwenProvider</text>
+<text x="1091.0" y="453.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">(ai_rewrite_service)</text>
+<rect x="560.0" y="566.0" width="620.0" height="40.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="870.0" y="588.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">single provider if chain length 1 · provider.complete(messages, max_tokens, temperature)</text>
+</svg>

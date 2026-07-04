@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="800" viewBox="0 0 1180 800" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_9673A6" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#9673A6"/></marker>
+</defs>
+<rect x="0" y="0" width="1180" height="800" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">4 · RAG Architecture</text>
+<line x1="40" y1="50" x2="1140" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<path d="M590.0,146.0 L590.0,180.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M470.0,215.0 L270.0,215.0 L270.0,290.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="322.5" y="206.0" width="20.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="332.5" y="217.5" font-size="10.5" fill="#243B4A" text-anchor="middle">no</text>
+<path d="M270.0,342.0 L270.0,372.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M270.0,428.0 L270.0,458.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M270.0,514.0 L270.0,544.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M270.0,596.0 L270.0,626.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M710.0,215.0 L900.0,215.0 L907.7,300.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="834.7" y="206.0" width="26.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="847.7" y="217.5" font-size="10.5" fill="#243B4A" text-anchor="middle">yes</text>
+<path d="M430.0,654.0 L465.0,654.0 L500.0,502.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M910.0,352.0 L910.0,502.0 L800.0,502.0 L650.0,470.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M653.0,534.0 L657.4,580.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M660.0,636.0 L660.0,672.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M270.0,682.0 L270.0,758.0 L1018.0,758.0 L1010.0,534.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<rect x="651.1" y="749.0" width="134.0" height="16" rx="3" fill="#FFFFFF" stroke="#9673A6" stroke-width="0.8" opacity="0.95"/>
+<text x="718.1" y="760.5" font-size="10.5" fill="#243B4A" text-anchor="middle">from retrieved chunks</text>
+<rect x="430.0" y="90.0" width="320.0" height="56.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="590.0" y="114.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">User question</text>
+<text x="590.0" y="128.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">/api/chat/send  or  knowledge_search tool</text>
+<polygon points="590.0,180.0 710.0,215.0 590.0,250.0 470.0,215.0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="590.0" y="218.7" font-size="12.0" font-weight="400" fill="#15202B" text-anchor="middle">mode == general?</text>
+<rect x="110.0" y="290.0" width="320.0" height="52.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="270.0" y="319.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">retrieve_chunks(query, file_id?, allowed_file_ids)</text>
+<rect x="110.0" y="372.0" width="320.0" height="56.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="270.0" y="396.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">EmbeddingEngine.embed(query)</text>
+<text x="270.0" y="409.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">SBERT → Hashing fallback · L2-normalized</text>
+<rect x="110.0" y="458.0" width="320.0" height="56.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="270.0" y="483.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">Select target indexes</text>
+<text x="270.0" y="495.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">single file_id OR all owned ∩ allowed_file_ids</text>
+<rect x="110.0" y="544.0" width="320.0" height="52.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="270.0" y="567.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">Per-index search</text>
+<text x="270.0" y="579.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">FAISS IndexFlatIP (inner product = cosine)</text>
+<rect x="110.0" y="626.0" width="320.0" height="56.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="270.0" y="650.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Union + sort by score + top_k = 5</text>
+<text x="270.0" y="663.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">NO threshold · NO reranker</text>
+<rect x="760.0" y="300.0" width="300.0" height="52.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="910.0" y="329.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">No retrieval (plain assistant prompt)</text>
+<rect x="500.0" y="470.0" width="300.0" height="64.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="650.0" y="499.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">Context assembly · _build_chat_prompt</text>
+<text x="650.0" y="511.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">MAX_CTX_CHARS = 3000 + token-budget fit</text>
+<rect x="540.0" y="580.0" width="240.0" height="56.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="660.0" y="604.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Qwen chat model</text>
+<text x="660.0" y="618.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">_run_inference</text>
+<rect x="540.0" y="672.0" width="240.0" height="48.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="660.0" y="699.9" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Answer</text>
+<rect x="870.0" y="470.0" width="280.0" height="64.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1010.0" y="498.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Sources / citations</text>
+<text x="1010.0" y="512.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">{file_id, score, excerpt}</text>
+</svg>

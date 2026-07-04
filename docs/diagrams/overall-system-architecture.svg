@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1340" height="800" viewBox="0 0 1340 800" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_0E8088" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#0E8088"/></marker>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_5A5A5A" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#5A5A5A"/></marker>
+<marker id="arr_6C8EBF" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#6C8EBF"/></marker>
+<marker id="arr_82B366" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#82B366"/></marker>
+<marker id="arr_9673A6" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#9673A6"/></marker>
+<marker id="arr_D6B656" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#D6B656"/></marker>
+<marker id="arr_D79B00" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#D79B00"/></marker>
+</defs>
+<rect x="0" y="0" width="1340" height="800" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">1 · Overall System Architecture</text>
+<line x1="40" y1="50" x2="1300" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="40" y="64" width="1260" height="92" rx="11" fill="#F0F6FD" stroke="#6C8EBF" stroke-width="1.6"/>
+<path d="M40.0,98.0 L40.0,75.0 A11,11 0 0 1 51.0,64.0 L1289.0,64.0 A11,11 0 0 1 1300.0,75.0 L1300.0,98.0 Z" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="54.0" y="88.0" font-size="14.5" font-weight="700" fill="#10202E">Frontend  —  vanilla JS, no build step</text>
+<rect x="40" y="178" width="1260" height="96" rx="11" fill="#EEF3FB" stroke="#3F61A8" stroke-width="1.6"/>
+<path d="M40.0,212.0 L40.0,189.0 A11,11 0 0 1 51.0,178.0 L1289.0,178.0 A11,11 0 0 1 1300.0,189.0 L1300.0,212.0 Z" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="54.0" y="202.0" font-size="14.5" font-weight="700" fill="#10202E">Flask backend  —  single process (app.py)</text>
+<rect x="40" y="300" width="372" height="322" rx="11" fill="#E0F4F5" stroke="#0E8088" stroke-width="1.6"/>
+<path d="M40.0,334.0 L40.0,311.0 A11,11 0 0 1 51.0,300.0 L401.0,300.0 A11,11 0 0 1 412.0,311.0 L412.0,334.0 Z" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="54.0" y="324.0" font-size="14.5" font-weight="700" fill="#10202E">OCR pipeline (services/)</text>
+<rect x="428" y="300" width="252" height="322" rx="11" fill="#FFF5EB" stroke="#D79B00" stroke-width="1.6"/>
+<path d="M428.0,334.0 L428.0,311.0 A11,11 0 0 1 439.0,300.0 L669.0,300.0 A11,11 0 0 1 680.0,311.0 L680.0,334.0 Z" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="442.0" y="324.0" font-size="14.5" font-weight="700" fill="#10202E">AI services (services/)</text>
+<rect x="696" y="300" width="252" height="322" rx="11" fill="#EFF6EE" stroke="#82B366" stroke-width="1.6"/>
+<path d="M696.0,334.0 L696.0,311.0 A11,11 0 0 1 707.0,300.0 L937.0,300.0 A11,11 0 0 1 948.0,311.0 L948.0,334.0 Z" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="710.0" y="324.0" font-size="14.5" font-weight="700" fill="#10202E">Chat / RAG (chat_service.py)</text>
+<rect x="964" y="300" width="336" height="322" rx="11" fill="#F3EFF5" stroke="#9673A6" stroke-width="1.6"/>
+<path d="M964.0,334.0 L964.0,311.0 A11,11 0 0 1 975.0,300.0 L1289.0,300.0 A11,11 0 0 1 1300.0,311.0 L1300.0,334.0 Z" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="978.0" y="324.0" font-size="14.5" font-weight="700" fill="#10202E">Agent (agent/)</text>
+<rect x="964" y="638" width="336" height="92" rx="11" fill="#FFFAEB" stroke="#D6B656" stroke-width="1.6"/>
+<path d="M964.0,672.0 L964.0,649.0 A11,11 0 0 1 975.0,638.0 L1289.0,638.0 A11,11 0 0 1 1300.0,649.0 L1300.0,672.0 Z" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="978.0" y="662.0" font-size="14.5" font-weight="700" fill="#10202E">Agent LLM providers (FallbackProvider)</text>
+<path d="M226.0,380.0 L226.0,392.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M195.3,428.0 L171.4,442.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M256.7,428.0 L280.6,442.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M210.5,428.0 L155.4,492.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M241.5,428.0 L296.6,492.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M822.0,386.0 L822.0,398.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M822.0,442.0 L822.0,454.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M822.0,386.0 L822.0,510.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M1132.0,386.0 L1132.0,398.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M1100.2,448.0 L1085.0,460.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M1145.5,386.0 L1192.9,460.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M1076.0,698.0 L1088.0,698.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="1054.0" y="689.0" width="56.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="1082.0" y="700.5" font-size="10.5" fill="#243B4A" text-anchor="middle">fallback</text>
+<path d="M1176.0,698.0 L1188.0,698.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="1154.0" y="689.0" width="56.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="1182.0" y="700.5" font-size="10.5" fill="#243B4A" text-anchor="middle">fallback</text>
+<path d="M340.0,146.0 L182.0,216.0" fill="none" stroke="#6C8EBF" stroke-width="1.7" marker-end="url(#arr_6C8EBF)"/>
+<path d="M340.0,146.0 L673.0,216.0" fill="none" stroke="#6C8EBF" stroke-width="1.7" marker-end="url(#arr_6C8EBF)"/>
+<path d="M340.0,146.0 L918.0,216.0" fill="none" stroke="#6C8EBF" stroke-width="1.7" marker-end="url(#arr_6C8EBF)"/>
+<path d="M816.0,146.0 L1164.0,216.0" fill="none" stroke="#6C8EBF" stroke-width="1.7" marker-end="url(#arr_6C8EBF)"/>
+<path d="M1148.0,146.0 L427.0,216.0" fill="none" stroke="#6C8EBF" stroke-width="1.7" marker-end="url(#arr_6C8EBF)"/>
+<path d="M673.0,264.0 L226.0,300.0" fill="none" stroke="#0E8088" stroke-width="1.7" marker-end="url(#arr_0E8088)"/>
+<path d="M673.0,264.0 L554.0,300.0" fill="none" stroke="#D79B00" stroke-width="1.7" marker-end="url(#arr_D79B00)"/>
+<path d="M918.0,264.0 L822.0,300.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<path d="M1164.0,264.0 L1132.0,300.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<path d="M302.7,530.0 L220.0,650.0" fill="none" stroke="#0E8088" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_0E8088)"/>
+<rect x="227.3" y="581.0" width="68.0" height="16" rx="3" fill="#FFFFFF" stroke="#0E8088" stroke-width="0.8" opacity="0.95"/>
+<text x="261.3" y="592.5" font-size="10.5" fill="#243B4A" text-anchor="middle">subprocess</text>
+<path d="M988.0,423.0 L960.0,470.0 L924.0,365.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<rect x="877.9" y="434.4" width="146.0" height="16" rx="3" fill="#FFFFFF" stroke="#82B366" stroke-width="0.8" opacity="0.95"/>
+<text x="950.9" y="445.9" font-size="10.5" fill="#243B4A" text-anchor="middle">chat / knowledge_search</text>
+<path d="M988.0,423.0 L692.0,478.0 L656.0,478.0" fill="none" stroke="#D79B00" stroke-width="1.7" marker-end="url(#arr_D79B00)"/>
+<rect x="737.3" y="444.8" width="170.0" height="16" rx="3" fill="#FFFFFF" stroke="#D79B00" stroke-width="0.8" opacity="0.95"/>
+<text x="822.3" y="456.3" font-size="10.5" fill="#243B4A" text-anchor="middle">summarize/translate/correct</text>
+<path d="M1132.0,622.0 L1132.0,638.0" fill="none" stroke="#D6B656" stroke-width="1.7" marker-end="url(#arr_D6B656)"/>
+<rect x="1086.0" y="621.0" width="92.0" height="16" rx="3" fill="#FFFFFF" stroke="#D6B656" stroke-width="0.8" opacity="0.95"/>
+<text x="1132.0" y="632.5" font-size="10.5" fill="#243B4A" text-anchor="middle">provider chain</text>
+<path d="M822.0,622.0 L595.0,648.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<path d="M673.0,264.0 L420.0,288.0 L420.0,688.0 L470.0,688.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_5A5A5A)"/>
+<rect x="377.0" y="376.9" width="86.0" height="16" rx="3" fill="#FFFFFF" stroke="#5A5A5A" stroke-width="0.8" opacity="0.95"/>
+<text x="420.0" y="388.4" font-size="10.5" fill="#243B4A" text-anchor="middle">save_artifact</text>
+<path d="M1207.0,504.0 L1180.0,612.0 L700.0,612.0 L720.0,688.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_5A5A5A)"/>
+<rect x="70.0" y="100.0" width="540.0" height="46.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="340.0" y="119.2" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Main SPA</text>
+<text x="340.0" y="134.5" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">index.html · app.js · chat.js · ocr-canvas.js · i18n.js</text>
+<rect x="636.0" y="100.0" width="360.0" height="46.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="816.0" y="119.2" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Agent workspace</text>
+<text x="816.0" y="134.5" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">agent.html · agent.js</text>
+<rect x="1020.0" y="100.0" width="256.0" height="46.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="1148.0" y="119.2" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Admin console</text>
+<text x="1148.0" y="134.5" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">templates/admin/* (Jinja)</text>
+<rect x="70.0" y="216.0" width="224.0" height="48.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="182.0" y="236.2" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">auth_bp</text>
+<text x="182.0" y="251.5" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">/login · /api/auth/me</text>
+<rect x="315.0" y="216.0" width="224.0" height="48.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="427.0" y="236.2" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">admin_bp</text>
+<text x="427.0" y="251.5" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">/admin/*</text>
+<rect x="561.0" y="216.0" width="224.0" height="48.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="673.0" y="228.6" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">app.py routes</text>
+<text x="673.0" y="243.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">/api/upload · /api/ocr/* ·</text>
+<text x="673.0" y="259.1" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">/api/documents/*</text>
+<rect x="806.0" y="216.0" width="224.0" height="48.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="918.0" y="236.2" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">chat_bp</text>
+<text x="918.0" y="251.5" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">/api/chat/*</text>
+<rect x="1052.0" y="216.0" width="224.0" height="48.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1164.0" y="236.2" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">agent_bp</text>
+<text x="1164.0" y="251.5" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">/api/agent/*</text>
+<rect x="64.0" y="340.0" width="324.0" height="40.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="226.0" y="363.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">smart_ocr_service / ocr_service</text>
+<rect x="132.0" y="392.0" width="188.0" height="36.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="226.0" y="413.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">router</text>
+<rect x="64.0" y="442.0" width="150.0" height="38.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="139.0" y="457.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Legacy PaddleOCR</text>
+<text x="139.0" y="470.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">(PP-OCRv5)</text>
+<rect x="238.0" y="442.0" width="150.0" height="38.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="313.0" y="457.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">PaddleOCR Modern</text>
+<text x="313.0" y="470.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">(PP-StructureV3)</text>
+<rect x="64.0" y="492.0" width="150.0" height="38.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="139.0" y="507.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">VietOCR</text>
+<text x="139.0" y="520.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">(images only)</text>
+<rect x="238.0" y="492.0" width="150.0" height="38.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="313.0" y="507.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">GLM-OCR</text>
+<text x="313.0" y="520.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">(subprocess)</text>
+<rect x="64.0" y="548.0" width="324.0" height="38.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="226.0" y="570.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">layout / geometry / markdown_normalize</text>
+<rect x="452.0" y="344.0" width="204.0" height="44.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="554.0" y="369.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">correction_service</text>
+<rect x="452.0" y="400.0" width="204.0" height="44.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="554.0" y="418.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">translate_service</text>
+<text x="554.0" y="432.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">(Google / Argos)</text>
+<rect x="452.0" y="456.0" width="204.0" height="44.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="554.0" y="475.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">summary_service</text>
+<text x="554.0" y="487.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">(TF-IDF / PhoBERT / AI-rewrite)</text>
+<rect x="452.0" y="512.0" width="204.0" height="44.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="554.0" y="530.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">ai_rewrite_service</text>
+<text x="554.0" y="544.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">(local Qwen)</text>
+<rect x="720.0" y="344.0" width="204.0" height="42.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="822.0" y="368.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">chat_service.chat()</text>
+<rect x="720.0" y="398.0" width="204.0" height="44.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="822.0" y="416.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">EmbeddingEngine</text>
+<text x="822.0" y="430.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">SBERT → Hashing</text>
+<rect x="720.0" y="454.0" width="204.0" height="44.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="822.0" y="472.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">In-memory index / file_id</text>
+<text x="822.0" y="485.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">FAISS IndexFlatIP</text>
+<rect x="720.0" y="510.0" width="204.0" height="44.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="822.0" y="535.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Qwen chat model (local)</text>
+<rect x="988.0" y="344.0" width="288.0" height="42.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1132.0" y="368.9" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">AgentCore — reasoning loop</text>
+<rect x="988.0" y="398.0" width="288.0" height="50.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1132.0" y="413.9" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">Tool registry (safe set)</text>
+<text x="1132.0" y="426.1" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">chat · knowledge_search · summarize · translate ·</text>
+<text x="1132.0" y="438.3" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">correct</text>
+<rect x="988.0" y="460.0" width="138.0" height="44.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1057.0" y="478.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Knowledge</text>
+<text x="1057.0" y="491.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">DocumentKnowledge</text>
+<rect x="1138.0" y="460.0" width="138.0" height="44.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1207.0" y="478.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Memory</text>
+<text x="1207.0" y="491.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">ConversationMemory</text>
+<rect x="988.0" y="516.0" width="288.0" height="40.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="1132.0" y="532.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">OcrTool exists but is EXCLUDED from the safe</text>
+<text x="1132.0" y="545.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">set</text>
+<rect x="70.0" y="650.0" width="300.0" height="64.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="220.0" y="678.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">GLM MLX server</text>
+<text x="220.0" y="692.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">localhost:8080  (external subprocess)</text>
+<path d="M470.0,657.0 a125.0,9.0 0 0 0 250.0,0 v62.0 a125.0,9.0 0 0 1 -250.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="595.0" cy="657.0" rx="125.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="595.0" y="688.8" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">SQLite</text>
+<text x="595.0" y="704.0" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">paddleocr.db (models.py)</text>
+<rect x="988.0" y="678.0" width="88.0" height="40.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1032.0" y="701.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Groq</text>
+<rect x="1088.0" y="678.0" width="88.0" height="40.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1132.0" y="701.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Gemini</text>
+<rect x="1188.0" y="678.0" width="88.0" height="40.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1232.0" y="701.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Local Qwen</text>
+</svg>

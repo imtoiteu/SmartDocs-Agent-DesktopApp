@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title id="login-title">Đăng nhập — SmartDocs Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',sans-serif;background:#070c18;color:#f1f5f9;
+         min-height:100vh;display:flex;align-items:center;justify-content:center}
+
+    .bg-glow{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+    .glow{position:absolute;border-radius:50%;filter:blur(120px);opacity:.18}
+    .glow-1{width:600px;height:600px;background:#3b82f6;top:-200px;left:-200px}
+    .glow-2{width:500px;height:500px;background:#8b5cf6;bottom:-150px;right:-150px}
+
+    .card{position:relative;z-index:1;width:420px;max-width:92vw;
+          background:#0d1526;border:1px solid #1e2d4a;border-radius:20px;padding:44px 40px}
+
+    .logo-row{display:flex;align-items:center;gap:12px;margin-bottom:32px}
+    .logo-icon{width:44px;height:44px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+               border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px}
+    .logo-text{font-size:17px;font-weight:700}
+    .logo-sub{font-size:11px;color:#64748b;margin-top:1px}
+
+    h1{font-size:1.55rem;font-weight:800;margin-bottom:6px}
+    .subtitle{font-size:13px;color:#64748b;margin-bottom:28px}
+
+    label{display:block;font-size:12px;font-weight:600;color:#94a3b8;
+          text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+    .field{margin-bottom:18px}
+    input[type=text],input[type=password]{
+      width:100%;background:#131f35;border:1px solid #1e2d4a;border-radius:10px;
+      color:#f1f5f9;font-size:14px;padding:12px 16px;outline:none;
+      transition:border-color .2s;font-family:'Inter',sans-serif}
+    input:focus{border-color:#3b82f6}
+
+    .error-box{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);
+               border-radius:10px;padding:11px 14px;font-size:13px;color:#fca5a5;
+               margin-bottom:18px;display:flex;align-items:center;gap:8px}
+
+    button[type=submit]{width:100%;padding:13px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+      border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:700;
+      cursor:pointer;transition:opacity .2s,transform .15s;letter-spacing:.01em;
+      font-family:'Inter',sans-serif;margin-top:4px}
+    button[type=submit]:hover{opacity:.88;transform:translateY(-1px)}
+    button[type=submit]:active{transform:translateY(0)}
+
+    .hint{margin-top:24px;padding-top:20px;border-top:1px solid #1e2d4a;
+          font-size:12px;color:#64748b;text-align:center}
+    .hint code{background:#131f35;border:1px solid #1e2d4a;border-radius:5px;
+               padding:2px 7px;color:#94a3b8;font-size:11px}
+  </style>
+  <script>
+    const _lsLang = localStorage.getItem('smartdocs_lang') || 'vi';
+    const _lL = { vi:{title:'Đăng nhập — SmartDocs Platform',brand:'SmartDocs Platform',tagline:'Nền tảng tài liệu AI',welcome:'Chào mừng trở lại',sub:'Đăng nhập để truy cập không gian làm việc của bạn',user:'Tên đăng nhập hoặc Email',pass:'Mật khẩu',btn:'Đăng nhập →',hint:'Thông tin mặc định',viBtn:'VI',enBtn:'EN'}, en:{title:'Sign In — SmartDocs Platform',brand:'SmartDocs Platform',tagline:'AI Document Platform',welcome:'Welcome back',sub:'Sign in to access your workspace',user:'Username or Email',pass:'Password',btn:'Sign In →',hint:'Default credentials',viBtn:'VI',enBtn:'EN'}};
+    const _lD = _lL[_lsLang] || _lL.vi;
+    document.addEventListener('DOMContentLoaded', () => {
+      document.title = _lD.title;
+      document.getElementById('brand-name').textContent = _lD.brand;
+      document.getElementById('brand-tag').textContent = _lD.tagline;
+      document.getElementById('welcome-h1').textContent = _lD.welcome;
+      document.getElementById('welcome-sub').textContent = _lD.sub;
+      document.getElementById('lbl-user').textContent = _lD.user;
+      document.getElementById('lbl-pass').textContent = _lD.pass;
+      document.getElementById('btn-submit').textContent = _lD.btn;
+      document.getElementById('hint-label').textContent = _lD.hint + ':';
+      document.querySelectorAll('.lang-toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.l === _lsLang));
+    });
+    function switchLang(l) { localStorage.setItem('smartdocs_lang', l); location.reload(); }
+  </script>
+</head>
+<body>
+<div class="bg-glow"><div class="glow glow-1"></div><div class="glow glow-2"></div></div>
+
+<div class="card">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:16px;gap:4px">
+    <button class="lang-toggle-btn" data-l="vi" onclick="switchLang('vi')" style="padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;border:1px solid #1e2d4a;background:#131f35;color:#94a3b8;cursor:pointer">VI</button>
+    <button class="lang-toggle-btn" data-l="en" onclick="switchLang('en')" style="padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;border:1px solid #1e2d4a;background:#131f35;color:#94a3b8;cursor:pointer">EN</button>
+  </div>
+  <div class="logo-row">
+    <div class="logo-icon">📄</div>
+    <div><div class="logo-text" id="brand-name">SmartDocs Platform</div><div class="logo-sub" id="brand-tag">Nền tảng tài liệu AI</div></div>
+  </div>
+
+  <h1 id="welcome-h1">Chào mừng trở lại</h1>
+  <p class="subtitle" id="welcome-sub">Đăng nhập để truy cập không gian làm việc của bạn</p>
+
+  {% if error %}
+  <div class="error-box"><span>⚠️</span><span>{{ error }}</span></div>
+  {% endif %}
+
+  <form method="POST" action="/login" autocomplete="off">
+    <div class="field">
+      <label id="lbl-user" for="username">Tên đăng nhập hoặc Email</label>
+      <input type="text" id="username" name="username" placeholder="admin" required autofocus/>
+    </div>
+    <div class="field">
+      <label id="lbl-pass" for="password">Mật khẩu</label>
+      <input type="password" id="password" name="password" placeholder="••••••••" required/>
+    </div>
+    <button type="submit" id="btn-submit">Đăng nhập →</button>
+  </form>
+
+  <div class="hint">
+    <span id="hint-label">Thông tin mặc định:</span> <code>admin</code> / <code>admin123</code>
+  </div>
+</div>
+</body>
+</html>

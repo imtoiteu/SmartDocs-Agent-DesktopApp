@@ -1,0 +1,397 @@
+{% extends "admin/base.html" %}
+{% block title %}Users{% endblock %}
+{% block head %}
+<style>
+.um-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.um-stat{background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:16px 18px;display:flex;align-items:center;gap:14px}
+.um-stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.um-stat-val{font-size:1.5rem;font-weight:800;line-height:1}
+.um-stat-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.search-wrap{position:relative;flex:1;min-width:200px}
+.search-wrap input{padding-left:34px;width:100%}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none}
+.filter-group{display:flex;gap:4px;background:var(--card);border:1px solid var(--border);border-radius:9px;padding:3px}
+.fp{padding:4px 12px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;color:var(--muted2);border:none;background:none;font-family:'Inter',sans-serif;transition:all .15s;white-space:nowrap}
+.fp.active{background:var(--accent);color:#fff}
+.fp.active.role-admin{background:rgba(245,158,11,.8);color:#fff}
+.fp.active.st-inactive{background:rgba(239,68,68,.7);color:#fff}
+.create-panel{background:var(--surf);border:1px solid var(--border);border-radius:14px;margin-bottom:16px;overflow:hidden}
+.create-toggle{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;cursor:pointer;user-select:none}
+.create-toggle:hover{background:rgba(59,130,246,.04)}
+.create-body{padding:0 18px 16px;border-top:1px solid var(--border)}
+.create-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:14px}
+.um-table-card{background:var(--surf);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.um-table-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--border)}
+.count-chip{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--card);border:1px solid var(--border);color:var(--muted2)}
+tr.hidden-row{display:none}
+.action-group{display:flex;gap:4px;align-items:center}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:200;backdrop-filter:blur(3px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surf);border:1px solid var(--border);border-radius:18px;padding:28px;width:460px;max-width:92vw;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:4px}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+.del-name{font-weight:700;color:var(--danger)}
+.warn-box{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:9px;padding:10px 14px;font-size:13px;color:#fca5a5;margin-bottom:16px}
+.no-results{padding:40px;text-align:center;color:var(--muted)}
+</style>
+{% endblock %}
+{% block content %}
+
+{% set total = users|length %}
+{% set admins = users|selectattr('role','equalto','admin')|list|length %}
+{% set active = users|selectattr('is_active')|list|length %}
+{% set inactive = total - active %}
+
+<div class="page-hdr" style="margin-bottom:16px">
+  <div class="page-title" data-alng="um_title">👥 User Management</div>
+  <div class="page-sub" data-alng="um_sub">Create, edit, and manage all platform accounts</div>
+</div>
+
+<div class="um-stats">
+  <div class="um-stat">
+    <div class="um-stat-icon" style="background:rgba(59,130,246,.15)">👥</div>
+    <div><div class="um-stat-val" style="color:#60a5fa">{{ total }}</div><div class="um-stat-lbl" data-alng="stat_total_users">Total Users</div></div>
+  </div>
+  <div class="um-stat">
+    <div class="um-stat-icon" style="background:rgba(245,158,11,.15)">⚙️</div>
+    <div><div class="um-stat-val" style="color:#f59e0b">{{ admins }}</div><div class="um-stat-lbl" data-alng="stat_admins">Admins</div></div>
+  </div>
+  <div class="um-stat">
+    <div class="um-stat-icon" style="background:rgba(16,185,129,.15)">✅</div>
+    <div><div class="um-stat-val" style="color:#10b981">{{ active }}</div><div class="um-stat-lbl" data-alng="stat_active">Active</div></div>
+  </div>
+  <div class="um-stat">
+    <div class="um-stat-icon" style="background:rgba(239,68,68,.12)">🚫</div>
+    <div><div class="um-stat-val" style="color:#ef4444">{{ inactive }}</div><div class="um-stat-lbl" data-alng="stat_inactive">Inactive</div></div>
+  </div>
+</div>
+
+{# Create user panel #}
+<div class="create-panel">
+  <div class="create-toggle" onclick="toggleCreate()">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-size:15px">➕</span>
+      <span style="font-size:14px;font-weight:600" data-alng="create_user">Create New User</span>
+    </div>
+    <span id="create-chevron" style="color:var(--muted);transition:transform .2s">▼</span>
+  </div>
+  <div id="create-body" class="create-body" style="display:none">
+    <form method="POST" action="{{ url_for('admin.create_user') }}">
+      <div class="create-grid">
+        <div><label class="form-label" data-alng="lbl_username">Username *</label><input type="text" name="username" required placeholder="username" autocomplete="off"/></div>
+        <div><label class="form-label" data-alng="lbl_email">Email *</label><input type="email" name="email" required placeholder="user@example.com" autocomplete="off"/></div>
+        <div><label class="form-label" data-alng="lbl_password">Password *</label><input type="password" name="password" required placeholder="••••••••"/></div>
+        <div><label class="form-label" data-alng="lbl_role">Role</label>
+          <select name="role">
+            <option value="user" data-alng="role_user">👤 User</option>
+            <option value="admin" data-alng="role_admin">⚙️ Admin</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button type="submit" class="btn btn-primary" data-alng="btn_create">✓ Create Account</button>
+        <button type="button" class="btn btn-ghost" onclick="toggleCreate()" data-alng="btn_cancel">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{# Toolbar #}
+<div class="toolbar">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="um-search" data-alng-placeholder="search_placeholder" placeholder="Search by username or email…" oninput="applyFilters()"/>
+  </div>
+  <div class="filter-group" data-alng-title="filter_by_role" title="Filter by role">
+    <button class="fp active" data-role="all" onclick="setRole(this)" data-alng="filter_all_roles">All Roles</button>
+    <button class="fp" data-role="admin" onclick="setRole(this)" data-alng="filter_admin">⚙️ Admin</button>
+    <button class="fp" data-role="user" onclick="setRole(this)" data-alng="filter_user">👤 User</button>
+  </div>
+  <div class="filter-group" data-alng-title="filter_by_status" title="Filter by status">
+    <button class="fp active" data-status="all" onclick="setStatus(this)" data-alng="filter_all_status">All Status</button>
+    <button class="fp" data-status="active" onclick="setStatus(this)" data-alng="filter_active">✅ Active</button>
+    <button class="fp st-inactive" data-status="inactive" onclick="setStatus(this)" data-alng="filter_inactive">🚫 Inactive</button>
+  </div>
+</div>
+
+{# Table #}
+<div class="um-table-card">
+  <div class="um-table-hdr">
+    <span style="font-size:13px;font-weight:600" data-alng="accounts_label">Accounts</span>
+    <span class="count-chip" id="visible-count">{{ total }} <span data-alng="shown">shown</span></span>
+  </div>
+  <div class="tbl-wrap">
+    <table id="um-table">
+      <thead>
+        <tr>
+          <th style="width:32px">#</th>
+          <th data-alng="col_user">User</th>
+          <th data-alng="col_role">Role</th>
+          <th data-alng="col_status">Status</th>
+          <th data-alng="col_files">Files</th>
+          <th data-alng="col_joined">Joined</th>
+          <th style="min-width:260px" data-alng="col_actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="um-tbody">
+        {% for u in users %}
+        <tr data-username="{{ u.username|lower }}"
+            data-email="{{ u.email|lower }}"
+            data-role="{{ u.role }}"
+            data-status="{{ 'active' if u.is_active else 'inactive' }}">
+          <td class="td-muted" style="font-size:11px;font-family:monospace">{{ loop.index }}</td>
+          <td>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div class="avatar {{ 'avatar-admin' if u.role=='admin' else 'avatar-user' }}">{{ u.username[0].upper() }}</div>
+              <div>
+                <div style="font-weight:600;font-size:13px">{{ u.username }}
+                  {% if u.id == current_user.id %}<span class="badge-you-span" style="font-size:10px;color:var(--accent);margin-left:5px" data-alng="badge_you">(you)</span>{% endif %}
+                </div>
+                <div class="td-muted">{{ u.email }}</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="badge {{ 'badge-admin' if u.role=='admin' else 'badge-user' }}">{{ u.role }}</span></td>
+          <td>
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="width:7px;height:7px;border-radius:50%;background:{{ '#10b981' if u.is_active else '#ef4444' }};display:inline-block;flex-shrink:0"></span>
+              <span style="font-size:12px;color:{{ '#10b981' if u.is_active else '#ef4444' }}"
+                    data-alng="{{ 'badge_active' if u.is_active else 'badge_inactive' }}">{{ 'Active' if u.is_active else 'Inactive' }}</span>
+            </div>
+          </td>
+          <td class="td-muted">{{ doc_counts.get(u.id, 0) }}</td>
+          <td class="td-muted" style="white-space:nowrap">{{ u.created_at | vn_time('%Y-%m-%d') }}</td>
+          <td>
+            <div class="action-group">
+              <button class="btn btn-ghost btn-sm"
+                      onclick="openEdit({{ u.id }},'{{ u.username }}','{{ u.email }}','{{ u.role }}')"
+                      data-alng-title="btn_edit" data-alng="btn_edit" title="Edit">✏️ Edit</button>
+              <button class="btn btn-warn btn-sm"
+                      onclick="openReset({{ u.id }},'{{ u.username }}')"
+                      data-alng-title="btn_reset_pw" data-alng="btn_reset_pw" title="Reset PW">🔑 Reset PW</button>
+              {% if u.id != current_user.id %}
+              <form method="POST" action="{{ url_for('admin.toggle_user', uid=u.id) }}" style="display:inline">
+                <button type="submit" class="btn btn-ghost btn-sm"
+                        data-alng-title="{{ 'badge_inactive' if u.is_active else 'badge_active' }}"
+                        title="{{ 'Disable' if u.is_active else 'Enable' }}">
+                  {{ '🚫' if u.is_active else '✅' }}
+                </button>
+              </form>
+              <button class="btn btn-danger btn-sm"
+                      onclick="openDelete({{ u.id }},'{{ u.username }}')"
+                      data-alng-title="btn_delete" title="Delete">🗑</button>
+              {% else %}
+              <span class="td-muted" style="font-size:11px;padding:4px 6px" data-alng="badge_protected">protected</span>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div id="um-noresults" class="no-results" style="display:none" data-alng="no_users">No users match your search or filters.</div>
+  </div>
+  <div class="pagination" id="um-pagination" style="padding:16px;border-top:1px solid var(--border);display:none">
+    <div style="display:flex;align-items:center;gap:8px">
+      <select class="pg-select" id="um-page-size" onchange="setPageSize(this.value)">
+        <option value="10">10 / page</option>
+        <option value="20" selected>20 / page</option>
+        <option value="50">50 / page</option>
+        <option value="100">100 / page</option>
+      </select>
+      <span class="td-muted" style="font-size:11px" id="um-pagination-label">
+        <span data-alng="pg_showing">Showing</span> 0–0 <span data-alng="pg_of">of</span> 0 <span data-alng="pg_users">users</span>
+      </span>
+    </div>
+    <div class="spacer"></div>
+    <div id="um-pages" style="display:flex;gap:4px"></div>
+  </div>
+</div>
+
+{# Edit modal #}
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <div class="modal-title" data-alng="edit_title">✏️ Edit User</div>
+    <div class="modal-sub" id="edit-modal-sub">Update account details and role</div>
+    <form method="POST" id="edit-form">
+      <div class="modal-grid">
+        <div><label class="form-label" data-alng="lbl_username">Username</label><input type="text" name="username" id="edit-username" autocomplete="off"/></div>
+        <div><label class="form-label" data-alng="lbl_email">Email</label><input type="email" name="email" id="edit-email" autocomplete="off"/></div>
+      </div>
+      <div style="margin-bottom:4px"><label class="form-label" data-alng="lbl_role">Role</label>
+        <select name="role" id="edit-role">
+          <option value="user" data-alng="role_user_full">👤 User — standard access</option>
+          <option value="admin" data-alng="role_admin_full">⚙️ Admin — full control</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" onclick="closeModals()" data-alng="btn_cancel">Cancel</button>
+        <button type="submit" class="btn btn-primary" data-alng="btn_save">✓ Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{# Reset password modal #}
+<div class="modal-overlay" id="reset-modal">
+  <div class="modal">
+    <div class="modal-title" data-alng="reset_title">🔑 Reset Password</div>
+    <div class="modal-sub"><span data-alng="reset_sub">Set a new password for</span> <strong id="reset-uname" style="color:var(--text)"></strong></div>
+    <form method="POST" id="reset-form">
+      <label class="form-label" data-alng="reset_new_pw">New Password</label>
+      <input type="password" name="password" id="reset-pw" required data-alng-placeholder="reset_placeholder" placeholder="Enter new password…" style="margin-bottom:4px"/>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:4px" data-alng="reset_hint">Min. 6 characters recommended</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" onclick="closeModals()" data-alng="btn_cancel">Cancel</button>
+        <button type="submit" class="btn btn-warn" data-alng="btn_reset_submit">🔑 Reset Password</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{# Delete confirm modal #}
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal">
+    <div class="modal-title" data-alng="del_title">🗑 Delete User</div>
+    <div class="modal-sub" style="margin-bottom:14px" data-alng="del_sub">This action is permanent and cannot be undone.</div>
+    <div class="warn-box" id="del-warn-box">⚠️ Deleting <span class="del-name" id="del-uname"></span> will also remove all their uploaded files from the system.</div>
+    <form method="POST" id="delete-form">
+      <div class="modal-footer" style="margin-top:0;padding-top:0;border-top:none">
+        <button type="button" class="btn btn-ghost" onclick="closeModals()" data-alng="btn_keep">Cancel — Keep User</button>
+        <button type="submit" class="btn btn-danger" data-alng="btn_delete">🗑 Delete Permanently</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+// ── Create panel toggle ──
+let createOpen = false;
+function toggleCreate() {
+  createOpen = !createOpen;
+  document.getElementById('create-body').style.display = createOpen ? 'block' : 'none';
+  document.getElementById('create-chevron').style.transform = createOpen ? 'rotate(180deg)' : '';
+}
+
+// ── Filter & Pagination state ──
+let roleFilter = 'all', statusFilter = 'all', currentPage = 1, pageSize = 20;
+const _shownTxt = () => window._aT ? window._aT('shown') : 'shown';
+
+function setRole(btn) {
+  document.querySelectorAll('[data-role]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active'); roleFilter = btn.dataset.role; currentPage = 1; applyFilters();
+}
+function setStatus(btn) {
+  document.querySelectorAll('[data-status]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active'); statusFilter = btn.dataset.status; currentPage = 1; applyFilters();
+}
+function setPageSize(val) {
+  pageSize = parseInt(val); currentPage = 1; applyFilters();
+}
+
+function applyFilters() {
+  const q = document.getElementById('um-search').value.toLowerCase();
+  const rows = Array.from(document.querySelectorAll('#um-tbody tr'));
+  
+  // 1. Filter
+  const filtered = rows.filter(row => {
+    const uname  = row.dataset.username || '';
+    const email  = row.dataset.email    || '';
+    const role   = row.dataset.role     || '';
+    const status = row.dataset.status   || '';
+    const matchQ = !q || uname.includes(q) || email.includes(q);
+    const matchR = roleFilter   === 'all' || role   === roleFilter;
+    const matchS = statusFilter === 'all' || status === statusFilter;
+    return matchQ && matchR && matchS;
+  });
+
+  const total = filtered.length;
+  const totalPages = Math.ceil(total / pageSize);
+  if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+
+  // 2. Paginate
+  const startIdx = (currentPage - 1) * pageSize;
+  const endIdx = startIdx + pageSize;
+
+  rows.forEach(row => row.classList.add('hidden-row'));
+  filtered.slice(startIdx, endIdx).forEach(row => row.classList.remove('hidden-row'));
+
+  // 3. UI Status
+  document.getElementById('visible-count').innerHTML = `${total} <span data-alng="shown">${_shownTxt()}</span>`;
+  document.getElementById('um-noresults').style.display = total === 0 ? 'block' : 'none';
+  document.getElementById('um-table').style.display = total === 0 ? 'none' : '';
+  
+  // 4. Pagination Controls
+  const label = document.getElementById('um-pagination-label');
+  const paginWrap = document.getElementById('um-pagination');
+  if (total === 0) {
+    paginWrap.style.display = 'none';
+  } else {
+    paginWrap.style.display = 'flex';
+    const s = startIdx + 1;
+    const e = Math.min(endIdx, total);
+    label.innerHTML = `<span data-alng="pg_showing">${window._aT('pg_showing')}</span> ${s}–${e} <span data-alng="pg_of">${window._aT('pg_of')}</span> ${total} <span data-alng="pg_users">${window._aT('pg_users')}</span>`;
+    
+    const pagesDiv = document.getElementById('um-pages');
+    pagesDiv.innerHTML = '';
+    
+    if (totalPages > 1) {
+      let lastP = 0;
+      for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+          if (lastP && i - lastP > 1) {
+            const dots = document.createElement('span');
+            dots.textContent = '...'; dots.style.color='var(--muted)'; dots.style.padding='0 4px';
+            pagesDiv.appendChild(dots);
+          }
+          const btn = document.createElement('button');
+          btn.className = 'pg-btn' + (i === currentPage ? ' current' : '');
+          btn.textContent = i;
+          btn.onclick = () => { currentPage = i; applyFilters(); };
+          pagesDiv.appendChild(btn);
+          lastP = i;
+        }
+      }
+    }
+  }
+}
+// Initial run
+document.addEventListener('DOMContentLoaded', () => applyFilters());
+
+// ── Modals ──
+function openEdit(id, username, email, role) {
+  document.getElementById('edit-form').action = `/admin/users/${id}/edit`;
+  const sub = document.getElementById('edit-modal-sub');
+  sub.textContent = (window._aT ? window._aT('edit_sub') : 'Editing account for') + ' ' + username;
+  document.getElementById('edit-username').value = username;
+  document.getElementById('edit-email').value    = email;
+  document.getElementById('edit-role').value     = role;
+  document.getElementById('edit-modal').classList.add('open');
+}
+function openReset(id, username) {
+  document.getElementById('reset-form').action = `/admin/users/${id}/reset-password`;
+  document.getElementById('reset-uname').textContent = username;
+  document.getElementById('reset-pw').value = '';
+  document.getElementById('reset-modal').classList.add('open');
+  setTimeout(() => document.getElementById('reset-pw').focus(), 100);
+}
+function openDelete(id, username) {
+  document.getElementById('delete-form').action = `/admin/users/${id}/delete`;
+  document.getElementById('del-uname').textContent = username;
+  const w1 = window._aT ? window._aT('del_warn') : '⚠️ Deleting';
+  const w2 = window._aT ? window._aT('del_warn2') : 'will also remove all their uploaded files from the system.';
+  document.getElementById('del-warn-box').innerHTML =
+    `${w1} <span class="del-name">${username}</span> ${w2}`;
+  document.getElementById('delete-modal').classList.add('open');
+}
+function closeModals() {
+  document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open'));
+}
+document.querySelectorAll('.modal-overlay').forEach(m =>
+  m.addEventListener('click', e => { if (e.target === m) closeModals(); }));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModals(); });
+</script>
+{% endblock %}

@@ -1,0 +1,51 @@
+{
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "device": "cpu",
+  "dtype": "torch.bfloat16",
+  "torch": "2.11.0",
+  "transformers": "5.6.0",
+  "stability": "ok",
+  "load_seconds": 8.3,
+  "b1_shared": true,
+  "registry_entries": 1,
+  "rewrite": {
+    "ok": true,
+    "latency_s": 6.6,
+    "tok_per_s": 1.1,
+    "sample": "Chào buổi sáng, đội!"
+  },
+  "chat": {
+    "ok": true,
+    "latency_s": 2.14,
+    "tok_per_s": 4.7,
+    "sample": "Thủ đô của Việt Nam là Hà Nội."
+  },
+  "embedding_mode": "hashing",
+  "rag": {
+    "ok": true,
+    "latency_s": 3.61,
+    "chunks_indexed": 1,
+    "chunks_found": 1,
+    "sources": 1,
+    "sample": "Giá trị hợp đồng là 250 triệu đồng."
+  },
+  "summary_ai": {
+    "ok": true,
+    "latency_s": 12.19,
+    "tok_per_s": 6.2,
+    "engine": "ai_local:cpu",
+    "sample": "Trí tuệ nhân tạo đang thay đổi nhiều ngành công nghiệp, với các mô hình lớn như "
+  },
+  "summary_fast": {
+    "ok": true,
+    "latency_s": 0.09,
+    "engine": "smart"
+  },
+  "translation": {
+    "ok": true,
+    "latency_s": 1.89,
+    "engine": "offline",
+    "sample": "Giá hợp đồng là 250 triệu quan."
+  },
+  "peak_rss_gb": 3.63
+}

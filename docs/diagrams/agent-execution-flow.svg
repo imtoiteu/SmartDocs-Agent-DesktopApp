@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="940" viewBox="0 0 1180 940" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_9AA7B5" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#9AA7B5"/></marker>
+</defs>
+<rect x="0" y="0" width="1180" height="940" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">19 · Agent Execution Flow (AgentCore.run)</text>
+<line x1="40" y1="50" x2="1140" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<path d="M480.0,116.0 L480.0,136.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M480.0,182.0 L480.0,196.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M480.0,242.0 L375.0,256.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M450.0,293.0 L720.0,293.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="572.0" y="284.0" width="26.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="585.0" y="295.5" font-size="10.5" fill="#243B4A" text-anchor="middle">yes</text>
+<path d="M375.0,330.0 L480.0,360.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="417.5" y="336.0" width="20.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="427.5" y="347.5" font-size="10.5" fill="#243B4A" text-anchor="middle">no</text>
+<path d="M880.0,318.0 L880.0,383.0 L660.0,383.0" fill="none" stroke="#9AA7B5" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_9AA7B5)"/>
+<path d="M480.0,406.0 L480.0,426.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M480.0,472.0 L375.0,488.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M450.0,528.0 L700.0,530.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="565.0" y="520.0" width="20.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="575.0" y="531.5" font-size="10.5" fill="#243B4A" text-anchor="middle">no</text>
+<path d="M375.0,568.0 L480.0,588.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="414.5" y="569.0" width="26.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="427.5" y="580.5" font-size="10.5" fill="#243B4A" text-anchor="middle">yes</text>
+<path d="M480.0,634.0 L480.0,648.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M480.0,698.0 L480.0,716.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M480.0,762.0 L480.0,776.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M480.0,830.0 L375.0,850.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M300.0,886.0 L250.0,886.0 L250.0,383.0 L300.0,383.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="216.0" y="625.5" width="68.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="250.0" y="637.0" font-size="10.5" fill="#243B4A" text-anchor="middle">yes (loop)</text>
+<path d="M450.0,886.0 L700.0,882.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="565.0" y="875.0" width="20.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="575.0" y="886.5" font-size="10.5" fill="#243B4A" text-anchor="middle">no</text>
+<rect x="300.0" y="70.0" width="360.0" height="46.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="480.0" y="96.3" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">AgentCore.run(user_message, history, allowed_file_ids)</text>
+<rect x="300.0" y="136.0" width="360.0" height="46.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="480.0" y="162.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">_initial_messages: system prompt + history + user message</text>
+<rect x="300.0" y="196.0" width="360.0" height="46.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="480.0" y="222.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">build run_ctx (inject allowed_file_ids)</text>
+<polygon points="375.0,256.0 450.0,293.0 375.0,330.0 300.0,293.0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="375.0" y="296.1" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">enable_planning?</text>
+<rect x="720.0" y="268.0" width="320.0" height="50.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="880.0" y="290.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">_make_plan (1 LLM call · advisory)</text>
+<text x="880.0" y="301.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">append plan turns</text>
+<rect x="300.0" y="360.0" width="360.0" height="46.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="480.0" y="386.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">provider.complete(messages)</text>
+<rect x="300.0" y="426.0" width="360.0" height="46.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="480.0" y="452.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">_extract_json(raw)</text>
+<polygon points="375.0,488.0 450.0,528.0 375.0,568.0 300.0,528.0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="375.0" y="525.1" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">actionable JSON</text>
+<text x="375.0" y="536.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">(tool / skill)?</text>
+<rect x="700.0" y="502.0" width="400.0" height="56.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="900.0" y="527.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">final answer (action.final or raw text)</text>
+<text x="900.0" y="538.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">finalize citations (≤5) → AgentResult(completed=True)</text>
+<rect x="300.0" y="588.0" width="360.0" height="46.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="480.0" y="614.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">resolve tool / skill (lenient reclassify)</text>
+<rect x="300.0" y="648.0" width="360.0" height="50.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="480.0" y="670.1" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">tenancy tool? → inject allowed_file_ids</text>
+<text x="480.0" y="681.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">(chat, knowledge_search)</text>
+<rect x="300.0" y="716.0" width="360.0" height="46.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="480.0" y="742.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">registry.run / skills.run → ToolResult / SkillResult</text>
+<rect x="300.0" y="776.0" width="360.0" height="54.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="480.0" y="800.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">observation = result.to_dict() · collect citations · truncate 1500</text>
+<text x="480.0" y="811.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">append assistant(raw) + user(observation)</text>
+<polygon points="375.0,850.0 450.0,886.0 375.0,922.0 300.0,886.0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="375.0" y="888.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">step &lt; max_steps?</text>
+<rect x="700.0" y="854.0" width="400.0" height="56.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="900.0" y="879.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">synthesis pass: &quot;stop calling tools,</text>
+<text x="900.0" y="890.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">give best final answer&quot; → AgentResult(completed=False)</text>
+<rect x="60.0" y="72.0" width="200.0" height="116.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="160.0" y="109.8" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">HTTP path:</text>
+<text x="160.0" y="121.4" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">· safe tools only</text>
+<text x="160.0" y="132.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">· skills off</text>
+<text x="160.0" y="144.5" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">· planning on</text>
+<text x="160.0" y="156.1" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">· max_steps ∈ [1,6] (default 4)</text>
+</svg>

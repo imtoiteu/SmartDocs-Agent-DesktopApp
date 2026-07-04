@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="700" viewBox="0 0 1180 700" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_82B366" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#82B366"/></marker>
+<marker id="arr_B85450" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#B85450"/></marker>
+<marker id="arr_D79B00" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#D79B00"/></marker>
+</defs>
+<rect x="0" y="0" width="1180" height="700" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">3 · Document Lifecycle</text>
+<line x1="40" y1="50" x2="1140" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="600" y="100" width="540" height="470" rx="11" fill="#F8F8F8" stroke="#5A5A5A" stroke-width="1.6"/>
+<path d="M600.0,134.0 L600.0,111.0 A11,11 0 0 1 611.0,100.0 L1129.0,100.0 A11,11 0 0 1 1140.0,111.0 L1140.0,134.0 Z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="614.0" y="124.0" font-size="14.5" font-weight="700" fill="#10202E">document_artifacts  —  one row per (document_id, kind)</text>
+<path d="M150.0,166.0 L150.0,230.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M229.4,230.0 L320.0,158.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M240.0,259.3 L320.0,258.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M520.0,164.5 L630.0,179.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M520.0,258.0 L560.0,258.0 L560.0,179.0 L880.0,179.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M745.0,208.0 L745.0,470.0 L880.0,485.1" fill="none" stroke="#82B366" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_82B366)"/>
+<rect x="720.0" y="397.9" width="50.0" height="16" rx="3" fill="#FFFFFF" stroke="#82B366" stroke-width="0.8" opacity="0.95"/>
+<text x="745.0" y="409.4" font-size="10.5" fill="#243B4A" text-anchor="middle">indexed</text>
+<path d="M995.0,208.0 L995.0,470.0" fill="none" stroke="#82B366" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_82B366)"/>
+<rect x="970.0" y="330.0" width="50.0" height="16" rx="3" fill="#FFFFFF" stroke="#82B366" stroke-width="0.8" opacity="0.95"/>
+<text x="995.0" y="341.5" font-size="10.5" fill="#243B4A" text-anchor="middle">indexed</text>
+<path d="M630.0,179.0 L560.0,179.0 L560.0,388.0 L520.0,388.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M420.0,416.0 L420.0,470.0" fill="none" stroke="#B85450" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_B85450)"/>
+<rect x="335.0" y="434.0" width="170.0" height="16" rx="3" fill="#FFFFFF" stroke="#B85450" stroke-width="0.8" opacity="0.95"/>
+<text x="420.0" y="445.5" font-size="10.5" fill="#243B4A" text-anchor="middle">transient — NOT an artifact</text>
+<path d="M745.0,208.0 L745.0,320.0 L420.0,320.0 L420.0,580.0" fill="none" stroke="#D79B00" stroke-width="1.7" marker-end="url(#arr_D79B00)"/>
+<path d="M420.0,580.0 L745.0,424.0" fill="none" stroke="#D79B00" stroke-width="1.7" marker-end="url(#arr_D79B00)"/>
+<path d="M745.0,208.0 L745.0,340.0 L745.0,580.0" fill="none" stroke="#D79B00" stroke-width="1.7" marker-end="url(#arr_D79B00)"/>
+<path d="M745.0,580.0 L995.0,540.0 L995.0,418.0" fill="none" stroke="#D79B00" stroke-width="1.7" marker-end="url(#arr_D79B00)"/>
+<rect x="60.0" y="110.0" width="180.0" height="56.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="150.0" y="141.9" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Upload</text>
+<rect x="60.0" y="230.0" width="180.0" height="60.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="150.0" y="256.2" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Document</text>
+<text x="150.0" y="271.5" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">status = uploaded</text>
+<rect x="320.0" y="130.0" width="200.0" height="56.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="420.0" y="154.2" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">OCR</text>
+<text x="420.0" y="169.5" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">status = ocr_done</text>
+<rect x="320.0" y="230.0" width="200.0" height="56.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="420.0" y="254.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">read-text</text>
+<text x="420.0" y="268.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">TXT / DOCX / PDF</text>
+<rect x="630.0" y="150.0" width="230.0" height="58.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="745.0" y="175.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">kind: ocr</text>
+<text x="745.0" y="189.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">(+ ocr_layout + structured)</text>
+<rect x="880.0" y="150.0" width="230.0" height="58.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="995.0" y="182.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">kind: text</text>
+<rect x="630.0" y="360.0" width="230.0" height="64.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="745.0" y="389.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">kind: translation</text>
+<text x="745.0" y="401.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">(only if file_id · NOT indexed)</text>
+<rect x="880.0" y="360.0" width="230.0" height="58.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="995.0" y="392.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">kind: summary</text>
+<rect x="880.0" y="470.0" width="230.0" height="56.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="995.0" y="501.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">In-memory RAG index</text>
+<rect x="320.0" y="360.0" width="200.0" height="56.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="420.0" y="384.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Correction</text>
+<text x="420.0" y="398.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">POST /api/correct</text>
+<rect x="320.0" y="470.0" width="200.0" height="56.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="420.0" y="501.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">returned to UI only</text>
+<rect x="320.0" y="580.0" width="200.0" height="50.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="420.0" y="601.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Translate</text>
+<text x="420.0" y="615.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">POST /api/translate</text>
+<rect x="630.0" y="580.0" width="230.0" height="50.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="745.0" y="601.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Summarize</text>
+<text x="745.0" y="615.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">POST /api/summarize</text>
+</svg>

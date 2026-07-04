@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="820" viewBox="0 0 1360 820" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_0E8088" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#0E8088"/></marker>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_5A5A5A" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#5A5A5A"/></marker>
+<marker id="arr_999999" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#999999"/></marker>
+</defs>
+<rect x="0" y="0" width="1360" height="820" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">14 · OCR Engine Architecture</text>
+<line x1="40" y1="50" x2="1320" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="40" y="230" width="300" height="198" rx="11" fill="#E0F4F5" stroke="#0E8088" stroke-width="1.6"/>
+<path d="M40.0,264.0 L40.0,241.0 A11,11 0 0 1 51.0,230.0 L329.0,230.0 A11,11 0 0 1 340.0,241.0 L340.0,264.0 Z" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="54.0" y="254.0" font-size="14.5" font-weight="700" fill="#10202E">Legacy PaddleOCR</text>
+<rect x="366" y="230" width="300" height="198" rx="11" fill="#E0F4F5" stroke="#0E8088" stroke-width="1.6"/>
+<path d="M366.0,264.0 L366.0,241.0 A11,11 0 0 1 377.0,230.0 L655.0,230.0 A11,11 0 0 1 666.0,241.0 L666.0,264.0 Z" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="380.0" y="254.0" font-size="14.5" font-weight="700" fill="#10202E">PaddleOCR Modern</text>
+<rect x="693" y="230" width="300" height="198" rx="11" fill="#E0F4F5" stroke="#0E8088" stroke-width="1.6"/>
+<path d="M693.0,264.0 L693.0,241.0 A11,11 0 0 1 704.0,230.0 L982.0,230.0 A11,11 0 0 1 993.0,241.0 L993.0,264.0 Z" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="707.0" y="254.0" font-size="14.5" font-weight="700" fill="#10202E">VietOCR</text>
+<rect x="1020" y="230" width="300" height="198" rx="11" fill="#E0F4F5" stroke="#0E8088" stroke-width="1.6"/>
+<path d="M1020.0,264.0 L1020.0,241.0 A11,11 0 0 1 1031.0,230.0 L1309.0,230.0 A11,11 0 0 1 1320.0,241.0 L1320.0,264.0 Z" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="1034.0" y="254.0" font-size="14.5" font-weight="700" fill="#10202E">GLM-OCR</text>
+<path d="M680.0,112.0 L680.0,140.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M380.0,123.7 L490.6,140.0" fill="none" stroke="#999999" stroke-width="1.7" stroke-dasharray="6 5"/>
+<rect x="365.3" y="122.8" width="140.0" height="16" rx="3" fill="#FFFFFF" stroke="#999999" stroke-width="0.8" opacity="0.95"/>
+<text x="435.3" y="134.3" font-size="10.5" fill="#243B4A" text-anchor="middle">implemented by engines</text>
+<path d="M680.0,196.0 L190.0,230.0" fill="none" stroke="#0E8088" stroke-width="1.7" marker-end="url(#arr_0E8088)"/>
+<path d="M680.0,196.0 L516.0,230.0" fill="none" stroke="#0E8088" stroke-width="1.7" marker-end="url(#arr_0E8088)"/>
+<path d="M680.0,196.0 L843.0,230.0" fill="none" stroke="#0E8088" stroke-width="1.7" marker-end="url(#arr_0E8088)"/>
+<path d="M680.0,196.0 L1170.0,230.0" fill="none" stroke="#0E8088" stroke-width="1.7" marker-end="url(#arr_0E8088)"/>
+<path d="M1170.0,428.0 L1170.0,452.0" fill="none" stroke="#0E8088" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_0E8088)"/>
+<rect x="1154.0" y="431.0" width="32.0" height="16" rx="3" fill="#FFFFFF" stroke="#0E8088" stroke-width="0.8" opacity="0.95"/>
+<text x="1170.0" y="442.5" font-size="10.5" fill="#243B4A" text-anchor="middle">HTTP</text>
+<path d="M190.0,428.0 L680.0,538.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<path d="M516.0,428.0 L680.0,538.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<path d="M843.0,428.0 L680.0,538.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<path d="M1170.0,428.0 L680.0,538.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<path d="M680.0,594.0 L680.0,634.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M600.0,672.0 L390.0,672.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="485.0" y="663.0" width="20.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="495.0" y="674.5" font-size="10.5" fill="#243B4A" text-anchor="middle">no</text>
+<path d="M760.0,672.0 L970.0,664.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="810.0" y="659.0" width="110.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="865.0" y="670.5" font-size="10.5" fill="#243B4A" text-anchor="middle">yes (Modern, GLM)</text>
+<path d="M240.0,704.0 L240.0,760.0 L470.0,767.0" fill="none" stroke="#0E8088" stroke-width="1.7" marker-end="url(#arr_0E8088)"/>
+<path d="M1130.0,692.0 L1130.0,760.0 L890.0,767.0" fill="none" stroke="#0E8088" stroke-width="1.7" marker-end="url(#arr_0E8088)"/>
+<rect x="480.0" y="66.0" width="400.0" height="46.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="680.0" y="92.9" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">ocr_service.run_ocr(image_path, engine_name)</text>
+<rect x="60.0" y="70.0" width="320.0" height="60.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="220.0" y="96.8" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">OCREngine (ABC · base.py)</text>
+<text x="220.0" y="109.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">run(image_path) → standard dict</text>
+<rect x="430.0" y="140.0" width="500.0" height="56.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="680.0" y="165.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">router.run_ocr / get_engine</text>
+<text x="680.0" y="176.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">select by explicit name OR cfg.OCR_ENGINE default (paddle→paddleocr) · aliases</text>
+<rect x="56.0" y="270.0" width="268.0" height="32.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="190.0" y="289.3" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">PaddleOCREngine</text>
+<rect x="56.0" y="312.0" width="268.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="190.0" y="339.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">PaddleOCR · PP-OCRv5 (pinned)</text>
+<rect x="56.0" y="372.0" width="268.0" height="46.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="190.0" y="392.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">text + boxes</text>
+<text x="190.0" y="403.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">(no structure)</text>
+<rect x="382.0" y="270.0" width="268.0" height="32.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="516.0" y="289.3" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">PaddleOCRModernEngine</text>
+<rect x="382.0" y="312.0" width="268.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="516.0" y="334.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">PPStructureV3 · PP-OCRv6_medium</text>
+<text x="516.0" y="345.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">orientation + unwarp</text>
+<rect x="382.0" y="372.0" width="268.0" height="46.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="516.0" y="392.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">markdown · html · tables ·</text>
+<text x="516.0" y="403.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">blocks · images (layout_native)</text>
+<rect x="709.0" y="270.0" width="268.0" height="32.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="843.0" y="289.3" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">VietOCREngine</text>
+<rect x="709.0" y="312.0" width="268.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="843.0" y="334.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">PP-OCRv5 detection +</text>
+<text x="843.0" y="345.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">VietOCR recognition · images only</text>
+<rect x="709.0" y="372.0" width="268.0" height="46.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="843.0" y="392.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">text + boxes</text>
+<text x="843.0" y="403.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">(confidence = None)</text>
+<rect x="1036.0" y="270.0" width="268.0" height="32.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="1170.0" y="289.3" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">GLMOCREngine</text>
+<rect x="1036.0" y="312.0" width="268.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="1170.0" y="334.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">subprocess: glmocr.cli</text>
+<text x="1170.0" y="345.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">parse --mode selfhosted</text>
+<rect x="1036.0" y="372.0" width="268.0" height="46.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="1170.0" y="392.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">markdown · tables · blocks ·</text>
+<text x="1170.0" y="403.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">images · raw_json (layout_native)</text>
+<rect x="1020.0" y="452.0" width="300.0" height="54.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="1170.0" y="476.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">GLM MLX server :8080</text>
+<text x="1170.0" y="488.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">(GLM_OCR_API_URL)</text>
+<rect x="350.0" y="538.0" width="660.0" height="56.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="680.0" y="563.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">Standard result dict</text>
+<text x="680.0" y="574.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">success · results[{text, confidence, box}] · img_w/h · elapsed_ms · ocr_engine · inference_status</text>
+<polygon points="680.0,634.0 760.0,672.0 680.0,710.0 600.0,672.0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="680.0" y="675.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">layout_native?</text>
+<rect x="90.0" y="640.0" width="300.0" height="64.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="240.0" y="663.4" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">layout_service → geometry_service</text>
+<text x="240.0" y="674.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">reading-order reconstruction</text>
+<text x="240.0" y="686.5" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">(Legacy, VietOCR)</text>
+<rect x="970.0" y="636.0" width="320.0" height="56.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="1130.0" y="661.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">markdown_normalize</text>
+<text x="1130.0" y="673.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">repair_unmatched_display_math</text>
+<rect x="470.0" y="744.0" width="420.0" height="46.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="680.0" y="764.1" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">ocr_service returns dict</text>
+<text x="680.0" y="775.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">→ OCR Processing Pipeline (persist + index)</text>
+</svg>

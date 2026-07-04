@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>SmartDocs Platform — AI</title>
+  <meta name="description" content="Extract, correct, translate and summarize text from images and documents."/>
+  <link rel="stylesheet" href="/static/style.css?v=2026.06.19.1"/>
+  <link rel="stylesheet" href="/static/chat.css"/>
+  <link rel="stylesheet" href="/static/vendor/katex/katex.min.css"/>
+  <script src="/static/i18n.js?v=2026.06.19.2"></script>
+</head>
+<body>
+<div id="app">
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#" onclick="Router.goto('home');return false">
+    <div class="logo-icon">📄</div>
+    <span class="logo-text" data-i18n="app_name">SmartDocs Platform</span>
+  </a>
+  <button class="nav-link active" data-view="home" data-i18n="nav_home">🏠 Trang chủ</button>
+  <button class="nav-link" data-view="ocr" data-i18n="nav_ocr">🔍 OCR</button>
+  <button class="nav-link" data-view="correct" data-i18n="nav_correct">✏️ Sửa lỗi</button>
+  <button class="nav-link" data-view="translate" data-i18n="nav_translate">🌐 Dịch thuật</button>
+  <button class="nav-link" data-view="summarize" data-i18n="nav_summarize">📝 Tóm tắt</button>
+  <button class="nav-link" data-view="documents" data-i18n="nav_documents">📁 Tài liệu</button>
+  <button class="nav-link" data-view="chat" id="nav-chat-btn">🤖 SmartDocs AI</button>
+  <button class="nav-link" data-view="settings" id="nav-settings-btn" data-i18n="nav_settings">⚙ Cài đặt</button>
+  <!-- Agent workspace — separate page at /agent (additive; reached by real navigation, like Admin) -->
+  <a id="nav-agent-link" href="/agent" style="display:inline-flex;align-items:center;gap:5px;
+     padding:6px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#8b5cf6;
+     text-decoration:none;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25)"
+     title="Agent workspace">✨ Agent</a>
+  <!-- Admin panel link — shown only if role=admin by JS below -->
+  <a id="nav-admin-link" href="/admin/" style="display:none;align-items:center;gap:5px;
+     padding:6px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#f59e0b;
+     text-decoration:none;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)"
+     title="Admin Panel">⚙️ Admin</a>
+  <div class="nav-spacer"></div>
+  <!-- Language selector -->
+  <div class="lang-switcher">
+    <button class="lang-btn active" data-lang="vi" onclick="I18n.setLang('vi')">VI</button>
+    <button class="lang-btn" data-lang="en" onclick="I18n.setLang('en')">EN</button>
+  </div>
+  <!-- User info (populated by JS) -->
+  <div id="nav-user" style="display:flex;align-items:center;gap:8px">
+    <span id="nav-username" style="font-size:13px;font-weight:500;color:var(--muted2)"></span>
+    <span id="nav-role" style="font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600"></span>
+    <a href="/logout" data-i18n="nav_sign_out" style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;
+       background:var(--card);border:1px solid var(--border);border-radius:8px;
+       font-size:12px;color:var(--muted2);text-decoration:none;transition:all .15s"
+       onmouseover="this.style.borderColor='var(--danger)';this.style.color='var(--danger)'"
+       onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted2)'">⏏ Đăng xuất</a>
+  </div>
+</nav>
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+
+<div id="views">
+
+<!-- ══ HOME ══════════════════════════════════════════ -->
+<div id="view-home" class="view">
+  <div class="home-hero">
+    <div class="home-title" data-i18n="home_hero_title">Nền tảng tài liệu AI</div>
+    <div class="home-sub" data-i18n="home_hero_sub">Trích xuất, sửa lỗi, dịch thuật và tóm tắt văn bản từ hình ảnh, PDF và tài liệu.</div>
+  </div>
+  <div class="tool-cards">
+
+    <div class="tool-card tc-ocr" data-goto="ocr">
+      <div class="tc-icon">🔍</div>
+      <div class="tc-title" data-i18n="tc_ocr_title">Trích xuất OCR</div>
+      <div class="tc-desc" data-i18n="tc_ocr_desc">Trích xuất văn bản từ hình ảnh và PDF với trực quan hóa vùng nhận dạng.</div>
+      <div class="tc-tags"><span class="tc-tag">JPG</span><span class="tc-tag">PNG</span><span class="tc-tag">WEBP</span><span class="tc-tag">PDF</span></div>
+      <button class="tc-btn" data-i18n="get_started">Bắt đầu →</button>
+    </div>
+
+    <div class="tool-card tc-correct" data-goto="correct">
+      <div class="tc-icon">✏️</div>
+      <div class="tc-title" data-i18n="tc_correct_title">Sửa lỗi văn bản</div>
+      <div class="tc-desc" data-i18n="tc_correct_desc">Tự động sửa lỗi OCR, lỗi chính tả, ngữ pháp và định dạng văn bản.</div>
+      <div class="tc-tags"><span class="tc-tag">Spell Check</span><span class="tc-tag">Grammar</span><span class="tc-tag">OCR Fix</span></div>
+      <button class="tc-btn" data-i18n="get_started">Bắt đầu →</button>
+    </div>
+
+    <div class="tool-card tc-translate" data-goto="translate">
+      <div class="tc-icon">🌐</div>
+      <div class="tc-title" data-i18n="tc_translate_title">Dịch thuật</div>
+      <div class="tc-desc" data-i18n="tc_translate_desc">Dịch văn bản giữa các ngôn ngữ với tính năng tự động nhận diện ngôn ngữ.</div>
+      <div class="tc-tags"><span class="tc-tag">EN↔VI</span><span class="tc-tag">Auto Detect</span><span class="tc-tag">8 Languages</span></div>
+      <button class="tc-btn" data-i18n="get_started">Bắt đầu →</button>
+    </div>
+
+    <div class="tool-card tc-summarize" data-goto="summarize">
+      <div class="tc-icon">📝</div>
+      <div class="tc-title" data-i18n="tc_summarize_title">Tóm tắt</div>
+      <div class="tc-desc" data-i18n="tc_summarize_desc">Tạo tóm tắt ngắn, gạch đầu dòng hoặc tóm tắt điều hành từ bất kỳ văn bản nào.</div>
+      <div class="tc-tags"><span class="tc-tag">Short</span><span class="tc-tag">Bullets</span><span class="tc-tag">Executive</span></div>
+      <button class="tc-btn" data-i18n="get_started">Bắt đầu →</button>
+    </div>
+
+    <div class="tool-card tc-documents" data-goto="documents">
+      <div class="tc-icon">📁</div>
+      <div class="tc-title" data-i18n="tc_documents_title">Tài liệu</div>
+      <div class="tc-desc" data-i18n="tc_documents_desc">Quản lý, mở lại và tải xuống các tài liệu cùng kết quả OCR đã lưu.</div>
+      <div class="tc-tags"><span class="tc-tag">Library</span><span class="tc-tag">Re-open</span><span class="tc-tag">Download</span></div>
+      <button class="tc-btn" data-i18n="get_started">Bắt đầu →</button>
+    </div>
+
+    <div class="tool-card tc-chat" data-goto="chat">
+      <div class="tc-icon">🤖</div>
+      <div class="tc-title" data-i18n="tc_chat_title">SmartDocs AI</div>
+      <div class="tc-desc" data-i18n="tc_chat_desc">Trò chuyện với AI: hỏi đáp tổng quát hoặc hỏi trực tiếp trên một tài liệu.</div>
+      <div class="tc-tags"><span class="tc-tag">Chat</span><span class="tc-tag">RAG</span><span class="tc-tag">Q&amp;A</span></div>
+      <button class="tc-btn" data-i18n="get_started">Bắt đầu →</button>
+    </div>
+
+    <div class="tool-card tc-agent" data-href="/agent">
+      <div class="tc-icon">✨</div>
+      <div class="tc-title" data-i18n="tc_agent_title">Agent</div>
+      <div class="tc-desc" data-i18n="tc_agent_desc">Trợ lý tự động điều phối nhiều công cụ để hoàn thành tác vụ phức tạp.</div>
+      <div class="tc-tags"><span class="tc-tag">Orchestrate</span><span class="tc-tag">Tools</span><span class="tc-tag">Multi-step</span></div>
+      <button class="tc-btn" data-i18n="get_started">Bắt đầu →</button>
+    </div>
+
+    <div class="tool-card tc-admin" id="home-card-admin" data-href="/admin/" style="display:none">
+      <div class="tc-icon">⚙️</div>
+      <div class="tc-title" data-i18n="tc_admin_title">Quản trị</div>
+      <div class="tc-desc" data-i18n="tc_admin_desc">Quản lý người dùng, theo dõi hoạt động và cấu hình hệ thống.</div>
+      <div class="tc-tags"><span class="tc-tag">Users</span><span class="tc-tag">Activity</span><span class="tc-tag">System</span></div>
+      <button class="tc-btn" data-i18n="get_started">Bắt đầu →</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ OCR ════════════════════════════════════════════ -->
+<div id="view-ocr" class="view v-hidden" style="display:flex;flex-direction:column">
+
+  <!-- Upload zone (full-screen until file loaded) -->
+  <div id="ocr-upload-zone" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;background:var(--bg);z-index:5">
+    <div style="text-align:center">
+      <div style="font-size:1.8rem;font-weight:700;margin-bottom:6px" data-i18n="ocr_extract">🔍 OCR Extract</div>
+      <div style="color:var(--muted);font-size:14px" data-i18n="ocr_upload_hint">Tải lên hình ảnh hoặc PDF để trích xuất văn bản</div>
+    </div>
+    <div class="drop-area-full" id="ocr-drop-zone">
+      <input type="file" id="ocr-file-input" style="display:none" accept=".jpg,.jpeg,.png,.webp,.pdf"/>
+      <div style="font-size:2.8rem;margin-bottom:10px">🖼️</div>
+      <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px" data-i18n="ocr_drop_full" data-i18n-html>Kéo thả tệp vào đây hoặc <span style="color:var(--accent2)">nhấp để duyệt</span></div>
+      <div style="font-size:13px;color:var(--muted)" data-i18n="ocr_file_formats">JPG · PNG · WEBP · PDF (nhiều trang)</div>
+    </div>
+  </div>
+
+  <!-- Workspace (shown after upload) -->
+  <div id="ocr-workspace" style="display:none;grid-template-columns:minmax(280px,38fr) minmax(420px,62fr);flex:1;overflow:hidden">
+    <!-- Left -->
+    <div id="ocr-left" style="display:flex;flex-direction:column;border-right:1px solid var(--border)">
+      <div id="preview-toolbar">
+        <button class="btn btn-ghost btn-sm" id="ocr-back-btn" data-i18n-title="nav.back" title="Quay lại" style="margin-right:8px">‹ <span data-i18n="nav.back">Quay lại</span></button>
+        <button class="btn-icon" id="btn-zoom-out">－</button>
+        <div class="zoom-lbl" id="zoom-lbl">100%</div>
+        <button class="btn-icon" id="btn-zoom-in">＋</button>
+        <button class="btn-icon" id="btn-zoom-fit">⊡</button>
+        <button class="btn-icon" id="btn-rotate">↻</button>
+        <button class="btn-icon" id="btn-select-region" data-i18n-title="ocr_select_region" title="Select Region">🔳</button>
+        <div style="flex:1"></div>
+        <div class="page-pill">
+          <button class="btn-icon" id="btn-prev-page" style="width:26px;height:26px;border:none">◀</button>
+          <input type="number" id="ocr-page-input" value="1" min="1"/>
+          <span id="ocr-page-total" style="color:var(--muted)">/1</span>
+          <button class="btn-icon" id="btn-next-page" style="width:26px;height:26px;border:none">▶</button>
+        </div>
+        <div style="flex:1"></div>
+        <!-- ── OCR Layout Toggle ───────────────────────────── -->
+        <span class="slbl" style="margin-left: 10px; margin-right: 4px;" data-i18n="ocr_layout_label">Layout:</span>
+        <div class="ocr-mode-selector" id="ocr-layout-toggle" style="margin-right: 12px;">
+          <button class="ocr-mode-btn"        data-layout="original" data-i18n="ocr_layout_original">Original</button>
+          <button class="ocr-mode-btn active" data-layout="enhanced" data-i18n="ocr_layout_enhanced">✨ Enhanced</button>
+        </div>
+
+        <!-- ── OCR Engine Selector ───────────────────────────── -->
+        <span class="slbl" style="margin-left: 10px; margin-right: 4px;" data-i18n="ocr_engine_label">Engine:</span>
+        <!-- User-facing engines (simplified). Values still map directly to the
+             backend engine keys; PP-StructureV3 ("paddleocr_modern") and Auto remain
+             available in the backend OCR router but are not surfaced in this dropdown. -->
+        <select id="ocr-engine-select" class="lang-select" style="margin-right: 12px; height: 26px;">
+          <option value="glmocr" selected data-i18n="ocr_engine_recommended">⭐ Recommended</option>
+          <option value="vietocr" data-i18n="ocr_engine_vietnamese">🇻🇳 Vietnamese</option>
+          <option value="paddleocr" data-i18n="ocr_engine_standard">📄 Standard</option>
+        </select>
+
+        <!-- ── OCR AI Cleanup Toggle ───────────────────────────── -->
+        <span class="slbl" style="margin-right: 4px;" data-i18n="ocr_ai_label">AI Cleanup:</span>
+        <div class="ocr-mode-selector" id="ocr-ai-toggle" title="AI Post-Correction">
+          <button class="ocr-mode-btn active" data-ai="false" data-i18n="ocr_ai_off">Off</button>
+          <button class="ocr-mode-btn"        data-ai="true"  data-i18n="ocr_ai_on">🧠 On</button>
+        </div>
+        <div style="width:8px"></div>
+        <button class="btn btn-primary btn-sm" id="btn-ocr-run">▶ Run OCR</button>
+        <button class="btn btn-ghost btn-sm" id="btn-ocr-all">⚡ OCR All</button>
+        <button class="btn btn-sm" id="btn-ocr-stop" style="display:none;background:var(--danger,#ef4444);color:#fff;border:none;align-items:center;gap:6px;" title="Stop current OCR task">⏹ Stop</button>
+        <button class="btn btn-ghost btn-sm" id="btn-ocr-reset">↩ Reset</button>
+      </div>
+      <div id="page-tabs-bar" style="display:none"></div>
+      <div id="preview-viewport">
+        <div id="preview-img-wrap">
+          <img id="preview-img" alt="Preview" draggable="false"/>
+          <canvas id="overlay-canvas"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div id="ocr-right">
+      <!-- Compact metadata strip: file name + status + the four stats on one dense
+           row (replacing two tall sections), so the OCR result area below gets the
+           vertical space. All fields/IDs preserved. -->
+      <div id="ocr-meta-bar">
+        <div class="file-info"><span>📄</span><span id="ocr-file-name" class="fi-name">—</span><span id="ocr-status-badge" class="badge" style="display:none;margin-left:6px"></span></div>
+        <div class="ocr-stat-chips">
+          <span class="ocr-stat" data-i18n-title="ocr_regions"  title="Vùng"><b id="stat-regions">—</b><span data-i18n="ocr_regions">Vùng</span></span>
+          <span class="ocr-stat" data-i18n-title="ocr_avg_conf" title="Độ tin cậy"><b id="stat-conf">—</b><span data-i18n="ocr_avg_conf">Độ tin cậy</span></span>
+          <span class="ocr-stat" data-i18n-title="ocr_time"     title="Thời gian"><b id="stat-time">—</b><span data-i18n="ocr_time">Thời gian</span></span>
+          <span class="ocr-stat" data-i18n-title="ocr_pages"    title="Trang"><b id="stat-pages">—</b><span data-i18n="ocr_pages">Trang</span></span>
+        </div>
+      </div>
+      <div id="ocr-results-scroll">
+        <div class="slbl" data-i18n="ocr_extracted_text">Văn bản đã trích xuất</div>
+        <!-- Artifact-driven result tabs (engine-agnostic). The Images tab is disabled
+             when the engine produced no visual artifacts. -->
+        <div class="ocr-view-tabs" id="ocr-view-tabs">
+          <button class="ocr-vtab active" data-vtab="md" data-i18n="ocr_tab_md">📝 Markdown</button>
+          <button class="ocr-vtab" data-vtab="raw" data-i18n="ocr_tab_raw">⟨⟩ Raw</button>
+          <button class="ocr-vtab" data-vtab="images" data-i18n="ocr_tab_images">🖼 Images</button>
+          <button class="ocr-vtab" data-vtab="json" data-i18n="ocr_tab_json">{ } JSON</button>
+        </div>
+        <!-- 1) Markdown (rendered) -->
+        <div id="ocr-md-rendered" class="ocr-struct-view markdown-body"></div>
+        <!-- 2) Markdown (raw) — editable; doubles as the plain-text surface for engines
+                without real markdown. This is the canonical edit surface. -->
+        <textarea id="ocr-md-raw" class="output-text" style="display:none;font-family:ui-monospace,Menlo,monospace;font-size:12px" placeholder="Markdown / text…" spellcheck="false"></textarea>
+        <!-- 3) Extracted Images — document viewer (large stage + zoom/pan + thumb strip) -->
+        <div id="ocr-images" class="ocr-img-viewer" style="display:none"></div>
+        <!-- 4) JSON -->
+        <pre id="ocr-json" class="ocr-json-view" style="display:none"><code></code></pre>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" id="ocr-copy-btn" data-i18n="ocr_copy">📋 Sao chép</button>
+          <button class="btn btn-ghost btn-sm" id="ocr-dl-md" data-i18n="ocr_dl_md">⬇ MD</button>
+          <button class="btn btn-ghost btn-sm" id="ocr-dl-json" data-i18n="ocr_dl_json">⬇ JSON</button>
+          <button class="btn btn-ghost btn-sm" id="ocr-dl-txt" data-i18n="ocr_dl_txt">⬇ TXT</button>
+        </div>
+        <div class="slbl" style="margin-top:4px" data-i18n="ocr_send_to">Gửi đến</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn btn-ghost btn-sm" id="ocr-send-correct" data-i18n="send_correct">→ Sửa lỗi</button>
+          <button class="btn btn-ghost btn-sm" id="ocr-send-translate" data-i18n="send_translate">→ Dịch thuật</button>
+          <button class="btn btn-ghost btn-sm" id="ocr-send-summarize" data-i18n="send_summarize">→ Tóm tắt</button>
+          <button class="btn btn-ghost btn-sm" id="ocr-ask-agent" title="Ask the SmartDocs Agent about this document">🤖 Ask agent</button>
+        </div>
+        <div class="slbl" style="margin-top:4px" data-i18n="ocr_detections">Kết quả phát hiện</div>
+        <div id="det-list">
+          <div class="output-empty" id="ocr-empty-results"><div class="oe-icon">🔍</div><div data-i18n="ocr_empty">Chạy OCR để xem kết quả</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CORRECT ════════════════════════════════════════ -->
+<div id="view-correct" class="view v-hidden">
+  <div class="tool-workspace">
+    <div class="ws-panel left">
+      <div class="panel-header">
+        <span style="font-size:18px">✏️</span>
+        <span class="panel-title" data-i18n="correct_title">Sửa lỗi văn bản</span>
+        <div class="input-tabs" style="margin-left:auto">
+          <button class="tab-btn active" data-tab="correct-paste-tab" data-i18n="correct_paste">Dán văn bản</button>
+          <button class="tab-btn" data-tab="correct-file-tab" data-i18n="correct_upload">Tải lên</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div id="correct-paste-tab" class="tab-pane active">
+          <textarea id="correct-input" class="ai-textarea" style="min-height:280px" data-i18n-placeholder="correct_placeholder" placeholder="Dán văn bản cần sửa lỗi…"></textarea>
+        </div>
+        <div id="correct-file-tab" class="tab-pane">
+          <div class="drop-zone"><input type="file" id="correct-file-input" accept=".txt,.docx,.pdf"/><div class="dz-icon">📁</div><div style="font-size:13px;color:var(--muted)" data-i18n="upload_txt_docx_pdf">Tải lên TXT / DOCX / PDF</div></div>
+        </div>
+        <button class="btn btn-ghost btn-sm" id="correct-import-btn" style="align-self:flex-start" data-i18n="correct_import">📥 Nhập từ OCR</button>
+        <button class="btn btn-primary" id="correct-run-btn" style="align-self:flex-start" data-i18n="correct_run">✨ Sửa lỗi</button>
+      </div>
+    </div>
+    <div class="ws-panel">
+      <div class="panel-header"><span style="font-size:18px">✅</span><span class="panel-title" data-i18n="correct_result">Kết quả</span><span id="correct-changes" class="meta-badge" style="margin-left:auto"></span></div>
+      <div class="panel-body">
+        <div class="output-empty" id="correct-out-empty"><div class="oe-icon">✨</div><div data-i18n="correct_empty">Văn bản đã sửa sẽ hiển thị ở đây</div></div>
+        <div id="correct-out-loading" style="display:none" class="output-empty"><div class="spin" style="width:28px;height:28px;border-width:3px"></div><div data-i18n="correct_running">Đang sửa…</div></div>
+        <div id="correct-out-area" style="display:none;flex-direction:column;gap:10px">
+          <textarea id="correct-output" class="output-text" readonly></textarea>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-sm" id="correct-copy-btn" data-i18n="copy">📋 Sao chép</button>
+            <button class="btn btn-ghost btn-sm" id="correct-dl-btn" data-i18n="download_txt">⬇ TXT</button>
+          </div>
+          <div class="slbl" data-i18n="send_to">Gửi đến</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-sm" id="correct-send-translate" data-i18n="send_translate">→ Dịch thuật</button>
+            <button class="btn btn-ghost btn-sm" id="correct-send-summarize" data-i18n="send_summarize">→ Tóm tắt</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TRANSLATE ══════════════════════════════════════ -->
+<div id="view-translate" class="view v-hidden" style="display:flex;flex-direction:column">
+  <!-- Engine selector bar -->
+  <div class="engine-bar" id="translate-engine-bar">
+    <span class="slbl" style="margin:0;white-space:nowrap" data-i18n="translate_engine">Công cụ dịch</span>
+    <div class="engine-pills">
+      <button class="engine-pill active" data-engine="auto" id="engine-pill-auto" title="Try Google first, fall back to offline">
+        ⚡ Auto <span class="ep-rec" data-i18n="engine_recommended">Khuyên dùng</span>
+      </button>
+      <button class="engine-pill" data-engine="online" id="engine-pill-online" title="Google Translate (requires internet)">
+        🌐 Online
+      </button>
+      <button class="engine-pill" data-engine="offline" id="engine-pill-offline" title="Local translation model (works offline, no internet)">
+        📴 Offline
+      </button>
+    </div>
+    <div id="engine-status-badge" class="engine-status-badge engine-status-checking">
+      <span class="status-dot"></span><span id="engine-status-text">Checking…</span>
+    </div>
+  </div>
+  <!-- Language + run bar -->
+  <div class="lang-bar">
+    <select id="from-lang" class="lang-select">
+      <option value="auto">Auto Detect</option>
+      <option value="en">English</option>
+      <option value="vi">Vietnamese</option>
+      <option value="zh">Chinese</option>
+      <option value="ja">Japanese</option>
+      <option value="ko">Korean</option>
+      <option value="fr">French</option>
+      <option value="de">German</option>
+      <option value="es">Spanish</option>
+    </select>
+    <button id="swap-langs" class="btn-icon" title="Swap">⇄</button>
+    <select id="to-lang" class="lang-select">
+      <option value="vi">Vietnamese</option>
+      <option value="en">English</option>
+      <option value="zh">Chinese</option>
+      <option value="ja">Japanese</option>
+      <option value="ko">Korean</option>
+      <option value="fr">French</option>
+      <option value="de">German</option>
+      <option value="es">Spanish</option>
+    </select>
+    <div style="flex:1"></div>
+    <button class="btn btn-primary" id="translate-run-btn">🌐 Translate</button>
+  </div>
+  <div class="translate-panels">
+    <div class="ws-panel left">
+      <div class="panel-header">
+        <span class="panel-title" data-i18n="translate_input_label">Văn bản đầu vào</span>
+        <div class="input-tabs" style="margin-left:auto">
+          <button class="tab-btn active" data-tab="translate-paste-tab" data-i18n="paste_tab">Dán văn bản</button>
+          <button class="tab-btn" data-tab="translate-file-tab" data-i18n="upload_tab">Tải lên</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div id="translate-paste-tab" class="tab-pane active">
+          <textarea id="translate-input" class="ai-textarea" style="min-height:300px" data-i18n-placeholder="translate_placeholder" placeholder="Nhập văn bản cần dịch…"></textarea>
+        </div>
+        <div id="translate-file-tab" class="tab-pane">
+          <div class="drop-zone"><input type="file" id="translate-file-input" accept=".txt,.docx,.pdf"/><div class="dz-icon">📁</div><div style="font-size:13px;color:var(--muted)" data-i18n="upload_txt_docx_pdf">Tải lên TXT / DOCX / PDF</div></div>
+        </div>
+        <button class="btn btn-ghost btn-sm" id="translate-import-btn" style="align-self:flex-start" data-i18n="translate_import">📥 Nhập từ OCR</button>
+      </div>
+    </div>
+    <div class="ws-panel">
+      <div class="panel-header"><span class="panel-title" data-i18n="translate_result">Kết quả dịch</span><span id="translate-engine-used-badge" class="meta-badge" style="margin-left:auto;display:none"></span></div>
+      <div class="panel-body">
+        <div class="output-empty" id="translate-out-empty"><div class="oe-icon">🌐</div><div data-i18n="translate_empty">Bản dịch sẽ hiển thị ở đây</div></div>
+        <div id="translate-out-loading" style="display:none" class="output-empty"><div class="spin" style="width:28px;height:28px;border-width:3px"></div><div data-i18n="translate_running">Đang dịch…</div></div>
+        <div id="translate-out-area" style="display:none;flex-direction:column;gap:10px">
+          <textarea id="translate-output" class="output-text" readonly style="min-height:300px"></textarea>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-sm" id="translate-copy-btn" data-i18n="copy">📋 Sao chép</button>
+            <button class="btn btn-ghost btn-sm" id="translate-dl-btn" data-i18n="download_txt">⬇ TXT</button>
+          </div>
+          <div class="slbl" data-i18n="send_to">Gửi đến</div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-ghost btn-sm" id="translate-send-correct" data-i18n="send_correct">→ Sửa lỗi</button>
+            <button class="btn btn-ghost btn-sm" id="translate-send-summarize" data-i18n="send_summarize">→ Tóm tắt</button>
+            <button class="btn btn-ghost btn-sm" id="translate-ask-agent" title="Ask the SmartDocs Agent about this document">🤖 Ask agent</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SUMMARIZE ══════════════════════════════════════ -->
+<div id="view-summarize" class="view v-hidden">
+
+  <!-- ── Top control bar ─────────────────────────────────── -->
+  <div class="sum-ctrl-bar" id="summarize-ctrl-bar">
+
+    <!-- Row 1: Pipeline mode -->
+    <div class="sum-ctrl-row">
+      <span class="slbl" style="margin:0;white-space:nowrap" data-i18n="sum_mode_label">Summary Mode</span>
+      <div class="sum-mode-pills">
+        <button class="sum-mode-pill active" data-summary-mode="fast" id="sum-mode-pill-fast">
+          ⚡ <span data-i18n="sum_mode_fast">Fast Summary</span>
+          <span class="ep-rec" data-i18n="sum_mode_fast_rec">Recommended</span>
+        </button>
+        <button class="sum-mode-pill" data-summary-mode="ai_rewrite" id="sum-mode-pill-ai">
+          🤖 <span data-i18n="sum_mode_ai">AI Rewrite</span>
+        </button>
+      </div>
+
+      <!-- AI status badge (visible in AI Rewrite mode only) -->
+      <div id="ai-status-badge" class="ai-status-badge" style="display:none">
+        <span class="ai-status-dot checking"></span>
+        <span id="ai-status-text" data-i18n="sum_ai_checking">Checking…</span>
+      </div>
+
+      <!-- Fast engine pills (visible in Fast mode only) -->
+      <div id="fast-engine-wrap" class="engine-pills" style="margin-left:auto">
+        <button class="sum-engine-pill active" data-engine="auto" id="sum-engine-pill-auto"
+          title="Auto: picks the best summary engine for the detected language">
+          ⚡ Auto <span class="ep-rec" data-i18n="engine_recommended">Recommended</span>
+        </button>
+        <button class="sum-engine-pill" data-engine="fast" id="sum-engine-pill-fast"
+          title="Fast summary — any language">
+          🔤 <span data-i18n="sum_engine_fast">Fast</span>
+        </button>
+        <button class="sum-engine-pill" data-engine="smart" id="sum-engine-pill-smart"
+          title="Smart summary — best for Vietnamese">
+          🧠 <span data-i18n="sum_engine_smart">Smart (VI)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Row 2: Output style -->
+    <div class="sum-ctrl-row" style="border-top:1px solid var(--border);padding-top:10px;margin-top:0">
+      <span class="slbl" style="margin:0;white-space:nowrap" data-i18n="summarize_mode">Output Style</span>
+      <div class="mode-pills">
+        <button class="mode-pill active" data-mode="short">📄 <span data-i18n="mode_short_lbl">Short</span></button>
+        <button class="mode-pill" data-mode="bullets">• <span data-i18n="mode_bullets_lbl">Bullets</span></button>
+        <button class="mode-pill" data-mode="executive">📊 <span data-i18n="mode_exec_lbl">Executive</span></button>
+      </div>
+    </div>
+
+  </div><!-- /sum-ctrl-bar -->
+
+  <div class="tool-workspace">
+    <div class="ws-panel left">
+      <div class="panel-header">
+        <span style="font-size:18px">📝</span>
+        <span class="panel-title" data-i18n="summarize_title">Summarize</span>
+        <div class="input-tabs" style="margin-left:auto">
+          <button class="tab-btn active" data-tab="summarize-paste-tab" data-i18n="paste_tab">Paste</button>
+          <button class="tab-btn" data-tab="summarize-file-tab" data-i18n="upload_tab">Upload</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div id="summarize-paste-tab" class="tab-pane active">
+          <textarea id="summarize-input" class="ai-textarea" style="min-height:280px"
+            placeholder="Paste text to summarize…"
+            data-i18n-placeholder="summarize_placeholder"></textarea>
+        </div>
+        <div id="summarize-file-tab" class="tab-pane">
+          <div class="drop-zone">
+            <input type="file" id="summarize-file-input" accept=".txt,.docx,.pdf"/>
+            <div class="dz-icon">📁</div>
+            <div style="font-size:13px;color:var(--muted)" data-i18n="upload_txt_docx_pdf">Tải lên TXT / DOCX / PDF</div>
+          </div>
+        </div>
+        <button class="btn btn-ghost btn-sm" id="summarize-import-btn"
+          style="align-self:flex-start" data-i18n="summarize_import">📥 Nhập từ OCR</button>
+        <button class="btn btn-primary" id="summarize-run-btn"
+          style="align-self:flex-start" data-i18n="summarize_run">📝 Tóm tắt</button>
+      </div>
+    </div>
+
+    <div class="ws-panel">
+      <div class="panel-header">
+        <span style="font-size:18px">💡</span>
+        <span class="panel-title" data-i18n="summarize_result">Bản tóm tắt</span>
+        <span id="summarize-meta" class="meta-badge" style="margin-left:auto"></span>
+      </div>
+      <div class="panel-body">
+        <div class="output-empty" id="summarize-out-empty">
+          <div class="oe-icon">📝</div>
+          <div data-i18n="summarize_empty">Bản tóm tắt sẽ hiển thị ở đây</div>
+        </div>
+        <div id="summarize-out-loading" style="display:none" class="output-empty">
+          <div class="spin" style="width:28px;height:28px;border-width:3px"></div>
+          <div data-i18n="summarize_running">Đang tóm tắt…</div>
+        </div>
+        <div id="summarize-out-area" style="display:none;flex-direction:column;gap:10px">
+          <textarea id="summarize-output" class="output-text" readonly style="min-height:280px"></textarea>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-sm" id="summarize-copy-btn" data-i18n="copy">📋 Sao chép</button>
+            <button class="btn btn-ghost btn-sm" id="summarize-dl-btn" data-i18n="download_txt">⬇ TXT</button>
+          </div>
+          <div class="slbl" data-i18n="send_to">Gửi đến</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn-ghost btn-sm" id="summarize-send-translate" data-i18n="send_translate">→ Dịch thuật</button>
+            <button class="btn btn-ghost btn-sm" id="summarize-ask-agent" title="Ask the SmartDocs Agent about this document">🤖 Ask agent</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ DOCUMENTS ══════════════════════════════════════ -->
+<div id="view-documents" class="view v-hidden">
+  <div class="docs-wrap">
+    <div class="docs-topbar">
+      <div>
+        <div class="docs-title" data-i18n="docs_title">📁 Tài liệu</div>
+        <div class="docs-sub" data-i18n="docs_sub">Quản lý các tệp đã tải lên</div>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="docs-refresh" data-i18n="docs_refresh">↻ Làm mới</button>
+    </div>
+    <div class="docs-filters">
+      <div style="display:flex;gap:6px">
+        <button class="filter-pill active" data-filter="all" data-i18n="docs_all">Tất cả</button>
+        <button class="filter-pill" data-filter="image" data-i18n="docs_images">🖼 Hình ảnh</button>
+        <button class="filter-pill" data-filter="pdf" data-i18n="docs_pdfs">📜 PDF</button>
+        <button class="filter-pill" data-filter="text" data-i18n="docs_text">📄 Văn bản</button>
+      </div>
+      <input type="search" id="docs-search" data-i18n-placeholder="docs_search" placeholder="Tìm kiếm tệp…"/>
+    </div>
+    <div id="docs-stats" class="docs-stats"></div>
+    <div class="docs-table-card">
+      <div id="docs-loading" class="output-empty" style="display:none"><div class="spin" style="width:26px;height:26px;border-width:3px"></div><div data-i18n="docs_loading">Đang tải…</div></div>
+      <div id="docs-empty" class="output-empty" style="display:none"><div class="oe-icon">📁</div><div data-i18n="docs_empty">Chưa có tài liệu nào. Tải lên tệp để bắt đầu.</div></div>
+      <table class="docs-table" id="docs-table">
+        <thead>
+          <tr>
+            <th style="width:50px">#</th>
+            <th data-i18n="docs_col_file">Tệp</th>
+            <th data-i18n="docs_col_type">Loại</th>
+            <th data-i18n="docs_col_size">Kích thước</th>
+            <th id="docs-owner-col" style="display:none" data-i18n="docs_col_owner">Chủ sở hữu</th>
+            <th data-i18n="docs_col_uploaded">Ngày tải lên</th>
+            <th data-i18n="docs_col_status">Trạng thái</th>
+            <th data-i18n="docs_col_actions">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="docs-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="docs-pagination" id="docs-pagination" style="display:none">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="pagination-size">
+          <select id="pagin-size-select" class="pagin-select">
+            <option value="10">10 / page</option>
+            <option value="20" selected>20 / page</option>
+            <option value="50">50 / page</option>
+            <option value="100">100 / page</option>
+          </select>
+        </div>
+        <div class="pagination-info">
+          <span data-i18n="pagination_showing">Showing</span> <span id="pagin-range">0–0</span> <span data-i18n="pagination_of">of</span> <span id="pagin-total">0</span> <span data-i18n="pagination_items">files</span>
+        </div>
+      </div>
+      
+      <div class="pagination-controls">
+        <button class="btn btn-ghost btn-sm" id="pagin-prev" disabled title="Previous Page">←</button>
+        <div id="pagin-pages" class="pagination-pages"></div>
+        <button class="btn btn-ghost btn-sm" id="pagin-next" disabled title="Next Page">→</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AI CHAT ═══════════════════════════════════════ -->
+<div id="view-chat" class="view v-hidden">
+  <div class="chat-topbar">
+    <div class="chat-topbar-title">🤖 SmartDocs AI</div>
+    <div class="chat-mode-pills">
+      <button class="chat-mode-pill active" data-mode="doc_current" id="chat-mode-doc-current">📄 Tài liệu hiện tại</button>
+      <button class="chat-mode-pill" data-mode="general" id="chat-mode-general">💬 Trợ lý chung</button>
+    </div>
+    <div class="chat-model-badge loading" id="chat-model-badge">
+      <div class="chat-model-dot"></div>
+      <span id="chat-model-badge-text">Đang tải mô hình…</span>
+    </div>
+  </div>
+  <div class="chat-layout">
+    <div class="chat-sidebar">
+      <div class="chat-history-panel">
+        <div class="chat-sidebar-header chat-history-head">
+          <span data-i18n="chat.history">Lịch sử trò chuyện</span>
+          <button id="chat-new-btn" class="btn btn-ghost btn-sm chat-new-btn" title="Cuộc trò chuyện mới" data-i18n-title="chat.new">+ Mới</button>
+        </div>
+        <div id="chat-history-list" class="chat-history-list">
+          <div class="chat-history-empty" data-i18n="chat.history_empty">Chưa có cuộc trò chuyện nào.</div>
+        </div>
+      </div>
+      <div class="chat-sidebar-header">Ngữ cảnh tài liệu</div>
+      <div id="chat-doc-info" class="chat-doc-empty">Chưa có tài liệu. Hãy chạy OCR trước.</div>
+      <button class="btn btn-ghost btn-sm chat-index-btn" id="chat-index-btn" style="display:none">⚡ Lập chỉ mục tài liệu</button>
+      <div class="chat-sidebar-tips">
+        <div class="slbl" style="margin-bottom:8px">Câu hỏi gợi ý</div>
+        <div class="chat-tip-item" data-tip="Tài liệu này nói về điều gì?"><span class="chat-tip-icon">📋</span>Tài liệu này nói về điều gì?</div>
+        <div class="chat-tip-item" data-tip="Tóm tắt các ý chính của tài liệu"><span class="chat-tip-icon">📝</span>Tóm tắt các ý chính</div>
+        <div class="chat-tip-item" data-tip="Những từ khóa quan trọng trong tài liệu là gì?"><span class="chat-tip-icon">🔑</span>Từ khóa quan trọng là gì?</div>
+        <div class="chat-tip-item" data-tip="Giải thích nội dung OCR này"><span class="chat-tip-icon">🔍</span>Giải thích nội dung OCR</div>
+        <div class="chat-tip-item" data-tip="Dịch phần kết luận sang tiếng Anh"><span class="chat-tip-icon">🌐</span>Dịch kết luận sang tiếng Anh</div>
+        <div class="chat-tip-item" data-tip="Tìm phần đề cập đến số liệu hay dữ liệu"><span class="chat-tip-icon">📊</span>Tìm phần có số liệu</div>
+      </div>
+    </div>
+    <div class="chat-main">
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-welcome" id="chat-welcome">
+          <div class="chat-welcome-icon">🤖</div>
+          <div class="chat-welcome-title">SmartDocs AI</div>
+          <div class="chat-welcome-sub">Trợ lý AI tích hợp OCR. Hỏi về tài liệu bằng tiếng Việt hoặc tiếng Anh.</div>
+        </div>
+      </div>
+      <div class="chat-input-bar">
+        <div class="chat-input-wrap">
+          <textarea id="chat-input" placeholder="Hỏi về tài liệu… (Enter gửi, Shift+Enter xuống dòng)" rows="1"></textarea>
+        </div>
+        <button class="chat-send-btn" id="chat-send-btn" title="Gửi (Enter)">➤</button>
+        <button class="btn btn-ghost btn-sm" id="chat-clear-btn" title="Xóa lịch sử" style="width:42px;height:42px;padding:0;border-radius:11px;font-size:16px">🗑</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SETTINGS ══════════════════════════════════════ -->
+<div id="view-settings" class="view v-hidden">
+  <div class="ws-panel" style="max-width:860px;margin:0 auto 18px">
+    <div class="panel-header">
+      <div class="panel-title" data-i18n="settings_privacy_title">🔒 Privacy — where AI processing happens</div>
+    </div>
+    <div class="panel-body">
+      <div id="settings-privacy-badge" class="engine-status-badge engine-status-checking"
+           role="status" aria-live="polite">
+        <span class="status-dot"></span><span id="settings-privacy-text" data-i18n="settings_loading">Loading…</span>
+      </div>
+      <p class="slbl" style="margin:10px 0 6px" data-i18n="settings_privacy_desc">
+        “Allow cloud processing” lets AI features send document text, retrieval
+        excerpts and prompts to a configured cloud provider. “Local only” keeps
+        everything on this machine (offline translation, local models).</p>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap">
+        <button id="settings-privacy-toggle" class="btn btn-primary" disabled
+                data-i18n="settings_loading">Loading…</button>
+        <span id="settings-privacy-note" class="slbl" aria-live="polite"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ws-panel" style="max-width:860px;margin:0 auto">
+    <div class="panel-header">
+      <div class="panel-title" data-i18n="settings_keys_title">🔑 Cloud provider API keys</div>
+    </div>
+    <div class="panel-body">
+      <p class="slbl" style="margin:0 0 10px" data-i18n="settings_keys_desc">
+        Keys are stored in your operating system’s credential store (macOS
+        Keychain / Windows Credential Manager / Linux Secret Service) — never in
+        files or the database. Only the last 4 characters are ever shown.</p>
+      <div id="settings-keyring-warn" class="slbl" style="display:none;color:var(--warn);margin:0 0 10px"
+           role="alert"></div>
+      <div id="settings-providers"><!-- one row per provider, rendered by JS --></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /views -->
+</div><!-- /app -->
+
+<div id="box-tooltip"></div>
+<div id="toast-wrap"></div>
+
+<script src="/static/vendor/marked.min.js"></script>
+<script src="/static/vendor/katex/katex.min.js"></script>
+<script src="/static/ocr-canvas.js?v=2026.06.14.1"></script>
+<script src="/static/app.js?v=2026.06.19.2"></script>
+<script src="/static/chat.js?v=2026.06.14.1"></script>
+<script>
+// Fetch current user and populate navbar; redirect to login if session expired
+fetch('/api/auth/me')
+  .then(r => { if (r.status === 401) { window.location.href = '/login'; } return r.json(); })
+  .then(u => {
+    if (!u || !u.username) return;
+    document.getElementById('nav-username').textContent = u.username;
+    const badge = document.getElementById('nav-role');
+    badge.textContent = u.role;
+    if (u.role === 'admin') {
+      badge.style.background = 'rgba(245,158,11,.18)';
+      badge.style.color = '#f59e0b';
+      badge.style.border = '1px solid rgba(245,158,11,.3)';
+      // Show admin panel link + the Admin dashboard card (hidden by default)
+      const adminLink = document.getElementById('nav-admin-link');
+      if (adminLink) adminLink.style.display = 'inline-flex';
+      const adminCard = document.getElementById('home-card-admin');
+      if (adminCard) adminCard.style.display = '';
+    } else {
+      badge.style.background = 'rgba(59,130,246,.15)';
+      badge.style.color = '#60a5fa';
+      badge.style.border = '1px solid rgba(59,130,246,.25)';
+    }
+  })
+  .catch(() => {});
+
+// Intercept 401 from any API call and redirect to login
+const _origFetch = window.fetch;
+window.fetch = async (...args) => {
+  const r = await _origFetch(...args);
+  if (r.status === 401 && args[0]?.toString().startsWith('/api/')) {
+    window.location.href = '/login';
+  }
+  return r;
+};
+</script>
+</body>
+</html>

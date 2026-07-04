@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{% block title %}Admin{% endblock %} — SmartDocs Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#070c18;--surf:#0d1526;--card:#131f35;--border:#1e2d4a;--border2:#253a5e;
+          --text:#f1f5f9;--muted:#64748b;--muted2:#94a3b8;
+          --accent:#3b82f6;--purple:#8b5cf6;--success:#10b981;--warn:#f59e0b;--danger:#ef4444}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+    a{color:inherit;text-decoration:none}
+    /* Nav */
+    nav{display:flex;align-items:center;gap:4px;padding:0 20px;height:52px;
+        background:var(--surf);border-bottom:1px solid var(--border);flex-shrink:0;position:sticky;top:0;z-index:20}
+    .logo{display:flex;align-items:center;gap:9px;margin-right:16px}
+    .logo-icon{width:32px;height:32px;background:linear-gradient(135deg,#f59e0b,#d97706);
+               border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+    .logo-text{font-size:13px;font-weight:700}.logo-sub{font-size:10px;color:var(--warn);font-weight:600}
+    .nl{padding:5px 12px;border-radius:7px;font-size:12px;font-weight:500;color:var(--muted2);transition:all .15s;cursor:pointer;border:none;background:none}
+    .nl:hover,.nl.active{color:var(--text);background:var(--card)}
+    .nl.active{color:var(--warn)}
+    .spacer{flex:1}
+    .back-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;
+              background:var(--card);border:1px solid var(--border);border-radius:8px;
+              font-size:12px;color:var(--muted2);transition:all .15s}
+    .back-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .logout-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;
+                background:var(--card);border:1px solid var(--border);border-radius:8px;
+                font-size:12px;color:var(--muted2);transition:all .15s}
+    .logout-btn:hover{border-color:var(--danger);color:var(--danger)}
+    .admin-badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;
+                 background:rgba(245,158,11,.18);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+    /* Layout */
+    .page{max-width:1200px;margin:0 auto;padding:28px 20px;flex:1}
+    .page-hdr{margin-bottom:22px}
+    .page-title{font-size:1.4rem;font-weight:800;margin-bottom:3px}
+    .page-sub{font-size:13px;color:var(--muted)}
+    .breadcrumb{font-size:12px;color:var(--muted);margin-bottom:6px}
+    .breadcrumb a{color:var(--accent)}
+    /* Cards */
+    .card{background:var(--surf);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+    .card-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+    .card-title{font-size:13px;font-weight:600}
+    .card-body{padding:18px}
+    /* Stat grid */
+    .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+    .stat-card{background:var(--surf);border:1px solid var(--border);border-radius:14px;padding:20px}
+    .stat-val{font-size:2rem;font-weight:800;background:linear-gradient(135deg,#60a5fa,#a78bfa);
+              -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .stat-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+    /* Table */
+    .tbl-wrap{overflow-x:auto; overflow-y:auto; max-height: 600px; border-radius: 0 0 14px 14px}
+    table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
+    thead th{position:sticky; top:0; z-index: 10; padding:10px 8px;text-align:left;font-size:11px;font-weight:600;color:var(--muted);
+             text-transform:uppercase;letter-spacing:.06em;background:var(--card);
+             border-bottom:1px solid var(--border);white-space:nowrap;box-shadow: inset 0 -1px 0 var(--border)}
+    tbody tr{border-bottom:1px solid rgba(30,45,74,.5);transition:background .12s}
+    tbody tr:last-child{border-bottom:none}
+    tbody tr:hover{background:rgba(59,130,246,.04)}
+    td{padding:10px 8px;vertical-align:middle}
+    .td-muted{color:var(--muted);font-size:12px}
+    /* Badges */
+    .badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;display:inline-flex;align-items:center;gap:4px}
+    .badge-admin{background:rgba(245,158,11,.18);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+    .badge-user{background:rgba(59,130,246,.15);color:#60a5fa;border:1px solid rgba(59,130,246,.25)}
+    .badge-success{background:rgba(16,185,129,.12);color:#10b981;border:1px solid rgba(16,185,129,.25)}
+    .badge-danger{background:rgba(239,68,68,.12);color:#ef4444;border:1px solid rgba(239,68,68,.25)}
+    .badge-gray{background:rgba(100,116,139,.12);color:#94a3b8;border:1px solid rgba(100,116,139,.25)}
+    .badge-purple{background:rgba(139,92,246,.12);color:#a78bfa;border:1px solid rgba(139,92,246,.25)}
+    .badge-warn{background:rgba(245,158,11,.12);color:#f59e0b;border:1px solid rgba(245,158,11,.25)}
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:9px;
+         font-size:12px;font-weight:600;cursor:pointer;border:1px solid transparent;
+         font-family:'Inter',sans-serif;transition:all .15s}
+    .btn-primary{background:var(--accent);color:#fff}
+    .btn-primary:hover{opacity:.85}
+    .btn-ghost{background:var(--card);border-color:var(--border);color:var(--muted2)}
+    .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+    .btn-danger{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#ef4444}
+    .btn-danger:hover{background:rgba(239,68,68,.2)}
+    .btn-warn{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:#f59e0b}
+    .btn-warn:hover{background:rgba(245,158,11,.2)}
+    .btn-sm{padding:4px 10px;font-size:11px}
+    /* Form */
+    input[type=text],input[type=email],input[type=password],select{
+      width:100%;background:var(--card);border:1px solid var(--border);border-radius:9px;
+      color:var(--text);font-size:13px;padding:9px 13px;outline:none;
+      font-family:'Inter',sans-serif;transition:border-color .2s}
+    input:focus,select:focus{border-color:var(--accent)}
+    select option{background:var(--surf)}
+    .form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:10px}
+    .form-label{font-size:11px;font-weight:600;color:var(--muted2);text-transform:uppercase;
+                letter-spacing:.06em;margin-bottom:4px;display:block}
+    /* Flash messages */
+    .flashes{margin-bottom:16px;display:flex;flex-direction:column;gap:6px}
+    .flash{padding:10px 14px;border-radius:9px;font-size:13px;display:flex;align-items:center;gap:8px}
+    .flash-success{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:#10b981}
+    .flash-error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#ef4444}
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;
+                   align-items:center;justify-content:center;z-index:100}
+    .modal-overlay.open{display:flex}
+    .modal{background:var(--surf);border:1px solid var(--border);border-radius:16px;
+           padding:24px;width:420px;max-width:92vw}
+    .modal-title{font-size:15px;font-weight:700;margin-bottom:16px}
+    .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+    /* Log action colors */
+    .act-login{color:#60a5fa}.act-logout{color:#94a3b8}
+    .act-upload{color:#a78bfa}.act-ocr{color:#10b981}
+    .act-translate{color:#f59e0b}.act-correct{color:#38bdf8}
+    .act-summarize{color:#fb923c}.act-delete_doc{color:#ef4444}
+    .act-admin{color:#f59e0b}
+    /* Pagination */
+    .pagination{display:flex;gap:6px;margin-top:16px;align-items:center}
+    .pg-btn{padding:5px 12px;border-radius:7px;background:var(--card);border:1px solid var(--border);
+            color:var(--muted2);font-size:12px;cursor:pointer;font-family:'Inter',sans-serif}
+    .pg-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .pg-btn.current{background:var(--accent);border-color:var(--accent);color:#fff}
+    .pg-select{background:var(--card);border:1px solid var(--border);border-radius:6px;
+               color:var(--muted2);font-size:11px;padding:0 4px;outline:none;cursor:pointer;
+               height:24px;line-height:22px;transition:all .15s}
+    .pg-select:hover{border-color:var(--accent);color:var(--text)}
+    /* User section in files */
+    .user-section{margin-bottom:20px}
+    .user-section-hdr{display:flex;align-items:center;gap:10px;padding:10px 16px;
+                      background:rgba(0,0,0,.2);border-bottom:1px solid var(--border)}
+    .avatar{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;
+            justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+    .avatar-admin{background:linear-gradient(135deg,#78350f,#7f1d1d);color:#fbbf24}
+    .avatar-user{background:linear-gradient(135deg,#1d4ed8,#4c1d95);color:#93c5fd}
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body>
+<nav>
+  <div class="logo">
+    <div class="logo-icon">📄</div>
+    <div><div class="logo-text">Admin Center</div><div class="logo-sub">SmartDocs Platform</div></div>
+  </div>
+  <a class="nl {% if request.endpoint == 'admin.dashboard' %}active{% endif %}" href="{{ url_for('admin.dashboard') }}" data-alng="nav_dash">📊 Dashboard</a>
+  <a class="nl {% if request.endpoint == 'admin.users' %}active{% endif %}" href="{{ url_for('admin.users') }}" data-alng="nav_users">👥 Users</a>
+  <a class="nl {% if request.endpoint == 'admin.logs' %}active{% endif %}" href="{{ url_for('admin.logs') }}" data-alng="nav_logs">📋 Logs</a>
+  <a class="nl {% if request.endpoint == 'admin.files' %}active{% endif %}" href="{{ url_for('admin.files') }}" data-alng="nav_files">📁 Files</a>
+  <div class="spacer"></div>
+  <div style="display:flex;gap:2px;background:#131f35;border:1px solid #1e2d4a;border-radius:8px;padding:2px;margin-right:8px">
+    <button onclick="_aLang('vi')" id="alb-vi" style="padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;border:none;background:none;color:#64748b;cursor:pointer">VI</button>
+    <button onclick="_aLang('en')" id="alb-en" style="padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;border:none;background:none;color:#64748b;cursor:pointer">EN</button>
+  </div>
+  <span style="font-size:13px;color:var(--muted2);margin-right:6px">{{ current_user.username }}</span>
+  <span class="admin-badge">admin</span>
+  <a class="back-btn" href="/#home" style="margin-left:8px" id="aback">← Ứng dụng</a>
+  <a class="logout-btn" href="/logout" style="margin-left:6px" id="asignout">⏏ Đăng xuất</a>
+</nav>
+<script>
+(function(){
+  const _k='smartdocs_lang';
+  const _l=localStorage.getItem(_k)||'vi';
+  const _T={
+    vi:{
+      /* nav */
+      back:'← Ứng dụng', out:'⏏ Đăng xuất', nav_dash:'📊 Bảng điều khiển',
+      nav_users:'👥 Người dùng', nav_logs:'📋 Nhật ký', nav_files:'📁 Tệp tin',
+      admin_badge:'quản trị',
+      /* dashboard */
+      dash_title:'📊 Bảng Điều Khiển Admin', dash_sub:'Tổng quan nền tảng và hoạt động gần đây',
+      stat_total_users:'Tổng người dùng', stat_active_users:'Đang hoạt động',
+      stat_total_files:'Tổng tệp tin', stat_ai_tasks:'Tác vụ AI đã chạy',
+      recent_activity:'Hoạt động gần đây', view_all:'Xem tất cả →',
+      /* logs */
+      logs_title:'📋 Nhật ký hoạt động', lbl_action:'Hành động', lbl_user:'Người dùng',
+      lbl_detail:'Chi tiết', lbl_ip:'Địa chỉ IP', lbl_time:'Thời gian',
+      all_actions:'Tất cả hành động', all_users:'Tất cả người dùng',
+      btn_filter:'Lọc', btn_clear:'Xóa bộ lọc',
+      no_logs:'Không có nhật ký nào', deleted_user:'(đã xóa)',
+      prev:'← Trước', next:'Tiếp →', page_of:'Trang',
+      /* files */
+      files_title:'📁 Quản lý tệp tin', files_download:'⬇ Tải xuống',
+      files_empty:'📁 Chưa có tệp nào được tải lên',
+      col_file:'Tệp', col_type:'Loại', col_size:'Kích thước',
+      col_status:'Trạng thái', col_uploaded:'Ngày tải lên', col_download:'Tải xuống',
+      status_active:'Hoạt động', status_inactive:'Không hoạt động',
+      /* users */
+      um_title:'👥 Quản lý người dùng',
+      um_sub:'Tạo, chỉnh sửa và quản lý tất cả tài khoản',
+      stat_admins:'Quản trị viên', stat_active:'Đang hoạt động', stat_inactive:'Không hoạt động',
+      create_user:'Tạo người dùng mới',
+      lbl_username:'Tên đăng nhập *', lbl_email:'Email *',
+      lbl_password:'Mật khẩu *', lbl_role:'Vai trò',
+      role_user:'👤 Người dùng', role_admin:'⚙️ Quản trị viên',
+      role_user_full:'👤 Người dùng — truy cập thông thường',
+      role_admin_full:'⚙️ Quản trị viên — toàn quyền kiểm soát',
+      btn_create:'✓ Tạo tài khoản', btn_cancel:'Hủy',
+      btn_edit:'✏️ Sửa', btn_reset_pw:'🔑 Đặt lại MK',
+      btn_save:'✓ Lưu thay đổi', btn_reset_submit:'🔑 Đặt lại mật khẩu',
+      btn_delete:'🗑 Xóa vĩnh viễn', btn_keep:'Hủy — Giữ lại',
+      search_placeholder:'Tìm kiếm theo tên hoặc email…',
+      filter_all_roles:'Tất cả vai trò', filter_admin:'⚙️ Quản trị viên', filter_user:'👤 Người dùng',
+      filter_all_status:'Tất cả trạng thái', filter_active:'✅ Hoạt động', filter_inactive:'🚫 Không hoạt động',
+      accounts_label:'Tài khoản', shown:'đã hiển thị',
+      col_user:'Người dùng', col_role:'Vai trò', col_actions:'Thao tác',
+      col_files:'Tệp', col_joined:'Ngày tham gia',
+      badge_active:'Hoạt động', badge_inactive:'Không hoạt động',
+      badge_protected:'được bảo vệ', badge_you:'(bạn)',
+      no_users:'Không có người dùng nào khớp với tìm kiếm hoặc bộ lọc.',
+      no_activity:'Chưa có hoạt động nào',
+      /* pagination */
+      pg_showing:'Hiển thị', pg_of:'trong số', pg_per_page:'trang',
+      pg_logs:'nhật ký', pg_files:'tệp tin', pg_users:'người dùng', pg_items:'mục',
+      /* search labels */
+      lbl_search:'Tìm kiếm', search_logs:'Tìm kiếm nhật ký...',
+      search_filename:'Tìm kiếm theo tên tệp...',
+      all_types:'Tất cả loại', all_status:'Tất cả trạng thái',
+      /* edit modal */
+      edit_title:'✏️ Chỉnh sửa người dùng', edit_sub:'Chỉnh sửa tài khoản cho',
+      /* reset modal */
+      reset_title:'🔑 Đặt lại mật khẩu', reset_sub:'Đặt mật khẩu mới cho',
+      reset_new_pw:'Mật khẩu mới', reset_hint:'Tối thiểu 6 ký tự',
+      reset_placeholder:'Nhập mật khẩu mới…',
+      /* delete modal */
+      del_title:'🗑 Xóa người dùng',
+      del_sub:'Hành động này là vĩnh viễn và không thể hoàn tác.',
+      del_warn:'⚠️ Xóa',del_warn2:'cũng sẽ xóa tất cả tệp đã tải lên của họ khỏi hệ thống.',
+      /* title filter row for logs */
+      filter_by_role:'Lọc theo vai trò', filter_by_status:'Lọc theo trạng thái',
+      /* files stats */
+      files_count:'tệp',
+      copy_filename:'✓ Đã copy tên file', copy_log:'✓ Đã copy nội dung'
+    },
+    en:{
+      back:'← App', out:'⏏ Sign Out', nav_dash:'📊 Dashboard',
+      nav_users:'👥 Users', nav_logs:'📋 Logs', nav_files:'📁 Files',
+      admin_badge:'admin',
+      dash_title:'📊 Admin Dashboard', dash_sub:'Platform overview and recent activity',
+      stat_total_users:'Total Users', stat_active_users:'Active Users',
+      stat_total_files:'Total Files', stat_ai_tasks:'AI Tasks Run',
+      recent_activity:'Recent Activity', view_all:'View All →',
+      logs_title:'📋 Activity Logs', lbl_action:'Action', lbl_user:'User',
+      lbl_detail:'Detail', lbl_ip:'IP', lbl_time:'Time',
+      all_actions:'All actions', all_users:'All users',
+      btn_filter:'Filter', btn_clear:'Clear',
+      no_logs:'No logs found', deleted_user:'(deleted)',
+      prev:'← Prev', next:'Next →', page_of:'Page',
+      files_title:'📁 File Oversight', files_download:'⬇ Download',
+      files_empty:'📁 No files uploaded yet',
+      col_file:'File', col_type:'Type', col_size:'Size',
+      col_status:'Status', col_uploaded:'Uploaded', col_download:'Download',
+      status_active:'Active', status_inactive:'Inactive',
+      um_title:'👥 User Management',
+      um_sub:'Create, edit, and manage all platform accounts',
+      stat_admins:'Admins', stat_active:'Active', stat_inactive:'Inactive',
+      create_user:'Create New User',
+      lbl_username:'Username *', lbl_email:'Email *',
+      lbl_password:'Password *', lbl_role:'Role',
+      role_user:'👤 User', role_admin:'⚙️ Admin',
+      role_user_full:'👤 User — standard access',
+      role_admin_full:'⚙️ Admin — full control',
+      btn_create:'✓ Create Account', btn_cancel:'Cancel',
+      btn_edit:'✏️ Edit', btn_reset_pw:'🔑 Reset PW',
+      btn_save:'✓ Save Changes', btn_reset_submit:'🔑 Reset Password',
+      btn_delete:'🗑 Delete Permanently', btn_keep:'Cancel — Keep User',
+      search_placeholder:'Search by username or email…',
+      filter_all_roles:'All Roles', filter_admin:'⚙️ Admin', filter_user:'👤 User',
+      filter_all_status:'All Status', filter_active:'✅ Active', filter_inactive:'🚫 Inactive',
+      accounts_label:'Accounts', shown:'shown',
+      col_user:'User', col_role:'Role', col_actions:'Actions',
+      col_files:'Files', col_joined:'Joined',
+      badge_active:'Active', badge_inactive:'Inactive',
+      badge_protected:'protected', badge_you:'(you)',
+      no_users:'No users match your search or filters.',
+      no_activity:'No activity yet',
+      /* pagination */
+      pg_showing:'Showing', pg_of:'of', pg_per_page:'page',
+      pg_logs:'logs', pg_files:'files', pg_users:'users', pg_items:'items',
+      /* search labels */
+      lbl_search:'Search', search_logs:'Search logs...',
+      search_filename:'Search by filename...',
+      all_types:'All types', all_status:'All status',
+      edit_title:'✏️ Edit User', edit_sub:'Editing account for',
+      reset_title:'🔑 Reset Password', reset_sub:'Set a new password for',
+      reset_new_pw:'New Password', reset_hint:'Min. 6 characters recommended',
+      reset_placeholder:'Enter new password…',
+      del_title:'🗑 Delete User',
+      del_sub:'This action is permanent and cannot be undone.',
+      del_warn:'⚠️ Deleting',del_warn2:'will also remove all their uploaded files from the system.',
+      filter_by_role:'Filter by role', filter_by_status:'Filter by status',
+      files_count:'files',
+      copy_filename:'✓ Copied filename', copy_log:'✓ Copied log content'
+    }
+  };
+  const _d=_T[_l]||_T.vi;
+  window._aT=function(k){return _d[k]||(_T.en[k]||k);};
+  window._aLang=function(l){localStorage.setItem(_k,l);location.reload();};
+  window._copy = function(txt, msgKey) {
+    if(!txt) return;
+    function show(ok) {
+      const t = document.createElement('div');
+      if (ok) {
+        t.textContent = msgKey ? _aT(msgKey) : (_l === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!');
+        t.style = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#10b981;color:#fff;padding:8px 22px;border-radius:10px;font-size:12px;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(16,185,129,0.3);animation:fadeinout 2s forwards;';
+      } else {
+        t.textContent = (_l === 'vi' ? '✗ Sao chép thất bại' : '✗ Failed to copy');
+        t.style = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#ef4444;color:#fff;padding:8px 22px;border-radius:10px;font-size:12px;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(239,68,68,0.3);animation:fadeinout 2s forwards;';
+      }
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 2000);
+    }
+    // Hidden-textarea + execCommand fallback for http:// LAN origins (no Clipboard API)
+    // and as a recovery path when the async Clipboard API rejects.
+    function legacy() {
+      try {
+        const ta = document.createElement("textarea"); ta.value = txt;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed"; ta.style.left = "-9999px"; ta.style.top = "0";
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        show(ok);
+      } catch (err) { show(false); }
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(txt).then(() => show(true)).catch(legacy);
+    } else {
+      legacy();
+    }
+  };
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes fadeinout { 0% { opacity:0; top:10px; } 15% { opacity:1; top:20px; } 85% { opacity:1; top:20px; } 100% { opacity:0; top:10px; } }
+    .copyable { cursor: pointer; transition: color .15s; position: relative; }
+    .copyable:hover { color: var(--accent) !important; }
+    .copyable:active { transform: scale(0.98); }
+  `;
+  document.head.appendChild(style);
+  document.addEventListener('DOMContentLoaded',()=>{
+    // Highlight active lang button
+    const bi=document.getElementById('alb-'+_l);
+    if(bi){bi.style.background='#3b82f6';bi.style.color='#fff';}
+    // Apply nav translations
+    const aback=document.getElementById('aback');
+    const asign=document.getElementById('asignout');
+    if(aback) aback.textContent=_d.back;
+    if(asign) asign.textContent=_d.out;
+    // Translate admin badge
+    const ab=document.querySelector('.admin-badge');
+    if(ab) ab.textContent=_d.admin_badge;
+    // Apply all [data-alng] elements
+    document.querySelectorAll('[data-alng]').forEach(el=>{
+      const k=el.getAttribute('data-alng');
+      const v=_aT(k);
+      if(el.tagName==='INPUT'&&el.type!=='submit') el.placeholder=v;
+      else el.textContent=v;
+    });
+    // [data-alng-title] for tooltips
+    document.querySelectorAll('[data-alng-title]').forEach(el=>{
+      el.title=_aT(el.getAttribute('data-alng-title'));
+    });
+    // [data-alng-placeholder] for inputs
+    document.querySelectorAll('[data-alng-placeholder]').forEach(el=>{
+      el.placeholder=_aT(el.getAttribute('data-alng-placeholder'));
+    });
+    // Event delegation for .copyable elements
+    document.addEventListener('click', e => {
+      const el = e.target.closest('.copyable');
+      if (el) {
+        const txt = el.getAttribute('data-copy');
+        const key = el.getAttribute('data-copy-msg');
+        if (txt && window._copy) window._copy(txt, key);
+      }
+    });
+  });
+})();
+</script>
+
+<div class="page">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flashes">
+      {% for cat, msg in messages %}
+      <div class="flash flash-{{ cat }}">{{ '✓' if cat == 'success' else '⚠' }} {{ msg }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</div>
+</body>
+</html>

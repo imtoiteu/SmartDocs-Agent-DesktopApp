@@ -1,0 +1,60 @@
+# SmartDocs Platform — Python Dependencies
+# =========================================
+# Install with: pip install -r requirements.txt
+#
+# Platform notes:
+#   macOS (Apple Silicon): torch + MPS works out of the box
+#   Windows (NVIDIA GPU) : pip install torch --index-url https://download.pytorch.org/whl/cu121
+#   Windows (CPU only)   : pip install torch  (default CPU build)
+
+# ── Web framework ─────────────────────────────────────────────────────────────
+flask>=3.0.0
+flask-login>=0.6.3
+flask-sqlalchemy>=3.1.0
+werkzeug>=3.0.0
+
+# ── OCR ───────────────────────────────────────────────────────────────────────
+# PaddleOCR 3.7.x is required for the "PaddleOCR Modern" engine (PP-StructureV3 +
+# PP-OCRv6). paddlex[ocr-core] provides the real pipeline implementations.
+paddleocr>=3.7.0,<3.8.0
+paddlex[ocr-core]>=3.7.0,<3.8.0
+paddlepaddle>=3.0.0
+paddle-slim>=2.6.0; platform_system != "Darwin"
+layoutparser>=0.3.4
+vietocr>=0.3.13
+pypdfium2>=4.0.0
+Pillow>=10.0.0
+
+# ── NLP / Summarization ───────────────────────────────────────────────────────
+transformers>=4.40.0
+torch>=2.2.0          # CPU build; override for CUDA/MPS (see note above)
+numpy>=1.26.0
+scikit-learn>=1.4.0
+nltk>=3.8.0
+langdetect>=1.0.9
+
+# Vietnamese NLP (optional but recommended)
+underthesea>=6.8.0
+
+# ── Translation ───────────────────────────────────────────────────────────────
+deep-translator>=1.11.4
+argostranslate>=1.9.1
+
+# ── Text file reading ─────────────────────────────────────────────────────────
+python-docx>=1.1.0
+
+# ── Environment / config ──────────────────────────────────────────────────────
+python-dotenv>=1.0.0
+
+# ── AI Chat RAG pipeline ──────────────────────────────────────────────────────
+sentence-transformers>=2.6.0   # multilingual embeddings (VI + EN)
+faiss-cpu>=1.7.4               # vector similarity search (falls back to cosine if missing)
+
+# ── Optional: API fallback for AI Rewrite ─────────────────────────────────────
+# openai>=1.0.0
+# groq>=0.9.0
+torchvision>=0.16.0
+
+# ── Settings: cloud API keys in the OS credential store ──────────────────────
+# (macOS Keychain / Windows Credential Manager / Linux Secret Service)
+keyring>=24.0

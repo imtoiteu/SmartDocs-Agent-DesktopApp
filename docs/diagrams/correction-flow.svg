@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="470" viewBox="0 0 1240 470" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+</defs>
+<rect x="0" y="0" width="1240" height="470" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">15 · Correction Flow</text>
+<line x1="40" y1="50" x2="1200" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<path d="M300.0,135.0 L360.0,181.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M300.0,225.0 L360.0,181.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M630.0,181.0 L655.0,181.0 L655.0,123.0 L690.0,123.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M815.0,150.0 L795.0,200.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M795.0,276.0 L825.0,320.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="797.0" y="289.0" width="26.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="810.0" y="300.5" font-size="10.5" fill="#243B4A" text-anchor="middle">yes</text>
+<path d="M870.0,238.0 L1090.0,238.0 L1090.0,214.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="982.0" y="229.0" width="20.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="992.0" y="240.5" font-size="10.5" fill="#243B4A" text-anchor="middle">no</text>
+<path d="M950.0,344.0 L1090.0,344.0 L1090.0,214.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="60.0" y="110.0" width="240.0" height="50.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="180.0" y="138.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">POST /api/correct</text>
+<rect x="60.0" y="200.0" width="240.0" height="50.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="180.0" y="221.8" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Agent: correct tool</text>
+<text x="180.0" y="234.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">(CorrectionTool)</text>
+<rect x="360.0" y="150.0" width="270.0" height="62.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="495.0" y="178.0" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">correction_service.correct(text)</text>
+<text x="495.0" y="190.2" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">classical · rule-based (no LLM)</text>
+<rect x="690.0" y="96.0" width="250.0" height="54.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="815.0" y="120.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">_basic_clean(text)</text>
+<text x="815.0" y="132.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">whitespace / punctuation regex</text>
+<polygon points="795.0,200.0 870.0,238.0 795.0,276.0 720.0,238.0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="795.0" y="241.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">English text?</text>
+<rect x="700.0" y="320.0" width="250.0" height="48.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="825.0" y="347.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">autocorrect.Speller (en)</text>
+<rect x="990.0" y="150.0" width="200.0" height="64.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1090.0" y="179.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">result</text>
+<text x="1090.0" y="190.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">{corrected, changes, elapsed_ms}</text>
+<rect x="360.0" y="300.0" width="270.0" height="56.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="495.0" y="325.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">Note: OCR &quot;smart mode&quot; line cleanup is a</text>
+<text x="495.0" y="336.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">separate Qwen path (ai_rewrite_service)</text>
+</svg>

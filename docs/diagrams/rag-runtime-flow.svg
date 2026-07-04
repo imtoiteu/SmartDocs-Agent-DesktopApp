@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="760" viewBox="0 0 1360 760" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_B85450" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#B85450"/></marker>
+</defs>
+<rect x="0" y="0" width="1360" height="760" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">18 · RAG Runtime &amp; Index Lifecycle</text>
+<line x1="40" y1="50" x2="1320" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="40" y="92" width="330" height="244" rx="11" fill="#E0F4F5" stroke="#0E8088" stroke-width="1.6"/>
+<path d="M40.0,126.0 L40.0,103.0 A11,11 0 0 1 51.0,92.0 L359.0,92.0 A11,11 0 0 1 370.0,103.0 L370.0,126.0 Z" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="54.0" y="116.0" font-size="14.5" font-weight="700" fill="#10202E">Indexing triggers</text>
+<path d="M370.0,214.0 L430.0,132.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M595.0,154.0 L595.0,168.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M595.0,212.0 L595.0,226.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M595.0,278.0 L680.0,330.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M900.0,365.0 L950.0,360.0" fill="none" stroke="#B85450" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_B85450)"/>
+<path d="M680.0,400.0 L620.0,436.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M620.0,484.0 L620.0,506.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M620.0,554.0 L620.0,576.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M620.0,620.0 L620.0,638.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M810.0,663.0 L880.0,614.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="64.0" y="132.0" width="282.0" height="40.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="205.0" y="154.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">OCR persist → index_document_async</text>
+<rect x="64.0" y="180.0" width="282.0" height="40.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="205.0" y="202.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">read-text persist → index</text>
+<rect x="64.0" y="228.0" width="282.0" height="40.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="205.0" y="250.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">POST /api/chat/index</text>
+<rect x="64.0" y="276.0" width="282.0" height="40.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="205.0" y="298.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">startup: rebuild_indexes_from_db(app)</text>
+<rect x="430.0" y="110.0" width="330.0" height="44.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="595.0" y="135.3" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">index_document(file_id, text)</text>
+<rect x="430.0" y="168.0" width="330.0" height="44.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="595.0" y="192.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">chunk_text (size=400 · overlap=80 · drop ≤20)</text>
+<rect x="430.0" y="226.0" width="330.0" height="52.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="595.0" y="249.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">EmbeddingEngine.embed</text>
+<text x="595.0" y="260.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">SBERT → Hashing fallback · L2-norm</text>
+<path d="M460.0,339.0 a220.0,9.0 0 0 0 440.0,0 v52.0 a220.0,9.0 0 0 1 -440.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="680.0" cy="339.0" rx="220.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="680.0" y="366.7" font-size="9.5" font-weight="700" fill="#15202B" text-anchor="middle">_index_cache[file_id] = DocumentIndex</text>
+<text x="680.0" y="378.2" font-size="9.5" font-weight="700" fill="#15202B" text-anchor="middle">FAISS IndexFlatIP (cosine) · in-memory · per file_id</text>
+<rect x="950.0" y="332.0" width="320.0" height="56.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="1110.0" y="357.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">in-memory — lost on restart</text>
+<text x="1110.0" y="368.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">→ rebuilt from DB artifacts (B4)</text>
+<rect x="950.0" y="120.0" width="320.0" height="50.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="1110.0" y="148.1" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">is_indexed(file_id) · remove_document(file_id)</text>
+<rect x="430.0" y="436.0" width="380.0" height="48.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="620.0" y="462.8" font-size="9.0" font-weight="700" fill="#15202B" text-anchor="middle">retrieve_chunks(query, file_id?, top_k=5, allowed_file_ids)</text>
+<rect x="430.0" y="506.0" width="380.0" height="48.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="620.0" y="527.1" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">select targets: single file_id OR</text>
+<text x="620.0" y="538.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">all owned ∩ allowed_file_ids</text>
+<rect x="430.0" y="576.0" width="380.0" height="44.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="620.0" y="601.1" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">per-index search · FAISS IndexFlatIP</text>
+<rect x="430.0" y="638.0" width="380.0" height="50.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="620.0" y="660.1" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">union + sort by score + top_k</text>
+<text x="620.0" y="671.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">NO threshold · NO reranker</text>
+<rect x="880.0" y="576.0" width="380.0" height="76.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1070.0" y="605.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">(score, chunk, file_id) → consumers:</text>
+<text x="1070.0" y="616.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">chat_service.chat (doc_current / doc_all) ·</text>
+<text x="1070.0" y="627.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">KnowledgeSearchTool / DocumentKnowledge</text>
+</svg>

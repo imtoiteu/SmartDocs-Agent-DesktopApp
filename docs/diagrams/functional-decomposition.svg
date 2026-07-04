@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1760" height="710" viewBox="0 0 1760 710" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_0E8088" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#0E8088"/></marker>
+<marker id="arr_3F61A8" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#3F61A8"/></marker>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_82B366" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#82B366"/></marker>
+<marker id="arr_9673A6" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#9673A6"/></marker>
+<marker id="arr_D79B00" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#D79B00"/></marker>
+</defs>
+<rect x="0" y="0" width="1760" height="710" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">10 · Functional Decomposition</text>
+<line x1="40" y1="50" x2="1720" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="30" y="150" width="330" height="500" rx="11" fill="#E0F4F5" stroke="#0E8088" stroke-width="1.6"/>
+<path d="M30.0,184.0 L30.0,161.0 A11,11 0 0 1 41.0,150.0 L349.0,150.0 A11,11 0 0 1 360.0,161.0 L360.0,184.0 Z" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="44.0" y="174.0" font-size="14.5" font-weight="700" fill="#10202E">Document Processing</text>
+<rect x="372" y="150" width="330" height="500" rx="11" fill="#FFF5EB" stroke="#D79B00" stroke-width="1.6"/>
+<path d="M372.0,184.0 L372.0,161.0 A11,11 0 0 1 383.0,150.0 L691.0,150.0 A11,11 0 0 1 702.0,161.0 L702.0,184.0 Z" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="386.0" y="174.0" font-size="14.5" font-weight="700" fill="#10202E">AI Services</text>
+<rect x="715" y="150" width="330" height="500" rx="11" fill="#EFF6EE" stroke="#82B366" stroke-width="1.6"/>
+<path d="M715.0,184.0 L715.0,161.0 A11,11 0 0 1 726.0,150.0 L1034.0,150.0 A11,11 0 0 1 1045.0,161.0 L1045.0,184.0 Z" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="729.0" y="174.0" font-size="14.5" font-weight="700" fill="#10202E">Knowledge / RAG</text>
+<rect x="1057" y="150" width="330" height="500" rx="11" fill="#F3EFF5" stroke="#9673A6" stroke-width="1.6"/>
+<path d="M1057.0,184.0 L1057.0,161.0 A11,11 0 0 1 1068.0,150.0 L1376.0,150.0 A11,11 0 0 1 1387.0,161.0 L1387.0,184.0 Z" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1071.0" y="174.0" font-size="14.5" font-weight="700" fill="#10202E">Agent</text>
+<rect x="1400" y="150" width="330" height="500" rx="11" fill="#EEF3FB" stroke="#3F61A8" stroke-width="1.6"/>
+<path d="M1400.0,184.0 L1400.0,161.0 A11,11 0 0 1 1411.0,150.0 L1719.0,150.0 A11,11 0 0 1 1730.0,161.0 L1730.0,184.0 Z" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1414.0" y="174.0" font-size="14.5" font-weight="700" fill="#10202E">Platform / Admin</text>
+<path d="M880.0,108.0 L195.0,150.0" fill="none" stroke="#0E8088" stroke-width="1.7" marker-end="url(#arr_0E8088)"/>
+<path d="M880.0,108.0 L537.0,150.0" fill="none" stroke="#D79B00" stroke-width="1.7" marker-end="url(#arr_D79B00)"/>
+<path d="M880.0,108.0 L880.0,150.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<path d="M880.0,108.0 L1222.0,150.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<path d="M880.0,108.0 L1565.0,150.0" fill="none" stroke="#3F61A8" stroke-width="1.7" marker-end="url(#arr_3F61A8)"/>
+<rect x="710.0" y="56.0" width="340.0" height="52.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="880.0" y="78.2" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">SmartDocs-Agent</text>
+<text x="880.0" y="93.5" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Functional Decomposition</text>
+<rect x="42.0" y="194.0" width="306.0" height="42.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="195.0" y="218.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Upload</text>
+<rect x="42.0" y="244.0" width="306.0" height="42.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="195.0" y="268.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">OCR Execution</text>
+<rect x="42.0" y="294.0" width="306.0" height="42.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="195.0" y="318.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Structured Extraction</text>
+<rect x="42.0" y="344.0" width="306.0" height="42.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="195.0" y="368.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Artifact Storage</text>
+<rect x="42.0" y="394.0" width="306.0" height="42.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="195.0" y="418.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Document Library</text>
+<rect x="42.0" y="444.0" width="306.0" height="42.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="195.0" y="468.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Engines: Legacy · Modern · VietOCR · GLM</text>
+<rect x="384.0" y="194.0" width="306.0" height="42.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="537.0" y="218.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Correction</text>
+<rect x="384.0" y="244.0" width="306.0" height="42.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="537.0" y="268.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Translation</text>
+<rect x="384.0" y="294.0" width="306.0" height="42.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="537.0" y="318.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Summarization</text>
+<rect x="384.0" y="344.0" width="306.0" height="42.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="537.0" y="368.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">AI Rewrite</text>
+<rect x="384.0" y="394.0" width="306.0" height="42.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="537.0" y="418.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Text Extraction</text>
+<rect x="727.0" y="194.0" width="306.0" height="42.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="880.0" y="218.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Indexing</text>
+<rect x="727.0" y="244.0" width="306.0" height="42.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="880.0" y="268.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Embedding</text>
+<rect x="727.0" y="294.0" width="306.0" height="42.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="880.0" y="318.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Retrieval</text>
+<rect x="727.0" y="344.0" width="306.0" height="42.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="880.0" y="368.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Ranking</text>
+<rect x="727.0" y="394.0" width="306.0" height="42.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="880.0" y="418.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Citations</text>
+<rect x="1069.0" y="194.0" width="306.0" height="42.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1222.0" y="218.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">AgentCore (reasoning loop)</text>
+<rect x="1069.0" y="244.0" width="306.0" height="42.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1222.0" y="268.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Tool Registry</text>
+<rect x="1069.0" y="294.0" width="306.0" height="42.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1222.0" y="318.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Providers (Groq/Gemini/Local)</text>
+<rect x="1069.0" y="344.0" width="306.0" height="42.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1222.0" y="368.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Knowledge</text>
+<rect x="1069.0" y="394.0" width="306.0" height="42.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1222.0" y="418.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Memory</text>
+<rect x="1069.0" y="444.0" width="306.0" height="42.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1222.0" y="468.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">OCR routing</text>
+<rect x="1069.0" y="494.0" width="306.0" height="42.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1222.0" y="518.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Results</text>
+<rect x="1069.0" y="544.0" width="306.0" height="42.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1222.0" y="561.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Tools: chat · knowledge_search · summarize ·</text>
+<text x="1222.0" y="574.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">translate · correct</text>
+<rect x="1412.0" y="194.0" width="306.0" height="42.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1565.0" y="218.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Authentication</text>
+<rect x="1412.0" y="244.0" width="306.0" height="42.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1565.0" y="268.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">User Management</text>
+<rect x="1412.0" y="294.0" width="306.0" height="42.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1565.0" y="318.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Activity Logs</text>
+<rect x="1412.0" y="344.0" width="306.0" height="42.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1565.0" y="368.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">File Oversight</text>
+<rect x="1412.0" y="394.0" width="306.0" height="42.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1565.0" y="418.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Document Management</text>
+</svg>

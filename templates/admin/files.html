@@ -1,0 +1,138 @@
+{% extends "admin/base.html" %}
+{% block title %}Files{% endblock %}
+{% block content %}
+<div class="page-hdr">
+  <div class="page-title" data-alng="files_title">📁 File Oversight</div>
+  <div class="page-sub">{{ paged.total }} <span id="files-sub-unit">total documents across all users</span></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  const u=document.getElementById('files-sub-unit');
+  if(u&&window._aT){
+    const l=localStorage.getItem('smartdocs_lang')||'vi';
+    u.textContent=l==='vi'?'tài liệu trên toàn hệ thống':'total documents across all users';
+  }
+});
+</script>
+
+<div class="card" style="margin-bottom:16px">
+  <div class="card-body" style="padding:12px 18px">
+    <form method="GET" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px">
+        <label class="form-label" data-alng="lbl_search">Search</label>
+        <input type="text" name="q" value="{{ search_query }}" data-alng-placeholder="search_filename" placeholder="Search filename...">
+      </div>
+      <div>
+        <label class="form-label" data-alng="lbl_user">User</label>
+        <select name="user" style="width:150px">
+          <option value="" data-alng="all_users">All users</option>
+          {% for u in all_users %}
+          <option value="{{ u.username }}" {% if u.username == user_filter %}selected{% endif %}>{{ u.username }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label class="form-label" data-alng="col_type">Type</label>
+        <select name="type" style="width:120px">
+          <option value="" data-alng="all_types">All types</option>
+          <option value="image" {% if type_filter == 'image' %}selected{% endif %}>🖼️ Image</option>
+          <option value="pdf" {% if type_filter == 'pdf' %}selected{% endif %}>📜 PDF</option>
+          <option value="text" {% if type_filter == 'text' %}selected{% endif %}>📄 Text</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label" data-alng="col_status">Status</label>
+        <select name="status" style="width:120px">
+          <option value="" data-alng="all_status">All status</option>
+          <option value="uploaded" {% if status_filter == 'uploaded' %}selected{% endif %}>Uploaded</option>
+          <option value="ocr_done" {% if status_filter == 'ocr_done' %}selected{% endif %}>OCR Done</option>
+          <option value="error" {% if status_filter == 'error' %}selected{% endif %}>Error</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" data-alng="btn_filter">Filter</button>
+      <a href="{{ url_for('admin.files') }}" class="btn btn-ghost" data-alng="btn_clear">Clear</a>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="tbl-wrap">
+    <table style="table-layout:fixed; width:100%">
+      <thead><tr>
+        <th style="width:40px">#</th>
+        <th data-alng="col_file" style="width:250px">File</th>
+        <th data-alng="lbl_user" style="width:12%">User</th>
+        <th data-alng="col_type" style="width:7%">Type</th>
+        <th data-alng="col_size" style="width:8%">Size</th>
+        <th data-alng="col_status" style="width:10%">Status</th>
+        <th data-alng="col_uploaded" style="width:12%">Uploaded</th>
+        <th data-alng="col_download" style="width:100px">Download</th>
+      </tr></thead>
+      <tbody>
+        {% for doc in paged.items %}
+        <tr>
+          <td class="td-muted">{{ (paged.page - 1) * paged.per_page + loop.index }}</td>
+          <td>
+            <div style="display:flex;align-items:center;gap:7px;width:100%">
+              <span style="font-size:14px;flex-shrink:0">
+                {% if doc.file_type in ['.jpg','.jpeg','.png','.webp'] %}🖼️{% elif doc.file_type == '.pdf' %}📜{% else %}📄{% endif %}
+              </span>
+              <span class="copyable" style="font-size:13px;font-weight:500;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{{ doc.filename }}" data-copy="{{ doc.filename }}" data-copy-msg="copy_filename">{{ doc.filename }}</span>
+            </div>
+          </td>
+          <td>
+            <span class="badge {{ 'badge-admin' if doc.owner.role == 'admin' else 'badge-user' }}">{{ doc.owner.username }}</span>
+          </td>
+          <td><span class="badge badge-gray">{{ doc.file_type }}</span></td>
+          <td class="td-muted">
+            {% if doc.file_size < 1048576 %}{{ "%.1f"|format(doc.file_size/1024) }} KB
+            {% else %}{{ "%.1f"|format(doc.file_size/1048576) }} MB{% endif %}
+          </td>
+          <td>
+            <span class="badge {% if doc.status=='ocr_done' %}badge-success{% elif doc.status=='error' %}badge-danger{% else %}badge-gray{% endif %}">
+              {{ doc.status }}
+            </span>
+          </td>
+          <td class="td-muted" style="white-space:nowrap">{{ doc.upload_date | vn_time('%Y-%m-%d %H:%M') }}</td>
+          <td>
+            <a class="btn btn-ghost btn-sm" href="/api/documents/{{ doc.id }}/download" data-alng="files_download">⬇ Download</a>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" style="text-align:center;padding:40px;color:var(--muted)" data-alng="files_empty">📁 No files found</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% if paged.total > 0 %}
+<div class="pagination">
+  <div style="display:flex;align-items:center;gap:8px">
+    <select class="pg-select" onchange="window.location.href='{{ url_for('admin.files', page=1, user=user_filter, type=type_filter, status=status_filter, q=search_query) }}&per_page='+this.value">
+      {% for sz in [10, 20, 50, 100] %}
+      <option value="{{ sz }}" {% if paged.per_page == sz %}selected{% endif %}>{{ sz }} / page</option>
+      {% endfor %}
+    </select>
+    <span class="td-muted" style="font-size:11px">
+      <span data-alng="pg_showing">Showing</span> {{ (paged.page - 1) * paged.per_page + 1 }}–{{ [paged.page * paged.per_page, paged.total]|min }} <span data-alng="pg_of">of</span> {{ paged.total }} <span data-alng="pg_files">files</span>
+    </span>
+  </div>
+
+  <div class="spacer"></div>
+
+  {% if paged.has_prev %}
+  <a href="{{ url_for('admin.files', page=paged.prev_num, user=user_filter, type=type_filter, status=status_filter, q=search_query, per_page=paged.per_page) }}" class="pg-btn" data-alng="prev">← Prev</a>
+  {% endif %}
+  {% for p in paged.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+    {% if p %}
+    <a href="{{ url_for('admin.files', page=p, user=user_filter, type=type_filter, status=status_filter, q=search_query, per_page=paged.per_page) }}"
+       class="pg-btn {% if p == paged.page %}current{% endif %}">{{ p }}</a>
+    {% else %}<span style="color:var(--muted);padding:0 4px">…</span>{% endif %}
+  {% endfor %}
+  {% if paged.has_next %}
+  <a href="{{ url_for('admin.files', page=paged.next_num, user=user_filter, type=type_filter, status=status_filter, q=search_query, per_page=paged.per_page) }}" class="pg-btn" data-alng="next">Next →</a>
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}

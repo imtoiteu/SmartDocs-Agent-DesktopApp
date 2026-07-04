@@ -1,0 +1,55 @@
+{% extends "admin/base.html" %}
+{% block title %}<span data-alng="nav_dash">Dashboard</span>{% endblock %}
+{% block content %}
+<div class="page-hdr">
+  <div class="page-title" data-alng="dash_title">📊 Admin Dashboard</div>
+  <div class="page-sub" data-alng="dash_sub">Platform overview and recent activity</div>
+</div>
+
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="stat-val">{{ stats.total_users }}</div><div class="stat-lbl" data-alng="stat_total_users">Total Users</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ stats.active_users }}</div><div class="stat-lbl" data-alng="stat_active_users">Active Users</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ stats.total_files }}</div><div class="stat-lbl" data-alng="stat_total_files">Total Files</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ stats.ai_tasks }}</div><div class="stat-lbl" data-alng="stat_ai_tasks">AI Tasks Run</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-hdr"><span class="card-title" data-alng="recent_activity">Recent Activity</span>
+    <a class="btn btn-ghost btn-sm" href="{{ url_for('admin.logs') }}" data-alng="view_all">View All →</a>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>#</th>
+        <th data-alng="lbl_action">Action</th>
+        <th data-alng="lbl_user">User</th>
+        <th data-alng="lbl_detail">Detail</th>
+        <th data-alng="lbl_ip">IP</th>
+        <th data-alng="lbl_time">Time</th>
+      </tr></thead>
+      <tbody>
+        {% for log in recent %}
+        <tr>
+          <td class="td-muted">{{ loop.index }}</td>
+          <td><span class="act-{{ log.action.split('_')[0] }}" style="font-weight:600;font-size:12px">{{ log.action }}</span></td>
+          <td>{% if log.user %}<span class="badge {{ 'badge-admin' if log.user.role == 'admin' else 'badge-user' }}">{{ log.user.username }}</span>{% else %}<span class="td-muted" data-alng="deleted_user">(deleted)</span>{% endif %}</td>
+          <td class="td-muted" style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ log.detail or '—' }}</td>
+          <td class="td-muted">{{ log.ip_address or '—' }}</td>
+          <td class="td-muted" style="white-space:nowrap">{{ log.created_at | vn_time('%m-%d %H:%M') }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" style="text-align:center;padding:24px;color:var(--muted)" data-alng="no_activity">No activity yet</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

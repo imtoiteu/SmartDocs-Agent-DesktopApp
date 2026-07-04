@@ -1,0 +1,106 @@
+{% extends "admin/base.html" %}
+{% block title %}Logs{% endblock %}
+{% block content %}
+<div class="page-hdr">
+  <div class="page-title" data-alng="logs_title">📋 Activity Logs</div>
+  <div class="page-sub">{{ logs.total }} <span data-alng="lbl_detail" style="display:none"></span>{{ ' mục' if (localStorage and localStorage.getItem('smartdocs_lang')=='vi') else ' total entries' }}</div>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <div class="card-body" style="padding:12px 18px">
+    <form method="GET" style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+      <div style="flex:1">
+        <label class="form-label" data-alng="lbl_search">Search</label>
+        <input type="text" name="q" data-alng-placeholder="search_logs" value="{{ search_query }}">
+      </div>
+      <div>
+        <label class="form-label" data-alng="lbl_action">Action</label>
+        <select name="action" style="width:160px">
+          <option value="" data-alng="all_actions">All actions</option>
+          {% for a in actions %}
+          <option value="{{ a }}" {% if a == action_filter %}selected{% endif %}>{{ a }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label class="form-label" data-alng="lbl_user">User</label>
+        <select name="user" style="width:160px">
+          <option value="" data-alng="all_users">All users</option>
+          {% for u in all_users %}
+          <option value="{{ u.username }}" {% if u.username == user_filter %}selected{% endif %}>{{ u.username }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" data-alng="btn_filter">Filter</button>
+      <a href="{{ url_for('admin.logs') }}" class="btn btn-ghost" data-alng="btn_clear">Clear</a>
+    </form>
+  </div>
+</div>
+
+<div class="card">
+  <div class="tbl-wrap">
+    <table style="table-layout:fixed; width:100%">
+      <thead><tr>
+        <th style="width:40px">#</th>
+        <th data-alng="lbl_action" style="width:140px">Action</th>
+        <th data-alng="lbl_user" style="width:110px">User</th>
+        <th data-alng="lbl_detail">Detail</th>
+        <th data-alng="lbl_ip" style="width:120px">IP</th>
+        <th data-alng="lbl_time" style="width:150px">Time</th>
+      </tr></thead>
+      <tbody>
+        {% for log in logs.items %}
+        <tr>
+          <td class="td-muted">{{ (logs.page - 1) * logs.per_page + loop.index }}</td>
+          <td><span class="act-{{ log.action.split('_')[0] }}" style="font-weight:600;font-size:12px">{{ log.action }}</span></td>
+          <td>
+            {% if log.user %}
+            <span class="badge {{ 'badge-admin' if log.user.role == 'admin' else 'badge-user' }}">{{ log.user.username }}</span>
+            {% else %}<span class="td-muted" data-alng="deleted_user">(deleted)</span>{% endif %}
+          </td>
+          <td class="td-muted">
+            <div class="copyable" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%" title="{{ log.detail or '' }}" data-copy="{{ log.detail or '' }}" data-copy-msg="copy_log">
+              {{ log.detail or '—' }}
+            </div>
+          </td>
+          <td class="td-muted">{{ log.ip_address or '—' }}</td>
+          <td class="td-muted" style="white-space:nowrap">{{ log.created_at | vn_time('%Y-%m-%d %H:%M:%S') }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" style="text-align:center;padding:28px;color:var(--muted)" data-alng="no_logs">No logs found</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% if logs.total > 0 %}
+<div class="pagination">
+  <div style="display:flex;align-items:center;gap:8px">
+    <select class="pg-select" onchange="window.location.href='{{ url_for('admin.logs', page=1, action=action_filter, user=user_filter) }}&per_page='+this.value">
+      {% for sz in [10, 20, 50, 100] %}
+      <option value="{{ sz }}" {% if logs.per_page == sz %}selected{% endif %}>{{ sz }} / <span data-alng="pg_per_page">page</span></option>
+      {% endfor %}
+    </select>
+    <span class="td-muted" style="font-size:11px">
+      <span data-alng="pg_showing">Showing</span> {{ logs.first }}–{{ logs.last }} <span data-alng="pg_of">of</span> {{ logs.total }} <span data-alng="pg_logs">logs</span>
+    </span>
+  </div>
+  
+  <div class="spacer"></div>
+
+  {% if logs.has_prev %}
+  <a href="{{ url_for('admin.logs', page=logs.prev_num, action=action_filter, user=user_filter, q=search_query, per_page=logs.per_page) }}" class="pg-btn" data-alng="prev">← Prev</a>
+  {% endif %}
+  {% for p in logs.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+    {% if p %}
+    <a href="{{ url_for('admin.logs', page=p, action=action_filter, user=user_filter, q=search_query, per_page=logs.per_page) }}"
+       class="pg-btn {% if p == logs.page %}current{% endif %}">{{ p }}</a>
+    {% else %}<span style="color:var(--muted);padding:0 4px">…</span>{% endif %}
+  {% endfor %}
+  {% if logs.has_next %}
+  <a href="{{ url_for('admin.logs', page=logs.next_num, action=action_filter, user=user_filter, q=search_query, per_page=logs.per_page) }}" class="pg-btn" data-alng="next">Next →</a>
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}

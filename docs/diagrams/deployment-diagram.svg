@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="620" viewBox="0 0 1500 620" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_0E8088" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#0E8088"/></marker>
+<marker id="arr_3F61A8" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#3F61A8"/></marker>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_5A5A5A" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#5A5A5A"/></marker>
+<marker id="arr_D6B656" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#D6B656"/></marker>
+</defs>
+<rect x="0" y="0" width="1500" height="620" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">11 · Deployment Diagram (production)</text>
+<line x1="40" y1="50" x2="1460" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="40" y="90" width="300" height="170" rx="11" fill="#F0F6FD" stroke="#6C8EBF" stroke-width="1.6"/>
+<path d="M40.0,124.0 L40.0,101.0 A11,11 0 0 1 51.0,90.0 L329.0,90.0 A11,11 0 0 1 340.0,101.0 L340.0,124.0 Z" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="54.0" y="114.0" font-size="14.5" font-weight="700" fill="#10202E">«device» Client</text>
+<rect x="400" y="80" width="620" height="400" rx="11" fill="#EEF3FB" stroke="#3F61A8" stroke-width="1.6"/>
+<path d="M400.0,114.0 L400.0,91.0 A11,11 0 0 1 411.0,80.0 L1009.0,80.0 A11,11 0 0 1 1020.0,91.0 L1020.0,114.0 Z" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="414.0" y="104.0" font-size="14.5" font-weight="700" fill="#10202E">«device» Application Server (Linux)</text>
+<rect x="1080" y="90" width="380" height="250" rx="11" fill="#FFFAEB" stroke="#D6B656" stroke-width="1.6"/>
+<path d="M1080.0,124.0 L1080.0,101.0 A11,11 0 0 1 1091.0,90.0 L1449.0,90.0 A11,11 0 0 1 1460.0,101.0 L1460.0,124.0 Z" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1094.0" y="114.0" font-size="14.5" font-weight="700" fill="#10202E">«device» External LLM providers (cloud)</text>
+<rect x="1080" y="380" width="380" height="150" rx="11" fill="#FBFBFB" stroke="#999999" stroke-width="1.6"/>
+<path d="M1080.0,414.0 L1080.0,391.0 A11,11 0 0 1 1091.0,380.0 L1449.0,380.0 A11,11 0 0 1 1460.0,391.0 L1460.0,414.0 Z" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="1094.0" y="404.0" font-size="14.5" font-weight="700" fill="#10202E">«device» GLM-OCR host (Apple Silicon · optional)</text>
+<path d="M316.0,188.0 L424.0,163.0" fill="none" stroke="#3F61A8" stroke-width="1.7" marker-end="url(#arr_3F61A8)"/>
+<rect x="336.0" y="166.5" width="68.0" height="16" rx="3" fill="#FFFFFF" stroke="#3F61A8" stroke-width="0.8" opacity="0.95"/>
+<text x="370.0" y="178.0" font-size="10.5" fill="#243B4A" text-anchor="middle">HTTPS :443</text>
+<path d="M710.0,188.0 L710.0,204.0" fill="none" stroke="#3F61A8" stroke-width="1.7" marker-end="url(#arr_3F61A8)"/>
+<rect x="631.0" y="187.0" width="158.0" height="16" rx="3" fill="#FFFFFF" stroke="#3F61A8" stroke-width="0.8" opacity="0.95"/>
+<text x="710.0" y="198.5" font-size="10.5" fill="#243B4A" text-anchor="middle">proxy_pass 127.0.0.1:5001</text>
+<path d="M710.0,296.0 L513.0,318.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<rect x="583.5" y="298.0" width="56.0" height="16" rx="3" fill="#FFFFFF" stroke="#5A5A5A" stroke-width="0.8" opacity="0.95"/>
+<text x="611.5" y="309.5" font-size="10.5" fill="#243B4A" text-anchor="middle">file I/O</text>
+<path d="M710.0,296.0 L709.0,318.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<rect x="681.5" y="298.0" width="56.0" height="16" rx="3" fill="#FFFFFF" stroke="#5A5A5A" stroke-width="0.8" opacity="0.95"/>
+<text x="709.5" y="309.5" font-size="10.5" fill="#243B4A" text-anchor="middle">file I/O</text>
+<path d="M710.0,296.0 L907.0,318.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<rect x="792.5" y="298.0" width="32.0" height="16" rx="3" fill="#FFFFFF" stroke="#5A5A5A" stroke-width="0.8" opacity="0.95"/>
+<text x="808.5" y="309.5" font-size="10.5" fill="#243B4A" text-anchor="middle">load</text>
+<path d="M996.0,250.0 L1104.0,162.0" fill="none" stroke="#D6B656" stroke-width="1.7" marker-end="url(#arr_D6B656)"/>
+<rect x="1007.0" y="197.0" width="86.0" height="16" rx="3" fill="#FFFFFF" stroke="#D6B656" stroke-width="0.8" opacity="0.95"/>
+<text x="1050.0" y="208.5" font-size="10.5" fill="#243B4A" text-anchor="middle">HTTPS (agent)</text>
+<path d="M996.0,250.0 L1104.0,214.0" fill="none" stroke="#D6B656" stroke-width="1.7" marker-end="url(#arr_D6B656)"/>
+<rect x="1007.0" y="223.0" width="86.0" height="16" rx="3" fill="#FFFFFF" stroke="#D6B656" stroke-width="0.8" opacity="0.95"/>
+<text x="1050.0" y="234.5" font-size="10.5" fill="#243B4A" text-anchor="middle">HTTPS (agent)</text>
+<path d="M996.0,250.0 L1104.0,466.0" fill="none" stroke="#0E8088" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_0E8088)"/>
+<rect x="944.0" y="349.0" width="212.0" height="16" rx="3" fill="#FFFFFF" stroke="#0E8088" stroke-width="0.8" opacity="0.95"/>
+<text x="1050.0" y="360.5" font-size="10.5" fill="#243B4A" text-anchor="middle">HTTP :8080 (subprocess · optional)</text>
+<rect x="64.0" y="140.0" width="252.0" height="96.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="190.0" y="178.0" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Web Browser</text>
+<text x="190.0" y="191.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">SPA + Agent page</text>
+<text x="190.0" y="204.8" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">(static assets)</text>
+<rect x="424.0" y="138.0" width="572.0" height="50.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="710.0" y="166.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">«execution env» nginx — reverse proxy · TLS (:443)</text>
+<rect x="424.0" y="204.0" width="572.0" height="92.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="710.0" y="241.4" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">«execution env» gunicorn (1 worker · threads) → wsgi:app</text>
+<text x="710.0" y="252.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">Flask app: app.py + blueprints · OCR engines · AI services ·</text>
+<text x="710.0" y="264.5" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">Agent · RAG (in-memory index) · loaded models</text>
+<path d="M424.0,327.0 a89.0,9.0 0 0 0 178.0,0 v52.0 a89.0,9.0 0 0 1 -178.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="513.0" cy="327.0" rx="89.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="513.0" y="354.5" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">«artifact»</text>
+<text x="513.0" y="366.7" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">SQLite paddleocr.db</text>
+<rect x="620.0" y="318.0" width="178.0" height="70.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="709.0" y="350.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">«artifact»</text>
+<text x="709.0" y="362.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">uploads/</text>
+<rect x="818.0" y="318.0" width="178.0" height="70.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="907.0" y="350.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">«artifact»</text>
+<text x="907.0" y="362.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">models/ (MODEL_DIR)</text>
+<rect x="424.0" y="410.0" width="572.0" height="42.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="710.0" y="434.1" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">Development: python app.py (Flask dev server) — no nginx / gunicorn</text>
+<rect x="1104.0" y="140.0" width="332.0" height="44.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1270.0" y="165.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Groq API</text>
+<rect x="1104.0" y="192.0" width="332.0" height="44.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1270.0" y="217.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Gemini API</text>
+<rect x="1104.0" y="244.0" width="332.0" height="50.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1270.0" y="266.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">OpenAI / OpenRouter</text>
+<text x="1270.0" y="278.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">(optional AI-rewrite fallback)</text>
+<rect x="1104.0" y="430.0" width="332.0" height="72.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="1270.0" y="462.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">MLX server :8080</text>
+<text x="1270.0" y="476.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">mlx_vlm.server</text>
+</svg>

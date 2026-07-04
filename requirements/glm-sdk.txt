@@ -1,0 +1,30 @@
+# GLM-OCR SDK runtime dependencies — for the MAIN SmartDocs venv.
+# ---------------------------------------------------------------------------
+# The SmartDocs Flask/UI path imports the vendored GLM-OCR SDK
+# (GLM-OCR/glmocr) IN-PROCESS. These packages must therefore be present in the
+# main SmartDocs venv. scripts/setup.sh installs this file AFTER requirements.txt.
+#
+# Audited against every third-party import under GLM-OCR/glmocr (AST scan):
+#   dotenv, fitz, portalocker, PIL, cv2, numpy, requests, yaml, tqdm,
+#   pydantic, wordfreq  (+ torch, transformers, flask — see note below)
+#
+# Deliberately UNPINNED: this list is ADDITIVE over SmartDocs' own pins. pip
+# keeps any already-satisfying version (e.g. Pillow 10.2.0, which the SDK runs
+# on fine) and only installs what is missing — in a clean clone that is mainly
+# PyMuPDF (import name: fitz) and wordfreq. Do NOT pin Pillow>=12: glmocr's
+# pyproject asks for it, but SmartDocs runs on 10.2.0 and upgrading would fight
+# PaddleOCR.
+#
+# NOT repeated here because requirements.txt already provides them as hard deps:
+#   torch, transformers, Flask
+python-dotenv
+PyMuPDF
+portalocker
+Pillow
+opencv-python
+numpy
+requests
+PyYAML
+tqdm
+pydantic
+wordfreq
