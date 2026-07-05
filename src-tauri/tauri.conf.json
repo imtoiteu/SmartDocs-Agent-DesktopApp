@@ -7,10 +7,10 @@
     "frontendDist": "../desktop/splash"
   },
   "app": {
-    "withGlobalTauri": false,
+    "withGlobalTauri": true,
     "windows": [],
     "security": {
-      "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'none'"
+      "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src ipc: http://ipc.localhost"
     }
   },
   "bundle": {
@@ -27,7 +27,9 @@
       "icons/icon.ico"
     ],
     "resources": {
-      "../desktop/sidecar/dist/smartdocs-sidecar/": "sidecar/"
+      "../desktop/sidecar/dist/smartdocs-sidecar/": "sidecar/",
+      "../desktop_server.py": "desktop-shim/desktop_server.py",
+      "../services/desktop_mode.py": "desktop-shim/desktop_mode.py"
     }
   }
 }

@@ -12,16 +12,19 @@ tauri-build = { version = "2", features = [] }
 [dependencies]
 tauri = { version = "2", features = [] }
 tauri-plugin-single-instance = "2"
+# Native folder picker for the “Existing WebApp runtime” selection.
+tauri-plugin-dialog = "2"
 serde_json = "1"
-# Plain-HTTP client for the 127.0.0.1 health/shutdown calls — no TLS needed.
-ureq = { version = "2", default-features = false }
+# HTTP client for 127.0.0.1 health/shutdown calls and the Remote-Server
+# Test Connection probe (rustls for https servers).
+ureq = { version = "2", default-features = false, features = ["tls"] }
 getrandom = "0.2"
-# SIGINT/SIGTERM → clean Tauri exit (so stop_sidecar always runs)
+# SIGINT/SIGTERM → clean Tauri exit (so stop_all always runs)
 ctrlc = { version = "3", features = ["termination"] }
 
-[target."cfg(target_os = \"linux\")".dependencies]
-# PR_SET_PDEATHSIG: the kernel TERMs the sidecar if the shell dies, even on
-# SIGKILL — guaranteed no orphan on Linux.
+[target."cfg(unix)".dependencies]
+# Linux: PR_SET_PDEATHSIG — the kernel TERMs the backend if the shell dies,
+# even on SIGKILL. macOS/Linux: SIGTERM for the GLM helper's graceful stop.
 libc = "0.2"
 
 [features]

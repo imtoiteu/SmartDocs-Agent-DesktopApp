@@ -49,31 +49,64 @@ body {
         border-radius: 3px
 }
 
-/* ── Shell ─── */
+/* ── Shell: left sidebar + top bar ─── */
 #app {
+        display: flex;
+        flex-direction: row;
+        height: 100vh
+}
+
+#main-col {
+        flex: 1;
+        min-width: 0;
         display: flex;
         flex-direction: column;
         height: 100vh
 }
 
-nav {
+/* ── Sidebar (primary navigation) ─── */
+#sidebar {
         flex-shrink: 0;
+        width: 232px;
+        display: flex;
+        flex-direction: column;
+        background: var(--surface);
+        border-right: 1px solid var(--border);
+        z-index: 200;
+        transition: width .15s ease
+}
+
+.sb-head {
         display: flex;
         align-items: center;
-        gap: 4px;
-        padding: 0 20px;
         height: 54px;
-        background: var(--surface);
+        padding: 0 14px;
         border-bottom: 1px solid var(--border);
-        z-index: 100
+        flex-shrink: 0
+}
+
+.sb-group {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding: 10px 8px
+}
+
+.sb-grow {
+        flex: 1;
+        overflow-y: auto
+}
+
+.sb-bottom {
+        border-top: 1px solid var(--border)
 }
 
 .nav-logo {
         display: flex;
         align-items: center;
         gap: 10px;
-        margin-right: 16px;
-        text-decoration: none
+        text-decoration: none;
+        min-width: 0
 }
 
 .logo-icon {
@@ -94,29 +127,149 @@ nav {
         color: var(--text)
 }
 
-.nav-link {
+#sidebar .nav-link {
         display: flex;
         align-items: center;
-        gap: 6px;
-        padding: 6px 12px;
+        gap: 10px;
+        width: 100%;
+        padding: 8px 12px;
         border-radius: 8px;
         font-size: 13px;
         font-weight: 500;
         color: var(--muted);
         cursor: pointer;
-        transition: all .15s;
+        transition: background .15s, color .15s;
         border: none;
-        background: none
+        background: none;
+        text-decoration: none;
+        text-align: left
 }
 
-.nav-link:hover {
+.sb-icon {
+        flex-shrink: 0;
+        width: 20px;
+        text-align: center
+}
+
+.sb-label {
+        white-space: nowrap;      /* labels never wrap */
+        overflow: hidden;
+        text-overflow: ellipsis
+}
+
+#sidebar .nav-link:hover {
         color: var(--text);
         background: var(--card)
 }
 
-.nav-link.active {
+#sidebar .nav-link.active {
         color: var(--accent2);
         background: rgba(59, 130, 246, .12)
+}
+
+#sidebar .nav-link:focus-visible,
+#topbar button:focus-visible,
+#topbar a:focus-visible {
+        outline: 2px solid var(--accent2);
+        outline-offset: 2px
+}
+
+.sb-agent { color: #8b5cf6 }
+.sb-admin { color: #f59e0b }
+
+/* collapsed: icons only (~68px), labels exposed via title/aria-label */
+#app.sb-collapsed #sidebar { width: 68px }
+#app.sb-collapsed .sb-label,
+#app.sb-collapsed .logo-text { display: none }
+#app.sb-collapsed #sidebar .nav-link { justify-content: center; padding: 8px 0 }
+#app.sb-collapsed .sb-head { justify-content: center; padding: 0 }
+
+/* ── Top bar ─── */
+#topbar {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 16px;
+        height: 54px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        z-index: 100
+}
+
+#topbar-title {
+        font-size: 15px;
+        font-weight: 600;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+}
+
+.tb-spacer { flex: 1 }
+
+.tb-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 11.5px;
+        font-weight: 600;
+        background: var(--card);
+        border: 1px solid var(--border);
+        color: var(--muted2);
+        cursor: pointer;
+        text-decoration: none;
+        white-space: nowrap
+}
+
+.tb-chip.tb-chip-local {
+        color: #f59e0b;
+        border-color: rgba(245, 158, 11, .35);
+        background: rgba(245, 158, 11, .08)
+}
+
+#sb-open {
+        display: none;
+        border: 1px solid var(--border);
+        background: var(--card);
+        color: var(--text);
+        border-radius: 8px;
+        width: 34px;
+        height: 34px;
+        font-size: 15px;
+        cursor: pointer
+}
+
+#sb-backdrop {
+        display: none
+}
+
+/* ── Narrow windows: sidebar becomes an overlay drawer ─── */
+@media (max-width: 860px) {
+        #sidebar {
+                position: fixed;
+                inset: 0 auto 0 0;
+                width: 232px !important;
+                transform: translateX(-100%);
+                transition: transform .18s ease
+        }
+        #app.sb-drawer-open #sidebar { transform: translateX(0) }
+        /* the collapse preference doesn't apply in drawer mode */
+        #app.sb-collapsed .sb-label,
+        #app.sb-collapsed .logo-text { display: inline }
+        #app.sb-collapsed #sidebar .nav-link { justify-content: flex-start; padding: 8px 12px }
+        #sb-open { display: inline-flex; align-items: center; justify-content: center }
+        #sb-backdrop {
+                display: block;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, .5);
+                z-index: 150
+        }
+        #sb-backdrop[hidden] { display: none }
+        #nav-user #nav-username { display: none }
 }
 
 .nav-spacer {

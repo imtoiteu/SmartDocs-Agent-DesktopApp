@@ -12,31 +12,45 @@
 <body>
 <div id="app">
 
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#" onclick="Router.goto('home');return false">
-    <div class="logo-icon">📄</div>
-    <span class="logo-text" data-i18n="app_name">SmartDocs Platform</span>
-  </a>
-  <button class="nav-link active" data-view="home" data-i18n="nav_home">🏠 Trang chủ</button>
-  <button class="nav-link" data-view="ocr" data-i18n="nav_ocr">🔍 OCR</button>
-  <button class="nav-link" data-view="correct" data-i18n="nav_correct">✏️ Sửa lỗi</button>
-  <button class="nav-link" data-view="translate" data-i18n="nav_translate">🌐 Dịch thuật</button>
-  <button class="nav-link" data-view="summarize" data-i18n="nav_summarize">📝 Tóm tắt</button>
-  <button class="nav-link" data-view="documents" data-i18n="nav_documents">📁 Tài liệu</button>
-  <button class="nav-link" data-view="chat" id="nav-chat-btn">🤖 SmartDocs AI</button>
-  <button class="nav-link" data-view="settings" id="nav-settings-btn" data-i18n="nav_settings">⚙ Cài đặt</button>
-  <!-- Agent workspace — separate page at /agent (additive; reached by real navigation, like Admin) -->
-  <a id="nav-agent-link" href="/agent" style="display:inline-flex;align-items:center;gap:5px;
-     padding:6px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#8b5cf6;
-     text-decoration:none;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25)"
-     title="Agent workspace">✨ Agent</a>
-  <!-- Admin panel link — shown only if role=admin by JS below -->
-  <a id="nav-admin-link" href="/admin/" style="display:none;align-items:center;gap:5px;
-     padding:6px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#f59e0b;
-     text-decoration:none;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)"
-     title="Admin Panel">⚙️ Admin</a>
-  <div class="nav-spacer"></div>
+<!-- NAV: left sidebar (primary navigation) + minimal top bar -->
+<nav id="sidebar" aria-label="Primary">
+  <div class="sb-head">
+    <a class="nav-logo" href="#" onclick="Router.goto('home');return false" aria-label="SmartDocs — Home">
+      <div class="logo-icon" aria-hidden="true">📄</div>
+      <span class="logo-text sb-label" data-i18n="app_name">SmartDocs Platform</span>
+    </a>
+  </div>
+  <div class="sb-group sb-grow">
+    <button class="nav-link active" data-view="home"><span class="sb-icon" aria-hidden="true">🏠</span><span class="sb-label" data-i18n="sb_home">Trang chủ</span></button>
+    <button class="nav-link" data-view="ocr"><span class="sb-icon" aria-hidden="true">🔍</span><span class="sb-label" data-i18n="sb_ocr">OCR</span></button>
+    <button class="nav-link" data-view="correct"><span class="sb-icon" aria-hidden="true">✏️</span><span class="sb-label" data-i18n="sb_correct">Sửa lỗi</span></button>
+    <button class="nav-link" data-view="translate"><span class="sb-icon" aria-hidden="true">🌐</span><span class="sb-label" data-i18n="sb_translate">Dịch thuật</span></button>
+    <button class="nav-link" data-view="summarize"><span class="sb-icon" aria-hidden="true">📝</span><span class="sb-label" data-i18n="sb_summarize">Tóm tắt</span></button>
+    <button class="nav-link" data-view="documents"><span class="sb-icon" aria-hidden="true">📁</span><span class="sb-label" data-i18n="sb_documents">Tài liệu</span></button>
+    <button class="nav-link" data-view="chat" id="nav-chat-btn"><span class="sb-icon" aria-hidden="true">🤖</span><span class="sb-label" data-i18n="sb_chat">SmartDocs AI</span></button>
+    <!-- Agent workspace — separate page at /agent (real navigation, like Admin) -->
+    <a id="nav-agent-link" class="nav-link sb-agent" href="/agent"><span class="sb-icon" aria-hidden="true">✨</span><span class="sb-label" data-i18n="sb_agent">Agent</span></a>
+  </div>
+  <!-- Settings + Admin live in a separated bottom section -->
+  <div class="sb-group sb-bottom">
+    <button class="nav-link" data-view="settings" id="nav-settings-btn"><span class="sb-icon" aria-hidden="true">⚙</span><span class="sb-label" data-i18n="sb_settings">Cài đặt</span></button>
+    <!-- Admin panel link — shown only if role=admin by JS below -->
+    <a id="nav-admin-link" class="nav-link sb-admin" href="/admin/" style="display:none"><span class="sb-icon" aria-hidden="true">🛡</span><span class="sb-label" data-i18n="sb_admin">Quản trị</span></a>
+    <button id="sb-collapse" class="nav-link" aria-pressed="false" data-i18n-title="sidebar_collapse" title="Thu gọn thanh bên"><span class="sb-icon" aria-hidden="true">⇤</span><span class="sb-label" data-i18n="sidebar_collapse">Thu gọn thanh bên</span></button>
+  </div>
+</nav>
+<div id="sb-backdrop" hidden></div>
+
+<div id="main-col">
+<header id="topbar">
+  <button id="sb-open" aria-label="Mở điều hướng" data-i18n-aria-label="sidebar_open"
+          aria-controls="sidebar" aria-expanded="false"><span aria-hidden="true">☰</span></button>
+  <h1 id="topbar-title" data-i18n="sb_home">Trang chủ</h1>
+  <div class="tb-spacer"></div>
+  <!-- Backend runtime chip (desktop shell only; link intercepted by the shell) -->
+  <a id="topbar-runtime" class="tb-chip" href="/desktop/runtime-settings" hidden></a>
+  <!-- Processing-mode chip (🔒 Local only / ☁ Cloud) — synced with Settings -->
+  <button id="topbar-privacy" class="tb-chip" hidden></button>
   <!-- Language selector -->
   <div class="lang-switcher">
     <button class="lang-btn active" data-lang="vi" onclick="I18n.setLang('vi')">VI</button>
@@ -52,7 +66,7 @@
        onmouseover="this.style.borderColor='var(--danger)';this.style.color='var(--danger)'"
        onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted2)'">⏏ Đăng xuất</a>
   </div>
-</nav>
+</header>
 <div id="progress-bar-wrap"><div id="progress-bar"></div></div>
 
 <div id="views">
@@ -657,6 +671,26 @@
     </div>
   </div>
 
+  <!-- Backend runtime (desktop shell only — hidden in the plain web app).
+       Management itself lives in the shell's bundled launcher page; this
+       panel only shows the active mode and links to it. -->
+  <div class="ws-panel" id="settings-runtime-panel" style="max-width:860px;margin:0 auto 18px;display:none">
+    <div class="panel-header">
+      <div class="panel-title" data-i18n="settings_runtime_title">🖥 Backend runtime</div>
+    </div>
+    <div class="panel-body">
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <span id="settings-runtime-mode" class="engine-status-badge engine-status-online"
+              role="status" aria-live="polite"><span class="status-dot"></span><span id="settings-runtime-mode-text"></span></span>
+        <a class="btn btn-ghost" href="/desktop/runtime-settings"
+           data-i18n="settings_runtime_manage">Quản lý runtime…</a>
+      </div>
+      <p class="slbl" style="margin:10px 0 0" data-i18n="settings_runtime_desc">
+        Chọn Bundled Core, một bản cài SmartDocs WebApp có sẵn, hoặc một máy chủ
+        từ xa. Việc thay đổi sẽ khởi động lại backend.</p>
+    </div>
+  </div>
+
   <div class="ws-panel" style="max-width:860px;margin:0 auto">
     <div class="panel-header">
       <div class="panel-title" data-i18n="settings_keys_title">🔑 Cloud provider API keys</div>
@@ -674,6 +708,7 @@
 </div>
 
 </div><!-- /views -->
+</div><!-- /main-col -->
 </div><!-- /app -->
 
 <div id="box-tooltip"></div>
@@ -681,8 +716,10 @@
 
 <script src="/static/vendor/marked.min.js"></script>
 <script src="/static/vendor/katex/katex.min.js"></script>
+<script src="/static/privacy-ui.js?v=2026.07.05.1"></script>
+<script src="/static/sidebar.js?v=2026.07.05.1"></script>
 <script src="/static/ocr-canvas.js?v=2026.06.14.1"></script>
-<script src="/static/app.js?v=2026.06.19.2"></script>
+<script src="/static/app.js?v=2026.07.05.1"></script>
 <script src="/static/chat.js?v=2026.06.14.1"></script>
 <script>
 // Fetch current user and populate navbar; redirect to login if session expired

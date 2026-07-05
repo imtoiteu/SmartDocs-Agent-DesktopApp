@@ -81,6 +81,46 @@ src-tauri/target/release/bundle/dmg/SmartDocs_0.1.0_aarch64.dmg
 6. Relaunch → previous documents/settings still present
    (`~/Library/Application Support/com.smartdocs.desktop/`).
 
+## 6b. Manual tests — runtime modes, sidebar, Local-only (macOS)
+
+These were implemented and unit/integration-tested on Linux only; validate
+the real behavior here.
+
+**Sidebar / top bar**
+1. The left sidebar shows Home…SmartDocs AI + Agent, with Settings/Admin in
+   the bottom section; the top bar shows only title, chips, language, user.
+2. Collapse (⇤) → icon-only ~68 px rail with tooltips; relaunch → the
+   collapsed preference is remembered.
+3. Shrink the window below ~860 px → the sidebar becomes a ☰ overlay drawer;
+   Esc and backdrop close it. Tab/Arrow keys walk the items; Enter activates.
+4. Sign in as a non-admin (web mode) → no Admin item.
+
+**Local only (Settings → Privacy)**
+5. Click "Switch to Local only" → the badge, button label, `aria-pressed`,
+   the top-bar 🔒 chip and the provider rows (disabled inputs, "Local only"
+   badges) ALL flip immediately; reload → state restored.
+6. Switch back to cloud → the disclosure confirm appears only the FIRST time
+   ever; controls re-enable; chip flips to ☁.
+7. While Local only: translate with engine "online" must refuse; saving or
+   testing a cloud key must be refused by the backend (409), not just
+   disabled in the UI.
+
+**Runtime modes (Settings → Backend runtime → Manage…)**
+8. Bundled Core: default behavior unchanged (steps 1-6 above).
+9. Existing WebApp runtime: Select Folder → your SmartDocs-Agent checkout →
+   Validate Runtime (expect ✔ python/app.py/services/static + models +
+   GLM runtimes) → Apply & restart. Expect: the app restarts onto the WebApp
+   venv backend; OCR engines/models that exist in the WebApp now work;
+   `pgrep -f mlx_vlm.server` shows the auto-started GLM helper (if enabled);
+   GLM OCR runs; documents created here do NOT appear in the WebApp's own
+   database (separate data dirs). ⌘Q → backend AND mlx_vlm.server both gone.
+10. Remote server: enter your server URL → Test Connection (expect
+    "sign-in required" for a real server; a plain-HTTP non-local URL must be
+    refused; a non-SmartDocs URL must say incompatible) → Apply → the app
+    opens the server's login page; no local backend or GLM process runs.
+11. From the running app: Settings → "Manage backend runtime…" must return
+    to the launcher screen.
+
 ## 7. Troubleshooting
 
 | Symptom | Fix |
@@ -92,6 +132,10 @@ src-tauri/target/release/bundle/dmg/SmartDocs_0.1.0_aarch64.dmg
 | Keychain prompt never appears | the `keyring` package must be in the sidecar build — check `desktop/sidecar/requirements-core.txt` was installed before freezing |
 
 ## 8. What is still UNVERIFIED on macOS (validate here)
+
+- Everything in §6b: external WebApp runtime launch, the GLM MLX helper
+  start/stop, remote-server mode against a real server, the native folder
+  picker dialog, and the sidebar/Local-only behavior in a real WKWebView
 
 - PyInstaller freeze on arm64 (spec was only exercised on Linux x86_64)
 - macOS **Keychain** behavior of the keyring integration (prompts, ACLs)

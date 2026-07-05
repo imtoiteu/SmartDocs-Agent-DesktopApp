@@ -10,10 +10,42 @@ the README's security-model summary.
 | Component | Code | Role |
 |---|---|---|
 | Shell | `src-tauri/src/main.rs` | Native window, process lifecycle, token, health gate |
-| Splash | `desktop/splash/` | Bundled Tauri asset shown until the backend is healthy |
-| Sidecar entry | `desktop_server.py` | Desktop-specific Flask wiring (unchanged `app.py` underneath) |
+| Runtime modes | `src-tauri/src/runtime.rs` | Pure core: mode config (`runtime.json`), external-runtime validation, remote URL policy, launch planning, start guard — unit-tested via `cargo test` |
+| Launcher | `desktop/splash/` | Bundled Tauri asset: splash + Backend-runtime settings (the only origin allowed to invoke the shell's runtime commands) |
+| Sidecar entry | `desktop_server.py` | Desktop-specific Flask wiring (unchanged `app.py` underneath); also shipped as a `desktop-shim/` resource so an external WebApp venv can run it |
 | Desktop helpers | `services/desktop_mode.py` | stdlib-only: token, handshake, data dirs, singleton lock |
 | Packaging | `desktop/sidecar/smartdocs-sidecar.spec` | PyInstaller one-dir build |
+
+## Backend runtime modes
+
+`runtime.json` (app-config dir; no secrets) selects one of three modes; the
+launcher page manages it via Tauri IPC commands (`runtime_get_state`,
+`runtime_pick_folder`, `runtime_validate`, `runtime_test_remote`,
+`runtime_apply`, `runtime_resume`). Tauri's ACL rejects app commands from
+any non-bundled origin, so neither the local backend pages nor a remote
+server can ever call them.
+
+- **bundled** — the PyInstaller sidecar resource (unchanged behavior).
+- **external** — the validated venv interpreter of a selected SmartDocs
+  WebApp checkout runs the `desktop-shim/desktop_server.py` resource with
+  `cwd`/`PYTHONPATH` at the checkout. Controlled env: `MODEL_DIR` (HF/Argos/
+  VietOCR caches derive from it in `config.py`), `GLM_OCR_DIR`,
+  `GLM_SDK_PYTHON`, `GLM_MLX_PYTHON`, `ENABLE_GLM`, `GLM_OCR_API_URL`.
+  `DB_PATH`/`UPLOAD_DIR` are NOT pointed at the WebApp — DesktopApp data
+  stays in its own data dir. On Apple Silicon macOS the shell also owns a
+  GLM MLX helper (`python -m mlx_vlm.server --trust-remote-code --port N
+  --model …`, mirroring `tools/glm_serve.sh`), stopped with SIGTERM → 5 s →
+  kill on exit. Token/handshake/health/shutdown are identical to bundled
+  mode. No shell strings anywhere — validated executables + argument lists.
+- **remote** — no local process at all (`StartPlan::Navigate` carries only a
+  URL by construction). HTTPS is required except for localhost/127.0.0.1/::1;
+  URLs with embedded credentials are refused. Test Connection fingerprints
+  the server via the unauthenticated 401 JSON envelope of `/api/auth/me` and
+  classifies: ok / auth_required / unreachable / tls_error / incompatible.
+  The navigation allowlist pins exactly the configured origin.
+
+Error messages for external/remote modes never reference bundle-internal
+paths (the sidecar resource is only resolved in bundled mode).
 
 ## Startup sequence
 

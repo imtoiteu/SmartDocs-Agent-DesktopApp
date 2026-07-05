@@ -61,6 +61,12 @@ jobs:
           set -e
           for f in agent/tests/test_*.py; do python3 "$f"; done
 
+      - name: UI logic tests (sidebar / Local-only state)
+        run: node --test desktop/tests/ui/
+
+      - name: Rust shell unit tests (runtime modes)
+        run: cargo test --manifest-path src-tauri/Cargo.toml
+
       - name: Sidecar integration tests (against the packaged binary)
         if: matrix.name != 'windows'   # Windows path/signal semantics: run planned, not yet validated
         shell: bash

@@ -27,7 +27,15 @@ from pathlib import Path
 BASE = Path(__file__).parent
 sys.path.insert(0, str(BASE))
 
-from services import desktop_mode as dm    # stdlib-only; safe before config
+# stdlib-only; safe before config. Two layouts exist:
+#   repo / PyInstaller sidecar  → services/desktop_mode.py
+#   desktop-shim (external WebApp runtime: this file + desktop_mode.py are
+#   bundled as Tauri resources; `services` resolves to the WebApp's package,
+#   which has no desktop_mode) → sibling desktop_mode.py
+try:
+    from services import desktop_mode as dm
+except ImportError:
+    import desktop_mode as dm
 
 _BOOT_HTML = """<!doctype html>
 <html><head><meta charset="utf-8"><title>SmartDocs</title></head>
@@ -105,7 +113,12 @@ def install_desktop_hooks(app, login_manager, token, shutdown_cb, version):
 
     @app.route("/api/desktop/health")
     def _desktop_health():                   # token enforced by _desktop_guard
-        return jsonify({"status": "ok", "version": version})
+        return jsonify({
+            "status": "ok", "version": version,
+            # Which runtime mode the shell launched us in — the UI's top-bar
+            # runtime chip reads this (never trusts page-injected state).
+            "runtime_mode": os.environ.get("SMARTDOCS_RUNTIME_MODE", "bundled"),
+        })
 
     @app.route("/api/desktop/session", methods=["POST"])
     def _desktop_session():

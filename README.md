@@ -32,6 +32,25 @@ from [SmartDocs-Agent-WebApp](https://github.com/imtoiteu/SmartDocs-Agent-WebApp
 
 Full lifecycle, token, and security details: [docs/DESKTOP_ARCHITECTURE.md](docs/DESKTOP_ARCHITECTURE.md).
 
+## Backend runtime modes
+
+Settings → Backend runtime (or the launcher screen that appears when a
+backend fails to start) selects where processing runs. The selection is
+persisted in `runtime.json` inside the per-user app-config directory and
+applies to installed builds, not just `tauri dev`.
+
+| Mode | What runs | Notes |
+|---|---|---|
+| **Bundled Core** (default) | The PyInstaller sidecar inside the install | Fully local; heavy ML engines not included — they report "not available". |
+| **Existing WebApp runtime** | `desktop_server.py` executed by the **venv Python of a SmartDocs WebApp checkout** you select | Select Folder → Validate Runtime checks the venv interpreter (`.venv/bin/python`, Windows `.venv\Scripts\python.exe`, or the sibling `../.venv` layout), backend sources, `models/`, and the GLM runtimes. Models/HF/Argos/VietOCR caches come from the WebApp via `MODEL_DIR`; GLM via `GLM_OCR_DIR`/`GLM_SDK_PYTHON`/`GLM_MLX_PYTHON`. On Apple Silicon macOS the GLM MLX model server is started and stopped automatically with the app (`GLM_OCR_API_URL` points at it). **DesktopApp documents/settings stay in the app's own data dir** — the WebApp's database/uploads are never touched. |
+| **Remote server** | Nothing local — the WebView opens your SmartDocs server | HTTPS required (plain HTTP only for `localhost`/`127.0.0.1` dev). Test Connection classifies: reachable / sign-in required / unreachable / TLS-certificate problem / not a SmartDocs server. |
+
+Mode management lives on the app's bundled launcher page (the only origin
+allowed to call the shell's runtime commands); the in-app Settings panel
+shows the active mode and links to it. Duplicate launches are refused at
+three levels (single-instance plugin, shell start guard, per-data-dir PID
+lock), and only processes the shell itself spawned are ever stopped.
+
 ## Development
 
 Prerequisites: Rust (stable), Node 20+, Python 3.12, and on Linux the Tauri v2

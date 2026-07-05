@@ -210,6 +210,13 @@ function renderMarkdown(md, math) {
 // Hash-based router: location.hash is the single source of truth for SPA view
 // state, so browser Back/Forward (and bookmarks/refresh) work natively. Admin is
 // a separate server-rendered app at /admin/* and is reached by real navigation.
+// Sidebar labels double as the top-bar page title.
+const VIEW_TITLE_KEYS = {
+  home: 'sb_home', ocr: 'sb_ocr', correct: 'sb_correct', translate: 'sb_translate',
+  summarize: 'sb_summarize', documents: 'sb_documents', chat: 'sb_chat',
+  settings: 'sb_settings',
+};
+
 const Router = {
   current: null,
   views: {},
@@ -217,8 +224,18 @@ const Router = {
   _show(name) {
     Object.entries(this.views).forEach(([n, el]) => el.classList.toggle('v-hidden', n !== name));
     this.current = name;
-    document.querySelectorAll('.nav-link').forEach(l =>
-      l.classList.toggle('active', l.dataset.view === name));
+    document.querySelectorAll('.nav-link').forEach(l => {
+      const active = l.dataset.view === name;
+      l.classList.toggle('active', active);
+      if (active) l.setAttribute('aria-current', 'page');
+      else l.removeAttribute('aria-current');
+    });
+    const titleEl = document.getElementById('topbar-title');
+    const titleKey = VIEW_TITLE_KEYS[name];
+    if (titleEl && titleKey) {
+      titleEl.removeAttribute('data-i18n');   // JS owns it from here on
+      titleEl.textContent = t(titleKey) || name;
+    }
   },
   // Navigate by setting the hash (optionally with a deep-link arg). The hashchange
   // listener calls _render(); calling with the current hash re-renders in place.
@@ -236,6 +253,12 @@ const Router = {
     const arg   = slash === -1 ? null : decodeURIComponent(raw.slice(slash + 1));
     const view  = this.views[name] ? name : 'home';
     this._show(view);
+    // Settings state must load on EVERY entry into the view — including
+    // direct hash entry (#settings), page reload and browser Back/Forward.
+    // It used to be wired only into the patched Router.goto, so those paths
+    // left the privacy panel on a disabled “Loading…” button that looked
+    // like a dead toggle.
+    if (view === 'settings' && typeof SettingsView !== 'undefined') SettingsView.show();
     // Deep links reuse existing open paths (loaders, NOT navigators — no goto here).
     if (view === 'ocr' && arg && typeof OCRView !== 'undefined') {
       OCRView._openFromFileId(arg);
@@ -1438,6 +1461,48 @@ const EngineSelector = {
 // Keys are handled write-only: typed into a password field, sent once to the
 // backend (OS credential store), input cleared. Only masked hints ("••••abcd")
 // ever come back. Nothing here touches localStorage or State.
+// ── Top-bar status chips ─────────────────────────────────────────────────────
+// Processing-mode chip: always in sync with the Settings privacy state (both
+// are rendered from the same PrivacyUI.compute output). Click → Settings.
+const PrivacyIndicator = {
+  _privacy: null,
+  set(privacy) {
+    this._privacy = privacy || this._privacy;
+    if (!this._privacy) return;
+    const chip = document.getElementById('topbar-privacy');
+    if (!chip) return;
+    const ui = window.PrivacyUI.compute(this._privacy, t);
+    chip.hidden = false;
+    chip.textContent = ui.chipText;
+    chip.classList.toggle('tb-chip-local', ui.localOnly);
+    chip.setAttribute('aria-label', ui.statusText);
+    chip.title = ui.statusText;
+    chip.onclick = () => Router.goto('settings');
+  },
+  refresh() { this.set(null); },              // re-render (language switch)
+};
+
+// Backend runtime chip (desktop shell only). The label comes from
+// /api/desktop/health; clicking opens the shell's runtime settings.
+const RuntimeChip = {
+  _mode: null,
+  set(mode) {
+    this._mode = mode || this._mode;
+    if (!this._mode) return;
+    const chip = document.getElementById('topbar-runtime');
+    if (!chip) return;
+    chip.hidden = false;
+    chip.textContent = t('runtime_' + this._mode) || this._mode;
+    chip.title = t('settings_runtime_manage') || 'Manage backend runtime…';
+  },
+  refresh() { this.set(null); },
+};
+
+document.addEventListener('sd-lang', () => {
+  PrivacyIndicator.refresh();
+  RuntimeChip.refresh();
+});
+
 const SettingsView = {
   _data: null,
   _names: { groq: 'Groq', gemini: 'Google Gemini' },
@@ -1445,11 +1510,14 @@ const SettingsView = {
   init() { this._inited = true; },
 
   async show() {
+    if (this._loading) return;                 // hash + goto can both fire
+    this._loading = true;
     try {
       this._data = await API.settingsGet();
     } catch (e) {
-      Toast.show(t('settings_load_failed') || 'Could not load settings.', 'error');
-      return;
+      this._data = null;
+    } finally {
+      this._loading = false;
     }
     if (!this._data || !this._data.success) {
       Toast.show(t('settings_load_failed') || 'Could not load settings.', 'error');
@@ -1457,38 +1525,62 @@ const SettingsView = {
     }
     this._renderPrivacy();
     this._renderProviders();
+    this._renderRuntime();
+  },
+
+  // Desktop shell only: show the active backend runtime + the manage link.
+  _renderRuntime() {
+    const panel = document.getElementById('settings-runtime-panel');
+    if (!panel) return;
+    if (!window.__SMARTDOCS_DESKTOP__) { panel.style.display = 'none'; return; }
+    panel.style.display = '';
+    fetch('/api/desktop/health').then(r => r.json()).then(h => {
+      const mode = h.runtime_mode || 'bundled';
+      const txt = document.getElementById('settings-runtime-mode-text');
+      if (txt) txt.textContent = t('runtime_' + mode) || mode;
+      RuntimeChip.set(mode);
+    }).catch(() => {});
   },
 
   _renderPrivacy() {
-    const p = this._data.privacy || {};
+    const p = (this._data && this._data.privacy) || {};
     const badge = document.getElementById('settings-privacy-badge');
     const txt = document.getElementById('settings-privacy-text');
     const btn = document.getElementById('settings-privacy-toggle');
     const note = document.getElementById('settings-privacy-note');
-    const local = p.processing_mode === 'local_only';
-    badge.className = 'engine-status-badge ' +
-      (local ? 'engine-status-offline' : 'engine-status-online');
-    txt.textContent = local
-      ? (t('settings_mode_local') || '🔒 Local only — nothing is sent to the cloud')
-      : (t('settings_mode_cloud') || '☁ Cloud processing allowed');
-    btn.disabled = !!p.env_locked;
-    btn.textContent = local
-      ? (t('settings_enable_cloud') || 'Allow cloud processing…')
-      : (t('settings_disable_cloud') || 'Switch to Local only');
-    note.textContent = p.env_locked
-      ? (t('settings_env_locked') || 'Set by ALLOW_CLOUD in .env — remove it there to control this here.')
-      : '';
-    btn.onclick = () => this._togglePrivacy(!local);
+    const ui = window.PrivacyUI.compute(p, t);
+    // These elements carry real state from here on — drop the data-i18n
+    // markers so a language re-apply can't clobber them back to “Loading…”.
+    txt.removeAttribute('data-i18n');
+    btn.removeAttribute('data-i18n');
+    badge.className = ui.badgeClass;
+    txt.textContent = ui.statusText;
+    btn.disabled = ui.btnDisabled;
+    btn.textContent = ui.btnLabel;
+    btn.setAttribute('aria-pressed', ui.ariaPressed);   // pressed = Local only
+    note.textContent = ui.note;
+    btn.onclick = () => this._togglePrivacy(ui.enableCloudOnClick);
+    PrivacyIndicator.set(p);                  // top bar stays in sync
   },
 
   async _togglePrivacy(enableCloud) {
     const p = (this._data && this._data.privacy) || {};
     if (enableCloud && !p.cloud_ack) {
-      // First-time confirmation (UI item 2): explain what leaves the machine.
+      // One-time disclosure before anything may leave the machine; once
+      // acknowledged (cloud_ack) it is never shown again.
       const msg = p.ack_message || 'Document text and prompts may be sent to the configured cloud provider. Continue?';
       if (!window.confirm(msg)) return;
     }
-    const res = await API.settingsPrivacy(enableCloud, enableCloud);
+    const btn = document.getElementById('settings-privacy-toggle');
+    btn.disabled = true;                       // no double-submit
+    btn.setAttribute('aria-busy', 'true');
+    let res = null;
+    try {
+      res = await API.settingsPrivacy(enableCloud, enableCloud);
+    } catch (e) {
+      res = null;                              // network failure → rollback below
+    }
+    btn.removeAttribute('aria-busy');
     if (res && res.success) {
       this._data = res;
       this._renderPrivacy();
@@ -1498,6 +1590,10 @@ const SettingsView = {
         : (t('settings_cloud_off') || 'Local only enabled — nothing leaves this machine.'),
         'success');
     } else {
+      // Backend failure: restore the previous UI state (this._data is
+      // unchanged) and say what went wrong — never a false success.
+      this._renderPrivacy();
+      this._renderProviders();
       Toast.show((res && (res.error || res.message)) ||
         t('settings_save_failed') || 'Could not save the setting.', 'error');
     }
@@ -1570,6 +1666,11 @@ const SettingsView = {
     input.setAttribute('aria-label', (this._names[prov.provider] || prov.provider) + ' API key');
     input.style.cssText = 'flex:1;min-width:200px;background:var(--card2);' +
       'border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit';
+    if (localOnly) {                           // cloud controls unavailable in Local only
+      input.disabled = true;
+      input.title = t('settings_local_only_keys') ||
+        'Local only is enabled — cloud keys are not used or validated in this mode.';
+    }
     row.appendChild(input);
 
     const mkBtn = (label, cls, onclick, disabled, title) => {
@@ -2002,7 +2103,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 // here was breaking Documents → OCR restore
     if (name === 'documents') DocumentsView.show();
     if (name === 'ocr') OCRView._resetMode();
-    if (name === 'settings') SettingsView.show();
+    // settings activation lives in Router._render so hash entry / reload /
+    // Back-Forward load the state too — not only goto() calls.
   };
 
   // Register views
@@ -2010,9 +2112,21 @@ document.addEventListener('DOMContentLoaded', () => {
     Router.register(name, document.getElementById(`view-${name}`)));
   SettingsView.init();
 
-  // Nav links
-  document.querySelectorAll('.nav-link').forEach(l =>
+  // Nav links (SPA views only — Agent/Admin sidebar items are real anchors)
+  document.querySelectorAll('.nav-link[data-view]').forEach(l =>
     l.addEventListener('click', () => Router.goto(l.dataset.view)));
+
+  // Top-bar status chips: processing mode (Local only / Cloud) + backend
+  // runtime (desktop shell only; reported by the backend, never trusted
+  // from page state).
+  API.settingsGet()
+    .then(d => { if (d && d.success) PrivacyIndicator.set(d.privacy); })
+    .catch(() => {});
+  if (window.__SMARTDOCS_DESKTOP__) {
+    fetch('/api/desktop/health').then(r => r.json())
+      .then(h => RuntimeChip.set(h.runtime_mode || 'bundled'))
+      .catch(() => {});
+  }
 
   // In-app back (OCR viewer → wherever the user came from)
   const ocrBackBtn = document.getElementById('ocr-back-btn');
