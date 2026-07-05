@@ -16,12 +16,14 @@ SKIPPED and exits 0 — it is run for real by scripts/test-desktop.sh and CI.
 Stdlib only; standalone runner (`python desktop/tests/test_sidecar_integration.py`).
 """
 
+import ipaddress
 import json
 import os
 import pathlib
 import shlex
 import signal
 import socket
+import struct
 import subprocess
 import sys
 import tempfile
@@ -29,6 +31,7 @@ import threading
 import time
 import urllib.error
 import urllib.request
+from unittest import SkipTest
 
 _ROOT = pathlib.Path(__file__).resolve().parents[2]
 TOK = "integration-test-token-0123456789abcdef"
@@ -148,11 +151,20 @@ class Sidecar:
             pass
 
 
-def _loopback_bindings(port):
-    """Parse /proc/net/tcp{,6} for LISTEN sockets on `port`.
-    Returns the set of local addresses (hex) listening on that port."""
+def _hex_ip(h):
+    """Normalize a /proc/net/tcp{,6} hex address (little-endian per 32-bit
+    word) to a plain string, e.g. "0100007F" -> "127.0.0.1"."""
+    packed = b"".join(struct.pack("<I", int(h[i:i + 8], 16))
+                      for i in range(0, len(h), 8))
+    if len(packed) == 4:
+        return str(ipaddress.IPv4Address(packed))
+    return str(ipaddress.IPv6Address(packed))
+
+
+def _proc_net_bindings(port):
+    """Linux: parse /proc/net/tcp{,6} for LISTEN sockets on `port`."""
     found = set()
-    for proc_file, width in (("/proc/net/tcp", 8), ("/proc/net/tcp6", 32)):
+    for proc_file in ("/proc/net/tcp", "/proc/net/tcp6"):
         try:
             lines = pathlib.Path(proc_file).read_text().splitlines()[1:]
         except OSError:
@@ -163,8 +175,65 @@ def _loopback_bindings(port):
                 continue
             addr, _, hexport = parts[1].partition(":")
             if int(hexport, 16) == port:
-                found.add(addr)
+                found.add(_hex_ip(addr))
     return found
+
+
+def _lsof_bindings(port):
+    """macOS (also works on Linux): `lsof` field output for LISTEN sockets on
+    `port`. Returns None if lsof is unavailable."""
+    try:
+        out = subprocess.run(
+            ["lsof", "-nP", f"-iTCP:{port}", "-sTCP:LISTEN", "-Fn"],
+            capture_output=True, text=True, timeout=30)
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return None
+    found = set()
+    for line in out.stdout.splitlines():   # name lines: n127.0.0.1:52345 / n*:80
+        if not line.startswith("n"):
+            continue
+        addr, sep, p = line[1:].rpartition(":")
+        if not sep or not p.isdigit() or int(p) != port:
+            continue
+        found.add(addr.strip("[]"))        # "[::1]" -> "::1"; "*" stays "*"
+    return found
+
+
+def _netstat_bindings(port):
+    """Windows (PREPARED, NOT YET VALIDATED on a real Windows machine):
+    parse `netstat -ano` LISTENING lines. Returns None if netstat is
+    unavailable."""
+    try:
+        out = subprocess.run(["netstat", "-ano"],
+                             capture_output=True, text=True, timeout=30)
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        return None
+    found = set()
+    for line in out.stdout.splitlines():
+        parts = line.split()
+        if len(parts) < 4 or parts[0].upper() != "TCP" \
+                or "LISTENING" not in (x.upper() for x in parts):
+            continue
+        addr, sep, p = parts[1].rpartition(":")
+        if not sep or not p.isdigit() or int(p) != port:
+            continue
+        found.add(addr.strip("[]"))
+    return found
+
+
+def _loopback_bindings(port):
+    """Local addresses of LISTEN sockets on `port`, normalized to plain
+    strings ("127.0.0.1", "0.0.0.0", "::", "::1", "*" = wildcard).
+    Linux: /proc/net/tcp{,6}. macOS: lsof. Windows: netstat.
+    Returns None when this platform offers no supported inspection
+    mechanism — the caller reports an explicit SKIP, never a false pass."""
+    if sys.platform.startswith("linux"):
+        return _proc_net_bindings(port)
+    if sys.platform == "darwin":
+        return _lsof_bindings(port)
+    if sys.platform == "win32":
+        return _netstat_bindings(port)
+    return None
 
 
 # ── tests (each gets a fresh temp data dir) ──────────────────────────────────
@@ -190,10 +259,14 @@ def test_binds_loopback_only():
         s = Sidecar(d)
         try:
             addrs = _loopback_bindings(s.port)
+            if addrs is None:
+                raise SkipTest(f"no socket-inspection mechanism on "
+                               f"{sys.platform} (need /proc/net/tcp, lsof, "
+                               f"or netstat)")
             assert addrs, f"no LISTEN socket found for port {s.port}"
-            # IPv4 loopback is 0100007F; anything else (0.0.0.0, ::, ::1-mapped
-            # wildcards) is a fail.
-            assert addrs <= {"0100007F"}, f"non-loopback binding(s): {addrs}"
+            # Only IPv4 loopback is acceptable; 0.0.0.0, ::, * (wildcard) or
+            # any interface address is a fail.
+            assert addrs <= {"127.0.0.1"}, f"non-loopback binding(s): {addrs}"
         finally:
             s.kill()
 
@@ -304,11 +377,15 @@ if __name__ == "__main__":
         sys.exit(0)
     tests = [(n, f) for n, f in sorted(globals().items())
              if n.startswith("test_") and callable(f)]
-    failed = 0
+    failed = skipped = 0
     for name, fn in tests:
         try:
             fn(); print(f"PASS  {name}")
+        except SkipTest as e:
+            skipped += 1; print(f"SKIP  {name}  ({e})")
         except Exception:
             failed += 1; print(f"FAIL  {name}"); traceback.print_exc()
-    print(f"\n{len(tests) - failed}/{len(tests)} passed")
+    passed = len(tests) - failed - skipped
+    print(f"\n{passed}/{len(tests)} passed"
+          + (f", {skipped} skipped" if skipped else ""))
     sys.exit(1 if failed else 0)
