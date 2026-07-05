@@ -43,7 +43,24 @@ applies to installed builds, not just `tauri dev`.
 |---|---|---|
 | **Bundled Core** (default) | The PyInstaller sidecar inside the install | Fully local; heavy ML engines not included — they report "not available". |
 | **Existing WebApp runtime** | `desktop_server.py` executed by the **venv Python of a SmartDocs WebApp checkout** you select | Select Folder → Validate Runtime checks the venv interpreter (`.venv/bin/python`, Windows `.venv\Scripts\python.exe`, or the sibling `../.venv` layout), backend sources, `models/`, and the GLM runtimes. Models/HF/Argos/VietOCR caches come from the WebApp via `MODEL_DIR`; GLM via `GLM_OCR_DIR`/`GLM_SDK_PYTHON`/`GLM_MLX_PYTHON`. On Apple Silicon macOS the GLM MLX model server is started and stopped automatically with the app (`GLM_OCR_API_URL` points at it). **DesktopApp documents/settings stay in the app's own data dir** — the WebApp's database/uploads are never touched. |
-| **Remote server** | Nothing local — the WebView opens your SmartDocs server | HTTPS required (plain HTTP only for `localhost`/`127.0.0.1` dev). Test Connection classifies: reachable / sign-in required / unreachable / TLS-certificate problem / not a SmartDocs server. |
+| **Remote server** | Only the local **UI gateway** (`SMARTDOCS_GATEWAY_ONLY=1`) — no OCR/LLM/GLM/DB/processing service | The Desktop UI stays local; the gateway proxies the allowlisted routes to your server. HTTPS required; plain HTTP works for `localhost`/`127.0.0.1`, and — only with **Allow insecure HTTP on private LAN** enabled and its warning confirmed — for private IP literals (`10.x`, `172.16–31.x`, `192.168.x`, IPv6 unique-local). Public IPs/hostnames over HTTP and URLs with embedded credentials are always refused; a persistent “Insecure LAN connection” chip shows while connected insecurely. Test Connection classifies: reachable / sign-in required / unreachable / TLS-certificate problem / not a SmartDocs server. |
+
+**The Desktop UI is the same in every mode.** The WebView only ever loads the
+local UI gateway (`desktop_gateway.py`, stdlib-only): it serves the
+DesktopApp's own frontend and proxies exactly the known SmartDocs routes
+(`/api/…` incl. uploads/downloads/streaming/citations/artifacts, `/login`,
+`/logout`, `/admin/…`) to the selected backend — an allowlist, not an open
+proxy. Switching modes changes only the gateway's upstream; the WebView is
+never navigated to a remote server's HTML interface, and redirects toward
+foreign origins are refused rather than followed.
+
+**The runtime selector is always reachable**, independent of any backend:
+the native **Backend Runtime…** menu item (⌘, on macOS, Ctrl+, elsewhere),
+the **Change backend…** button on every connection-error screen, and holding
+**Option/Alt during startup**. If the saved backend is invalid or
+unreachable the selector opens automatically with the saved configuration
+intact — correct it, retry, or switch; deleting `runtime.json` is never
+required.
 
 Mode management lives on the app's bundled launcher page (the only origin
 allowed to call the shell's runtime commands); the in-app Settings panel

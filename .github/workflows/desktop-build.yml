@@ -64,6 +64,10 @@ jobs:
       - name: UI logic tests (sidebar / Local-only state)
         run: node --test desktop/tests/ui/
 
+      - name: UI gateway tests (local UI, proxy allowlist, remote mode)
+        shell: bash
+        run: python3 desktop/tests/test_gateway.py
+
       - name: Rust shell unit tests (runtime modes)
         run: cargo test --manifest-path src-tauri/Cargo.toml
 

@@ -5,7 +5,8 @@
 //   external  – an existing SmartDocs WebApp checkout: its venv Python runs
 //               the DesktopApp entry point (desktop_server.py), reusing the
 //               WebApp's models and GLM runtimes via controlled env vars
-//   remote    – a SmartDocs server URL; no local backend process at all
+//   remote    – a SmartDocs server URL; only the lightweight local UI
+//               gateway runs (no OCR/LLM/GLM/DB/processing backend)
 //
 // Everything here is deliberately free of Tauri/process side effects so the
 // mode selection, layout validation, URL policy and env planning can be
@@ -40,13 +41,20 @@ impl BackendMode {
 }
 
 /// Persisted runtime selection. Contains NO secrets — only the mode, the
-/// chosen WebApp directory, the server URL and the GLM preference.
+/// chosen WebApp directory, the server URL, the GLM preference and the
+/// insecure-LAN preference + its acknowledgement state. Authentication
+/// tokens/credentials never live here (cloud keys stay in the OS credential
+/// store; server sign-in is a session cookie inside the WebView).
 #[derive(Clone, Debug)]
 pub struct RuntimeConfig {
     pub mode: BackendMode,
     pub external_path: Option<String>,
     pub remote_url: Option<String>,
     pub glm_enabled: bool,
+    /// Opt-in: plain HTTP to private-LAN IP literals (OFF by default).
+    pub allow_insecure_lan: bool,
+    /// The user confirmed the insecure-LAN warning once.
+    pub insecure_lan_ack: bool,
 }
 
 impl Default for RuntimeConfig {
@@ -56,6 +64,8 @@ impl Default for RuntimeConfig {
             external_path: None,
             remote_url: None,
             glm_enabled: true,
+            allow_insecure_lan: false,
+            insecure_lan_ack: false,
         }
     }
 }
@@ -85,11 +95,16 @@ impl RuntimeConfig {
                 .filter(|x| !x.is_empty())
                 .map(String::from)
         };
+        let b = |k: &str, default: bool| {
+            v.get(k).and_then(|x| x.as_bool()).unwrap_or(default)
+        };
         Some(RuntimeConfig {
             mode,
             external_path: s("external_path"),
             remote_url: s("remote_url"),
-            glm_enabled: v.get("glm_enabled").and_then(|x| x.as_bool()).unwrap_or(true),
+            glm_enabled: b("glm_enabled", true),
+            allow_insecure_lan: b("allow_insecure_lan", false),
+            insecure_lan_ack: b("insecure_lan_ack", false),
         })
     }
 
@@ -99,6 +114,8 @@ impl RuntimeConfig {
             "external_path": self.external_path,
             "remote_url": self.remote_url,
             "glm_enabled": self.glm_enabled,
+            "allow_insecure_lan": self.allow_insecure_lan,
+            "insecure_lan_ack": self.insecure_lan_ack,
         })
     }
 
@@ -322,41 +339,86 @@ fn is_local_host(host: &str) -> bool {
     h.eq_ignore_ascii_case("localhost") || h == "127.0.0.1" || h == "::1"
 }
 
-/// HTTPS is required for anything that is not a localhost development
-/// address; credentials in the URL are refused outright.
-pub fn check_remote_url(raw: &str) -> Result<tauri::Url, String> {
+/// RFC1918 IPv4 (10/8, 172.16/12, 192.168/16) or IPv6 unique-local (fc00::/7).
+fn is_private_lan_ip(host: &str) -> bool {
+    let h = host.trim_start_matches('[').trim_end_matches(']');
+    if let Ok(v4) = h.parse::<std::net::Ipv4Addr>() {
+        return v4.is_private();
+    }
+    if let Ok(v6) = h.parse::<std::net::Ipv6Addr>() {
+        return (v6.segments()[0] & 0xfe00) == 0xfc00;
+    }
+    false
+}
+
+/// How a validated remote URL will be reached.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum RemotePolicy {
+    /// TLS — always allowed, never downgraded.
+    Https,
+    /// Plain HTTP to localhost/127.0.0.1/::1 — always allowed (development).
+    HttpLocal,
+    /// Plain HTTP to a private-LAN IP literal — allowed only with the
+    /// explicit opt-in AND a confirmed warning; shown as insecure in the UI.
+    HttpInsecureLan,
+}
+
+/// Remote-server URL policy.
+///
+/// * HTTPS: always accepted (and never silently downgraded to HTTP).
+/// * HTTP: accepted for localhost/127.0.0.1/::1 unconditionally. With
+///   `allow_insecure_lan`, additionally accepted for PRIVATE-RANGE IP
+///   LITERALS ONLY (10/8, 172.16/12, 192.168/16, IPv6 unique-local). Plain
+///   HTTP to hostnames is rejected even with the option on: an IP literal is
+///   its own resolved destination, so there is no DNS step for a rebinding
+///   attack to subvert, and public IPs/hostnames can never slip through.
+/// * URLs with embedded credentials are refused outright.
+pub fn check_remote_url(raw: &str, allow_insecure_lan: bool) -> Result<(tauri::Url, RemotePolicy), String> {
     let url: tauri::Url = raw
         .trim()
         .parse()
         .map_err(|_| "not a valid URL (expected e.g. https://smartdocs.example.com)".to_string())?;
-    match url.scheme() {
-        "https" => {}
-        "http" => {
-            let host = url.host_str().unwrap_or("");
-            if !is_local_host(host) {
-                return Err(
-                    "plain HTTP is only allowed for localhost/127.0.0.1 development \
-                     servers — use https:// for remote servers"
-                        .into(),
-                );
-            }
-        }
-        s => return Err(format!("unsupported scheme \"{s}\" — use http(s)://")),
-    }
     if url.host_str().unwrap_or("").is_empty() {
         return Err("URL has no host".into());
     }
     if !url.username().is_empty() || url.password().is_some() {
         return Err("credentials embedded in the URL are not allowed".into());
     }
-    Ok(url)
+    let host = url.host_str().unwrap_or("").to_string();
+    let policy = match url.scheme() {
+        "https" => RemotePolicy::Https,
+        "http" if is_local_host(&host) => RemotePolicy::HttpLocal,
+        "http" if is_private_lan_ip(&host) => {
+            if !allow_insecure_lan {
+                return Err(
+                    "plain HTTP to a private LAN address requires enabling \
+                     “Allow insecure HTTP on private LAN” — or use https://"
+                        .into(),
+                );
+            }
+            RemotePolicy::HttpInsecureLan
+        }
+        "http" => {
+            return Err(
+                "plain HTTP is only allowed for localhost or a private LAN IP \
+                 address (10.x, 172.16–31.x, 192.168.x) — public addresses and \
+                 hostnames require https://"
+                    .into(),
+            )
+        }
+        s => return Err(format!("unsupported scheme \"{s}\" — use http(s)://")),
+    };
+    Ok((url, policy))
 }
 
 // ── launch planning ───────────────────────────────────────────────────────────
 
 /// What the shell must do for a config — computed WITHOUT side effects.
-/// `Navigate` (remote mode) carries no command, no paths, no interpreter:
-/// remote mode can never start a local process by construction.
+/// `ServeRemote` (remote mode) carries only the validated upstream URL and
+/// its policy: the shell starts the lightweight local UI gateway pointed at
+/// that URL — never OCR/LLM/GLM/database/document-processing services and
+/// never the bundled processing backend (the gateway entry path exits before
+/// any of that could be imported).
 #[derive(Debug)]
 pub enum StartPlan {
     SpawnBundled,
@@ -365,8 +427,16 @@ pub enum StartPlan {
         python: PathBuf,
         report: ValidationReport,
     },
-    Navigate(tauri::Url),
+    ServeRemote {
+        upstream: tauri::Url,
+        policy: RemotePolicy,
+    },
 }
+
+/// Error sentinel for a private-LAN HTTP URL that is allowed by the option
+/// but has not had its warning confirmed yet. The launcher recognizes the
+/// prefix and shows the confirmation UI instead of a plain error.
+pub const INSECURE_ACK_REQUIRED: &str = "insecure-lan-ack-required";
 
 pub fn start_plan(
     cfg: &RuntimeConfig,
@@ -400,12 +470,19 @@ pub fn start_plan(
             Ok(StartPlan::SpawnExternal { root, python, report })
         }
         BackendMode::Remote => {
-            let url = check_remote_url(
+            let (url, policy) = check_remote_url(
                 cfg.remote_url
                     .as_deref()
                     .ok_or("no server URL configured")?,
+                cfg.allow_insecure_lan,
             )?;
-            Ok(StartPlan::Navigate(url))
+            if policy == RemotePolicy::HttpInsecureLan && !cfg.insecure_lan_ack {
+                return Err(format!(
+                    "{INSECURE_ACK_REQUIRED}: connecting over unencrypted HTTP \
+                     to a private LAN address requires confirming the warning"
+                ));
+            }
+            Ok(StartPlan::ServeRemote { upstream: url, policy })
         }
     }
 }
@@ -536,8 +613,8 @@ mod tests {
         let cfg = RuntimeConfig {
             mode: BackendMode::External,
             external_path: Some("/opt/smartdocs".into()),
-            remote_url: None,
             glm_enabled: false,
+            ..RuntimeConfig::default()
         };
         cfg.save(&dir).unwrap();
         let loaded = RuntimeConfig::load(&dir);
@@ -548,6 +625,31 @@ mod tests {
         // No secrets in the persisted file.
         let raw = fs::read_to_string(RuntimeConfig::file_path(&dir)).unwrap();
         assert!(!raw.to_lowercase().contains("token"));
+    }
+
+    #[test]
+    fn config_round_trip_persists_insecure_lan_preference_and_ack() {
+        let dir = tmpdir("cfg-lan");
+        let cfg = RuntimeConfig {
+            mode: BackendMode::Remote,
+            remote_url: Some("http://192.168.1.50:5002".into()),
+            allow_insecure_lan: true,
+            insecure_lan_ack: true,
+            ..RuntimeConfig::default()
+        };
+        cfg.save(&dir).unwrap();
+        let loaded = RuntimeConfig::load(&dir);
+        assert!(loaded.allow_insecure_lan);
+        assert!(loaded.insecure_lan_ack);
+        // Old runtime.json files (without the new keys) default to OFF.
+        fs::write(
+            RuntimeConfig::file_path(&dir),
+            r#"{"mode":"remote","remote_url":"https://x.example.com"}"#,
+        )
+        .unwrap();
+        let old = RuntimeConfig::load(&dir);
+        assert!(!old.allow_insecure_lan);
+        assert!(!old.insecure_lan_ack);
     }
 
     #[test]
@@ -635,30 +737,82 @@ mod tests {
 
     #[test]
     fn https_required_for_non_local() {
-        assert!(check_remote_url("https://docs.example.com").is_ok());
-        assert!(check_remote_url("http://docs.example.com").is_err());
-        assert!(check_remote_url("http://192.168.1.10:5001").is_err());
-        assert!(check_remote_url("http://127.0.0.1:5001").is_ok());
-        assert!(check_remote_url("http://localhost:5001").is_ok());
-        assert!(check_remote_url("http://[::1]:5001").is_ok());
-        assert!(check_remote_url("ftp://example.com").is_err());
-        assert!(check_remote_url("not a url").is_err());
-        assert!(check_remote_url("https://user:pw@example.com").is_err());
+        assert!(check_remote_url("https://docs.example.com", false).is_ok());
+        assert!(check_remote_url("http://docs.example.com", false).is_err());
+        assert!(check_remote_url("http://192.168.1.10:5001", false).is_err());
+        assert!(check_remote_url("http://127.0.0.1:5001", false).is_ok());
+        assert!(check_remote_url("http://localhost:5001", false).is_ok());
+        assert!(check_remote_url("http://[::1]:5001", false).is_ok());
+        assert!(check_remote_url("ftp://example.com", false).is_err());
+        assert!(check_remote_url("not a url", false).is_err());
+        assert!(check_remote_url("https://user:pw@example.com", false).is_err());
+    }
+
+    #[test]
+    fn insecure_lan_option_gates_private_http_only() {
+        let ok = |raw: &str| check_remote_url(raw, true).map(|(_, p)| p);
+        // Loopback HTTP never needed the option.
+        assert_eq!(ok("http://127.0.0.1:5002").unwrap(), RemotePolicy::HttpLocal);
+        assert_eq!(ok("http://localhost:5002").unwrap(), RemotePolicy::HttpLocal);
+        // Private ranges: allowed WITH the option…
+        assert_eq!(ok("http://192.168.1.50:5002").unwrap(), RemotePolicy::HttpInsecureLan);
+        assert_eq!(ok("http://10.0.0.25:5002").unwrap(), RemotePolicy::HttpInsecureLan);
+        assert_eq!(ok("http://172.20.0.10:5002").unwrap(), RemotePolicy::HttpInsecureLan);
+        assert_eq!(ok("http://[fc00::1]:5002").unwrap(), RemotePolicy::HttpInsecureLan);
+        // …and refused without it.
+        assert!(check_remote_url("http://192.168.1.50:5002", false).is_err());
+        // 172.16/12 boundaries: 172.15.x and 172.32.x are PUBLIC.
+        assert!(ok("http://172.15.0.1:5002").is_err());
+        assert!(ok("http://172.32.0.1:5002").is_err());
+        // Public IPs, hostnames and link-local v6 stay rejected with the
+        // option ON — it widens nothing but RFC1918/ULA literals.
+        assert!(ok("http://8.8.8.8:5002").is_err());
+        assert!(ok("http://public-example.com").is_err());
+        assert!(ok("http://nas.local:5002").is_err());
+        assert!(ok("http://[fe80::1]:5002").is_err());
+        // Credentials still refused; https never affected by the flag.
+        assert!(ok("http://user:pw@192.168.1.50:5002").is_err());
+        assert_eq!(ok("https://docs.example.com").unwrap(), RemotePolicy::Https);
     }
 
     // — start planning —
 
     #[test]
-    fn remote_mode_plans_no_local_process() {
+    fn remote_mode_plans_ui_gateway_only_never_a_processing_backend() {
         let cfg = RuntimeConfig {
             mode: BackendMode::Remote,
             external_path: Some("/should/never/be/touched".into()),
             remote_url: Some("https://docs.example.com".into()),
-            glm_enabled: true,
+            ..RuntimeConfig::default()
         };
         match start_plan(&cfg, false, false).unwrap() {
-            StartPlan::Navigate(url) => assert_eq!(url.host_str(), Some("docs.example.com")),
-            other => panic!("remote mode must not spawn anything, got {other:?}"),
+            StartPlan::ServeRemote { upstream, policy } => {
+                // The plan carries only the URL — no interpreter, no paths,
+                // no validation report: nothing a processing backend needs.
+                assert_eq!(upstream.host_str(), Some("docs.example.com"));
+                assert_eq!(policy, RemotePolicy::Https);
+            }
+            other => panic!("remote mode must plan the UI gateway only, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn insecure_lan_start_requires_the_confirmed_ack() {
+        let mut cfg = RuntimeConfig {
+            mode: BackendMode::Remote,
+            remote_url: Some("http://192.168.1.50:5002".into()),
+            allow_insecure_lan: true,
+            insecure_lan_ack: false,
+            ..RuntimeConfig::default()
+        };
+        let err = start_plan(&cfg, false, false).unwrap_err();
+        assert!(err.starts_with(INSECURE_ACK_REQUIRED), "{err}");
+        cfg.insecure_lan_ack = true;
+        match start_plan(&cfg, false, false).unwrap() {
+            StartPlan::ServeRemote { policy, .. } => {
+                assert_eq!(policy, RemotePolicy::HttpInsecureLan)
+            }
+            other => panic!("expected gateway plan, got {other:?}"),
         }
     }
 
@@ -668,8 +822,7 @@ mod tests {
         let cfg = RuntimeConfig {
             mode: BackendMode::External,
             external_path: Some(root.display().to_string()),
-            remote_url: None,
-            glm_enabled: true,
+            ..RuntimeConfig::default()
         };
         match start_plan(&cfg, false, false).unwrap() {
             StartPlan::SpawnExternal { python, .. } => {
@@ -687,8 +840,7 @@ mod tests {
         let cfg = RuntimeConfig {
             mode: BackendMode::External,
             external_path: Some(tmpdir("nope").display().to_string()),
-            remote_url: None,
-            glm_enabled: true,
+            ..RuntimeConfig::default()
         };
         let err = start_plan(&cfg, false, false).unwrap_err();
         assert!(err.contains("missing"), "{err}");

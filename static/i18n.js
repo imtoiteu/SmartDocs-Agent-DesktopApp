@@ -44,6 +44,8 @@ const TRANSLATIONS = {
     runtime_bundled:    'Lõi đóng gói',
     runtime_external:   'WebApp runtime',
     runtime_remote:     'Máy chủ từ xa',
+    runtime_insecure_lan: 'Kết nối LAN không mã hoá',
+    runtime_insecure_lan_hint: 'Dữ liệu gửi tới máy chủ không được mã hoá (HTTP thường trên mạng nội bộ).',
 
     // Settings — backend runtime panel (desktop shell only)
     settings_runtime_title:  '🖥 Backend runtime',
@@ -379,6 +381,8 @@ const TRANSLATIONS = {
     runtime_bundled:    'Bundled Core',
     runtime_external:   'WebApp runtime',
     runtime_remote:     'Remote server',
+    runtime_insecure_lan: 'Insecure LAN connection',
+    runtime_insecure_lan_hint: 'Traffic to the server is unencrypted (plain HTTP on the local network).',
 
     // Settings — backend runtime panel (desktop shell only)
     settings_runtime_title:  '🖥 Backend runtime',

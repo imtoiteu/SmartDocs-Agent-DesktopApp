@@ -4,10 +4,10 @@
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>SmartDocs Platform — AI</title>
   <meta name="description" content="Extract, correct, translate and summarize text from images and documents."/>
-  <link rel="stylesheet" href="/static/style.css?v=2026.06.19.1"/>
+  <link rel="stylesheet" href="/static/style.css?v=2026.07.05.2"/>
   <link rel="stylesheet" href="/static/chat.css"/>
   <link rel="stylesheet" href="/static/vendor/katex/katex.min.css"/>
-  <script src="/static/i18n.js?v=2026.06.19.2"></script>
+  <script src="/static/i18n.js?v=2026.07.05.2"></script>
 </head>
 <body>
 <div id="app">
@@ -49,6 +49,8 @@
   <div class="tb-spacer"></div>
   <!-- Backend runtime chip (desktop shell only; link intercepted by the shell) -->
   <a id="topbar-runtime" class="tb-chip" href="/desktop/runtime-settings" hidden></a>
+  <!-- Insecure-LAN indicator: persistent while connected over plain HTTP -->
+  <span id="topbar-insecure" class="tb-chip tb-chip-warn" role="status" hidden></span>
   <!-- Processing-mode chip (🔒 Local only / ☁ Cloud) — synced with Settings -->
   <button id="topbar-privacy" class="tb-chip" hidden></button>
   <!-- Language selector -->
@@ -719,7 +721,7 @@
 <script src="/static/privacy-ui.js?v=2026.07.05.1"></script>
 <script src="/static/sidebar.js?v=2026.07.05.1"></script>
 <script src="/static/ocr-canvas.js?v=2026.06.14.1"></script>
-<script src="/static/app.js?v=2026.07.05.1"></script>
+<script src="/static/app.js?v=2026.07.05.2"></script>
 <script src="/static/chat.js?v=2026.06.14.1"></script>
 <script>
 // Fetch current user and populate navbar; redirect to login if session expired

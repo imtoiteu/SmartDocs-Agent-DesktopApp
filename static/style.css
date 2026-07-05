@@ -230,6 +230,14 @@ body {
         background: rgba(245, 158, 11, .08)
 }
 
+/* Persistent warning chip: connected over unencrypted private-LAN HTTP */
+.tb-chip.tb-chip-warn {
+        color: #f85149;
+        border-color: rgba(248, 81, 73, .4);
+        background: rgba(248, 81, 73, .08);
+        cursor: default
+}
+
 #sb-open {
         display: none;
         border: 1px solid var(--border);

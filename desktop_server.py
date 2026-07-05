@@ -1,7 +1,12 @@
 """SmartDocs desktop sidecar — the process the Tauri shell owns.
 
 Differences from `python app.py` (the web entry, which is unchanged):
-  • binds 127.0.0.1 ONLY, on a dynamically chosen free port (never 0.0.0.0);
+  • binds 127.0.0.1 ONLY, on dynamically chosen free ports (never 0.0.0.0);
+  • fronts the backend with the stdlib UI gateway (desktop_gateway.py): the
+    WebView's only origin, serving the DesktopApp frontend and proxying the
+    allowlisted routes — the handshake port is the gateway's;
+  • with SMARTDOCS_GATEWAY_ONLY=1 (Remote Server mode) it runs ONLY that
+    gateway, returning before any Flask/app/DB import;
   • prints a one-line JSON handshake to stdout when ready (stderr is for logs);
   • requires the per-launch token (X-SmartDocs-Token) on every /api request;
   • authenticates token-bearing requests as an auto-provisioned local desktop
@@ -36,6 +41,10 @@ try:
     from services import desktop_mode as dm
 except ImportError:
     import desktop_mode as dm
+
+# stdlib-only UI gateway: the WebView's one and only origin in every runtime
+# mode (serves the DesktopApp frontend, proxies allowlisted routes upstream).
+import desktop_gateway as dg
 
 _BOOT_HTML = """<!doctype html>
 <html><head><meta charset="utf-8"><title>SmartDocs</title></head>
@@ -136,7 +145,27 @@ def install_desktop_hooks(app, login_manager, token, shutdown_cb, version):
         return jsonify({"success": True, "shutting_down": True})
 
 
+def _ui_dir() -> Path:
+    """Where the DesktopApp's own frontend assets live, per layout:
+    explicit override → PyInstaller bundle data → next to this file
+    (repo checkout, or the desktop-shim resource dir)."""
+    env = os.environ.get("SMARTDOCS_UI_DIR", "").strip()
+    if env:
+        return Path(env)
+    frozen = getattr(sys, "_MEIPASS", None)
+    if frozen and (Path(frozen) / "static").is_dir():
+        return Path(frozen) / "static"
+    return BASE / "static"
+
+
 def main() -> int:
+    # Remote-server mode: the ENTIRE process is the stdlib UI gateway. This
+    # branch runs before any Flask/app/config/DB import — no OCR, LLM, GLM,
+    # database or document-processing service can start on this path.
+    if os.environ.get("SMARTDOCS_GATEWAY_ONLY") == "1":
+        os.environ.setdefault("SMARTDOCS_UI_DIR", str(_ui_dir()))
+        return dg.run_gateway_only(dm)
+
     os.environ[dm.DESKTOP_ENV] = "1"
     os.environ["HOST"] = "127.0.0.1"         # never 0.0.0.0 in desktop mode
     dm.apply_data_dirs()                     # BEFORE config import (mkdirs, caches)
@@ -166,11 +195,26 @@ def main() -> int:
             srv = srv_box.get("srv")
             if srv is not None:
                 srv.shutdown()
+            gw = srv_box.get("gw")
+            if gw is not None:
+                threading.Thread(target=gw.shutdown, daemon=True).start()
 
         install_desktop_hooks(app, login_manager, token, shutdown, APP_VERSION)
 
         srv = make_server("127.0.0.1", 0, app, threaded=True)   # dynamic port
         srv_box["srv"] = srv
+
+        # UI gateway in front of the backend: the WebView talks ONLY to the
+        # gateway, which serves the DesktopApp frontend locally and proxies
+        # the allowlisted routes to the Flask backend above. Same process,
+        # both listeners loopback-only.
+        gw = dg.make_gateway(
+            _ui_dir(), f"http://127.0.0.1:{srv.server_port}",
+            remote=False,
+            runtime_mode=os.environ.get("SMARTDOCS_RUNTIME_MODE", "bundled"))
+        srv_box["gw"] = gw
+        threading.Thread(target=gw.serve_forever, daemon=True,
+                         name="ui-gateway").start()
 
         # shutdown() must not run on the main thread: the handler interrupts
         # serve_forever, and BaseServer.shutdown() blocks until that same
@@ -191,9 +235,13 @@ def main() -> int:
         except Exception:
             pass
 
-        print(dm.ready_handshake(srv.server_port, os.getpid(), APP_VERSION),
+        # The handshake port is the GATEWAY port — the only origin the shell
+        # ever navigates to. The backend port stays an internal detail.
+        print(dm.ready_handshake(gw.server_address[1], os.getpid(), APP_VERSION),
               flush=True)
         srv.serve_forever()                  # returns after shutdown()
+        gw.shutdown()
+        gw.server_close()
         return 0
     except Exception as exc:                # never leak the token in errors
         print(dm.error_handshake(f"startup failed: {type(exc).__name__}: {exc}"),

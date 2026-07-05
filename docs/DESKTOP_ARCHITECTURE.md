@@ -12,6 +12,7 @@ the README's security-model summary.
 | Shell | `src-tauri/src/main.rs` | Native window, process lifecycle, token, health gate |
 | Runtime modes | `src-tauri/src/runtime.rs` | Pure core: mode config (`runtime.json`), external-runtime validation, remote URL policy, launch planning, start guard — unit-tested via `cargo test` |
 | Launcher | `desktop/splash/` | Bundled Tauri asset: splash + Backend-runtime settings (the only origin allowed to invoke the shell's runtime commands) |
+| UI gateway | `desktop_gateway.py` | stdlib-only local host+proxy: the WebView's ONLY origin in every mode — serves the DesktopApp frontend, proxies allowlisted routes to the selected backend |
 | Sidecar entry | `desktop_server.py` | Desktop-specific Flask wiring (unchanged `app.py` underneath); also shipped as a `desktop-shim/` resource so an external WebApp venv can run it |
 | Desktop helpers | `services/desktop_mode.py` | stdlib-only: token, handshake, data dirs, singleton lock |
 | Packaging | `desktop/sidecar/smartdocs-sidecar.spec` | PyInstaller one-dir build |
@@ -37,12 +38,56 @@ server can ever call them.
   --model …`, mirroring `tools/glm_serve.sh`), stopped with SIGTERM → 5 s →
   kill on exit. Token/handshake/health/shutdown are identical to bundled
   mode. No shell strings anywhere — validated executables + argument lists.
-- **remote** — no local process at all (`StartPlan::Navigate` carries only a
-  URL by construction). HTTPS is required except for localhost/127.0.0.1/::1;
-  URLs with embedded credentials are refused. Test Connection fingerprints
-  the server via the unauthenticated 401 JSON envelope of `/api/auth/me` and
-  classifies: ok / auth_required / unreachable / tls_error / incompatible.
-  The navigation allowlist pins exactly the configured origin.
+- **remote** — only the UI gateway runs (`StartPlan::ServeRemote` carries a
+  URL and its policy, nothing a processing backend needs; the sidecar binary
+  is entered with `SMARTDOCS_GATEWAY_ONLY=1`, which routes into
+  desktop_gateway BEFORE any Flask/app/config/DB import — no OCR, LLM, GLM,
+  database or document-processing service can start). HTTPS is required
+  except for localhost/127.0.0.1/::1 — plus, with the explicit OFF-by-default
+  “Allow insecure HTTP on private LAN” option AND a confirmed warning,
+  private IP LITERALS only (10/8, 172.16/12, 192.168/16, IPv6 fc00::/7).
+  Hostnames over plain HTTP are rejected even with the option on: an IP
+  literal is its own resolved destination, so there is no DNS step for a
+  rebinding attack, and the gateway re-verifies the IP before every connect.
+  URLs with embedded credentials are refused; HTTPS is never downgraded.
+  Test Connection fingerprints the server via the unauthenticated 401 JSON
+  envelope of `/api/auth/me` and classifies: ok / auth_required /
+  unreachable / tls_error / incompatible. While connected insecurely the UI
+  shows a persistent “Insecure LAN connection” chip
+  (`/api/desktop/health` → `insecure_lan`, answered by the gateway).
+
+### The UI gateway (every mode)
+
+The WebView's only origin is `http://127.0.0.1:<gateway-port>`:
+
+- **bundled/external**: the gateway runs as a thread inside
+  `desktop_server.py`, upstream = the in-process Flask backend; the stdout
+  handshake reports the GATEWAY port (the backend port is internal).
+- **remote**: the gateway-only process, upstream = the configured server.
+  Page loads are auth-gated via the upstream `/api/auth/me` (302 → the
+  proxied `/login` when signed out); `/api/desktop/health` and the
+  token-guarded `/api/desktop/shutdown` are answered locally; the
+  `X-SmartDocs-Token` header is stripped so the launch token never leaves
+  the machine.
+
+Gateway behavior (desktop/tests/test_gateway.py): serves `/`, `/agent` and
+`/static/*` from the DesktopApp's own assets in every mode; proxies ONLY
+`/api/…`, `/login`, `/logout`, `/admin(/…)` (+ `/desktop/boot` locally);
+streams bodies unbuffered both ways (uploads, downloads, SSE); never follows
+redirects (upstream-origin Locations are rewritten to the gateway origin,
+foreign ones left for the navigation allowlist to refuse); drops
+Domain/Secure from proxied Set-Cookie so sessions bind to the local origin;
+requires a local Host header (DNS-rebinding guard); 404s everything else.
+
+### Runtime-selector recovery
+
+The selector never depends on the active backend: native **Backend
+Runtime…** menu item (CmdOrCtrl+,), the **Change backend…** button on error
+screens (splash + the gateway's 502 page), and holding **Option/Alt during
+startup** (CGEventSourceFlagsState / GetAsyncKeyState / X11-via-dlopen; env
+`SMARTDOCS_FORCE_RUNTIME_SELECTOR=1` as a portable override). Start
+failures call `open_runtime_selector` with the error — the saved
+runtime.json is preserved for correction and never deleted.
 
 Error messages for external/remote modes never reference bundle-internal
 paths (the sidecar resource is only resolved in bundled mode).
@@ -66,7 +111,8 @@ Tauri main()
       import app          (unchanged Flask app)
       install hooks       token guard, request_loader, desktop routes
       make_server("127.0.0.1", 0)               ← dynamic port, loopback only
-      stdout ← {"event":"ready","port":N,"pid":P,"version":V}
+      start the UI gateway thread (desktop_gateway) in front of Flask
+      stdout ← {"event":"ready","port":GATEWAY,"pid":P,"version":V}
  6. shell reads handshake (90 s bound), then polls
     GET /api/desktop/health with the token (30 s bound)
  7. window.navigate → http://127.0.0.1:<port>/desktop/boot
@@ -126,9 +172,12 @@ or SIGTERM/SIGINT — both funnel into `werkzeug.serving.make_server().shutdown(
 
 ## Deviations from the mandated architecture
 
-One: the main UI is **served by the sidecar over 127.0.0.1** and the bundled
-Tauri asset is only the splash/bootstrap, rather than the whole frontend being
-served from Tauri assets. Concrete blockers, verified in the baseline code:
+The UI-host question is now resolved by the gateway: the frontend the WebView
+loads is always the DesktopApp's own copy, served from the local gateway
+origin in every mode. What remains server-rendered (`/login`, `/admin/`)
+is proxied through the same local origin rather than served as assets,
+because those pages are Jinja templates rendered by the backend. Original
+blockers for full tauri://-asset serving, verified in the baseline code:
 
 1. `/admin/` is server-rendered Jinja (`templates/`) — it cannot exist as a
    static asset.

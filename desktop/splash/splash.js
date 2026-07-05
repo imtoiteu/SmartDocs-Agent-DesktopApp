@@ -26,6 +26,15 @@
     var btn = $("open-runtime");
     if (btn) { btn.style.display = "inline-block"; }
   };
+  // Shell-driven recovery: open the runtime selector (never trapping the
+  // user on a failed backend), optionally carrying the startup error.
+  window.__openRuntime = function (errorText) {
+    showRuntime();
+    if (errorText) {
+      $("rt-status").textContent = String(errorText);
+      $("rt-status").className = "state-bad";
+    }
+  };
 
   // ── view switching ─────────────────────────────────────────────────────────
   function showRuntime() {
@@ -47,6 +56,20 @@
 
   // ── runtime settings panel ─────────────────────────────────────────────────
   var platform = { mlx_supported: false, windows: false };
+  var insecureAcked = false;      // persisted acknowledgement (runtime.json)
+  var insecureConfirmed = false;  // confirmed in this panel session
+
+  // Does this URL need the insecure-LAN confirmation? (plain HTTP to a
+  // non-localhost host; the shell's policy is authoritative — this only
+  // decides when to show the warning up front.)
+  function needsInsecureConfirm(raw) {
+    try {
+      var u = new URL(raw);
+      if (u.protocol !== "http:") { return false; }
+      var h = u.hostname.replace(/^\[|\]$/g, "").toLowerCase();
+      return h !== "localhost" && h !== "127.0.0.1" && h !== "::1";
+    } catch (e) { return false; }
+  }
 
   function mode() {
     var el = document.querySelector('input[name="rt-mode"]:checked');
@@ -83,6 +106,8 @@
       if (radio) { radio.checked = true; }
       $("rt-path").value = cfg.external_path || "";
       $("rt-url").value = cfg.remote_url || "";
+      $("rt-insecure").checked = cfg.allow_insecure_lan === true;
+      insecureAcked = cfg.insecure_lan_ack === true;
       $("rt-glm").checked = cfg.glm_enabled !== false;
       $("rt-glm").disabled = !platform.mlx_supported;
       $("rt-glm-hint").textContent = platform.mlx_supported
@@ -138,11 +163,15 @@
     out.textContent = "Testing…";
     out.className = "";
     if (!invoke) { return; }
-    invoke("runtime_test_remote", { url: $("rt-url").value.trim() })
+    invoke("runtime_test_remote", {
+      url: $("rt-url").value.trim(),
+      allowInsecureLan: $("rt-insecure").checked,
+    })
       .then(function (r) {
         var good = r.state === "ok" || r.state === "auth_required";
-        out.textContent = r.message || r.state;
-        out.className = good ? "state-ok"
+        var note = r.insecure_lan ? " (unencrypted HTTP — insecure LAN)" : "";
+        out.textContent = (r.message || r.state) + (good ? note : "");
+        out.className = good ? (r.insecure_lan ? "state-warn" : "state-ok")
           : (r.state === "tls_error" ? "state-warn" : "state-bad");
       })
       .catch(function (e) {
@@ -151,9 +180,7 @@
       });
   });
 
-  $("rt-form").addEventListener("submit", function (ev) {
-    ev.preventDefault();
-    if (!invoke) { return; }
+  function submitConfig() {
     var st = $("rt-status");
     st.textContent = "Applying…";
     st.className = "";
@@ -162,6 +189,8 @@
       external_path: $("rt-path").value.trim() || null,
       remote_url: $("rt-url").value.trim() || null,
       glm_enabled: $("rt-glm").checked,
+      allow_insecure_lan: $("rt-insecure").checked,
+      insecure_lan_ack: insecureAcked || insecureConfirmed,
     };
     invoke("runtime_apply", { config: cfg }).then(function () {
       st.textContent = "Restarting the backend…";
@@ -173,9 +202,46 @@
       if (sp) { sp.style.display = ""; }
       window.__splashStatus("Restarting backend…");
     }).catch(function (e) {
-      st.textContent = String(e);
+      var msg = String(e);
+      if (msg.indexOf("insecure-lan-ack-required") !== -1) {
+        // Shell-side enforcement caught an unconfirmed insecure target
+        // (authoritative even if the up-front check was bypassed).
+        $("rt-insecure-warn").hidden = false;
+        $("rt-insecure-confirm").focus();
+        st.textContent = "";
+        return;
+      }
+      st.textContent = msg;
       st.className = "state-bad";
     });
+  }
+
+  $("rt-form").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    if (!invoke) { return; }
+    // First insecure-LAN connection: explicit warning + confirmation before
+    // anything is applied or connected. Confirmed once → remembered
+    // (insecure_lan_ack), never re-asked.
+    if (mode() === "remote" && $("rt-insecure").checked &&
+        needsInsecureConfirm($("rt-url").value.trim()) &&
+        !insecureAcked && !insecureConfirmed) {
+      $("rt-insecure-warn").hidden = false;
+      $("rt-insecure-confirm").focus();
+      return;
+    }
+    $("rt-insecure-warn").hidden = true;
+    submitConfig();
+  });
+
+  $("rt-insecure-confirm").addEventListener("click", function () {
+    insecureConfirmed = true;
+    $("rt-insecure-warn").hidden = true;
+    submitConfig();
+  });
+  $("rt-insecure-cancel").addEventListener("click", function () {
+    $("rt-insecure-warn").hidden = true;
+    $("rt-status").textContent = "Not connected — the insecure connection was cancelled.";
+    $("rt-status").className = "state-warn";
   });
 
   $("rt-cancel").addEventListener("click", function () {

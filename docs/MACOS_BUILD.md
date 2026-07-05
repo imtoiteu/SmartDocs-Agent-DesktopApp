@@ -116,10 +116,32 @@ the real behavior here.
    database (separate data dirs). ⌘Q → backend AND mlx_vlm.server both gone.
 10. Remote server: enter your server URL → Test Connection (expect
     "sign-in required" for a real server; a plain-HTTP non-local URL must be
-    refused; a non-SmartDocs URL must say incompatible) → Apply → the app
-    opens the server's login page; no local backend or GLM process runs.
+    refused unless it is a private LAN IP with the insecure option enabled;
+    a non-SmartDocs URL must say incompatible) → Apply → the app shows the
+    DESKTOP UI (not the server's web pages) with the login page proxied
+    through 127.0.0.1; `pgrep -f smartdocs-sidecar` shows ONE gateway-only
+    process and `pgrep -f mlx_vlm` nothing. Sign in, upload, run a summary —
+    all data lives on the server.
 11. From the running app: Settings → "Manage backend runtime…" must return
     to the launcher screen.
+
+**Runtime-selector recovery + insecure LAN**
+12. Menu bar → Backend → "Backend Runtime…" and ⌘, both open the selector
+    while the app is running; "Back to app" returns.
+13. Quit; relaunch while HOLDING Option → the selector appears instead of
+    the saved backend starting; Esc/Back resumes nothing (no backend yet),
+    Apply starts one. runtime.json was not modified by just looking.
+14. Configure remote mode against a stopped/unreachable server → on launch
+    the selector opens automatically with the error and the saved URL still
+    filled in; fix the URL and Apply without deleting anything.
+15. Remote URL `http://<LAN-IP>:5002` with the insecure checkbox OFF →
+    refused with an actionable message. Enable "Allow insecure HTTP on
+    private LAN" → Apply → the warning appears ONCE; confirm → connects;
+    the top bar shows the red "Insecure LAN connection" chip persistently;
+    relaunch → no re-confirmation. `http://8.8.8.8:5002` and
+    `http://user:pw@…` must always be refused.
+16. In remote mode the UI must still be the DesktopApp interface: sidebar,
+    top-bar chips, language switcher — never the server's own web layout.
 
 ## 7. Troubleshooting
 
@@ -136,6 +158,15 @@ the real behavior here.
 - Everything in §6b: external WebApp runtime launch, the GLM MLX helper
   start/stop, remote-server mode against a real server, the native folder
   picker dialog, and the sidebar/Local-only behavior in a real WKWebView
+- The UI gateway under WKWebView: login through the proxy (cookie
+  handling), uploads/downloads/streaming through the proxy, admin pages
+- The native menu item + ⌘, accelerator, and Option-held-at-startup
+  detection (CGEventSourceFlagsState) on real macOS
+- Insecure-LAN flow against a real LAN server (warning-once, persistent
+  chip, refusal matrix)
+- Rust changes in main.rs/runtime.rs have never been compiled on this
+  Linux box (cargo builds are prohibited here) — `cargo test
+  --manifest-path src-tauri/Cargo.toml` runs in CI and on your Mac
 
 - PyInstaller freeze on arm64 (spec was only exercised on Linux x86_64)
 - macOS **Keychain** behavior of the keyring integration (prompts, ACLs)

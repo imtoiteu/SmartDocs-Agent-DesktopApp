@@ -1486,14 +1486,25 @@ const PrivacyIndicator = {
 // /api/desktop/health; clicking opens the shell's runtime settings.
 const RuntimeChip = {
   _mode: null,
-  set(mode) {
+  _insecure: false,
+  set(mode, insecure) {
     this._mode = mode || this._mode;
+    if (insecure !== undefined) this._insecure = !!insecure;
     if (!this._mode) return;
     const chip = document.getElementById('topbar-runtime');
-    if (!chip) return;
-    chip.hidden = false;
-    chip.textContent = t('runtime_' + this._mode) || this._mode;
-    chip.title = t('settings_runtime_manage') || 'Manage backend runtime…';
+    if (chip) {
+      chip.hidden = false;
+      chip.textContent = t('runtime_' + this._mode) || this._mode;
+      chip.title = t('settings_runtime_manage') || 'Manage backend runtime…';
+    }
+    // Persistent indicator while connected over unencrypted LAN HTTP.
+    const warn = document.getElementById('topbar-insecure');
+    if (warn) {
+      warn.hidden = !this._insecure;
+      warn.textContent = '⚠ ' + (t('runtime_insecure_lan') || 'Insecure LAN connection');
+      warn.title = t('runtime_insecure_lan_hint') ||
+        'Traffic to the server is unencrypted (plain HTTP on the local network).';
+    }
   },
   refresh() { this.set(null); },
 };
@@ -1537,8 +1548,11 @@ const SettingsView = {
     fetch('/api/desktop/health').then(r => r.json()).then(h => {
       const mode = h.runtime_mode || 'bundled';
       const txt = document.getElementById('settings-runtime-mode-text');
-      if (txt) txt.textContent = t('runtime_' + mode) || mode;
-      RuntimeChip.set(mode);
+      if (txt) {
+        txt.textContent = (t('runtime_' + mode) || mode) + (h.insecure_lan === true
+          ? ' — ' + (t('runtime_insecure_lan') || 'Insecure LAN connection') : '');
+      }
+      RuntimeChip.set(mode, h.insecure_lan === true);
     }).catch(() => {});
   },
 
@@ -2124,7 +2138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(() => {});
   if (window.__SMARTDOCS_DESKTOP__) {
     fetch('/api/desktop/health').then(r => r.json())
-      .then(h => RuntimeChip.set(h.runtime_mode || 'bundled'))
+      .then(h => RuntimeChip.set(h.runtime_mode || 'bundled', h.insecure_lan === true))
       .catch(() => {});
   }
 

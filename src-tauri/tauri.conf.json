@@ -29,7 +29,9 @@
     "resources": {
       "../desktop/sidecar/dist/smartdocs-sidecar/": "sidecar/",
       "../desktop_server.py": "desktop-shim/desktop_server.py",
-      "../services/desktop_mode.py": "desktop-shim/desktop_mode.py"
+      "../desktop_gateway.py": "desktop-shim/desktop_gateway.py",
+      "../services/desktop_mode.py": "desktop-shim/desktop_mode.py",
+      "../static/": "desktop-shim/static/"
     }
   }
 }

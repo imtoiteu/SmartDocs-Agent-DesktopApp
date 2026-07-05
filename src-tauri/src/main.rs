@@ -6,9 +6,20 @@
 //   external  spawn desktop_server.py with the Python venv of an existing
 //             SmartDocs WebApp checkout (+ the GLM MLX helper when
 //             applicable), reusing its models via controlled env vars
-//   remote    navigate straight to a SmartDocs server URL — no local process
+//   remote    spawn ONLY the stdlib UI gateway (SMARTDOCS_GATEWAY_ONLY=1)
+//             pointed at a SmartDocs server URL — no OCR/LLM/GLM/DB/
+//             processing backend ever starts in this mode
 //
-// Local backends: token via stdin → {"event":"ready","port":N} handshake →
+// In every mode the WebView shows the DesktopApp's own frontend from the
+// local UI gateway origin (http://127.0.0.1:<port>); switching modes only
+// changes the gateway's upstream. The WebView is never navigated to a
+// remote server's HTML interface.
+//
+// The runtime selector stays reachable independently of any backend: the
+// native “Backend Runtime…” menu item (Cmd/Ctrl+,), the Change-backend
+// button on error screens, and holding Option/Alt during startup.
+//
+// Backends: token via stdin → {"event":"ready","port":N} handshake →
 // /api/desktop/health poll → navigate. On exit: graceful shutdown endpoint →
 // bounded wait → force-kill; the GLM helper gets SIGTERM → bounded wait →
 // kill. Only processes this shell spawned are ever touched.
@@ -50,11 +61,14 @@ struct BackendState {
     starting: StartGuard,
 }
 
-/// What the WebView may navigate to. Exactly one backend origin at a time.
+/// What the WebView may navigate to: the bundled launcher plus exactly one
+/// LOCAL gateway origin. There is deliberately no remote entry — remote
+/// servers are reached only through the local gateway's proxy, so the
+/// WebView can never land on a remote HTML interface (and a redirect from a
+/// private address to a public one is refused here instead of followed).
 #[derive(Default)]
 struct NavRule {
     local_port: Option<u16>,
-    remote: Option<Url>,
 }
 
 fn new_token() -> String {
@@ -69,6 +83,91 @@ fn is_windows() -> bool {
 
 fn mlx_supported() -> bool {
     cfg!(all(target_os = "macos", target_arch = "aarch64"))
+}
+
+// ── startup runtime-selector override (hold Option/Alt while launching) ─────
+
+/// True when the user is holding Option/Alt at startup (or forces the
+/// selector via SMARTDOCS_FORCE_RUNTIME_SELECTOR=1) — the shell then opens
+/// the runtime selector instead of auto-starting the saved backend.
+fn startup_selector_forced() -> bool {
+    if std::env::var("SMARTDOCS_FORCE_RUNTIME_SELECTOR").ok().as_deref() == Some("1") {
+        return true;
+    }
+    platform_alt_down()
+}
+
+#[cfg(target_os = "macos")]
+fn platform_alt_down() -> bool {
+    // kCGEventFlagMaskAlternate on the combined session event state.
+    #[link(name = "CoreGraphics", kind = "framework")]
+    extern "C" {
+        fn CGEventSourceFlagsState(state_id: i32) -> u64;
+    }
+    const K_CG_EVENT_SOURCE_STATE_COMBINED: i32 = 0;
+    const MASK_ALTERNATE: u64 = 1 << 19;
+    unsafe { CGEventSourceFlagsState(K_CG_EVENT_SOURCE_STATE_COMBINED) & MASK_ALTERNATE != 0 }
+}
+
+#[cfg(windows)]
+fn platform_alt_down() -> bool {
+    #[link(name = "user32")]
+    extern "system" {
+        fn GetAsyncKeyState(v_key: i32) -> i16;
+    }
+    const VK_MENU: i32 = 0x12; // either Alt key
+    unsafe { (GetAsyncKeyState(VK_MENU) as u16) & 0x8000 != 0 }
+}
+
+#[cfg(all(unix, not(target_os = "macos")))]
+fn platform_alt_down() -> bool {
+    // X11 keymap via dlopen — no link-time dependency; returns false on
+    // Wayland-only/headless systems (menu item, Ctrl+, and the error-screen
+    // button remain as recovery paths there).
+    type XOpenDisplayFn = unsafe extern "C" fn(*const libc::c_char) -> *mut libc::c_void;
+    type XQueryKeymapFn = unsafe extern "C" fn(*mut libc::c_void, *mut libc::c_char) -> libc::c_int;
+    type XKeysymToKeycodeFn = unsafe extern "C" fn(*mut libc::c_void, libc::c_ulong) -> libc::c_uchar;
+    type XCloseDisplayFn = unsafe extern "C" fn(*mut libc::c_void) -> libc::c_int;
+    const XK_ALT_L: libc::c_ulong = 0xFFE9;
+    const XK_ALT_R: libc::c_ulong = 0xFFEA;
+    unsafe {
+        let lib = libc::dlopen(b"libX11.so.6\0".as_ptr().cast(), libc::RTLD_LAZY);
+        if lib.is_null() {
+            return false;
+        }
+        let open_p = libc::dlsym(lib, b"XOpenDisplay\0".as_ptr().cast());
+        let query_p = libc::dlsym(lib, b"XQueryKeymap\0".as_ptr().cast());
+        let code_p = libc::dlsym(lib, b"XKeysymToKeycode\0".as_ptr().cast());
+        let close_p = libc::dlsym(lib, b"XCloseDisplay\0".as_ptr().cast());
+        if open_p.is_null() || query_p.is_null() || code_p.is_null() || close_p.is_null() {
+            libc::dlclose(lib);
+            return false;
+        }
+        let x_open: XOpenDisplayFn = std::mem::transmute(open_p);
+        let x_query: XQueryKeymapFn = std::mem::transmute(query_p);
+        let x_code: XKeysymToKeycodeFn = std::mem::transmute(code_p);
+        let x_close: XCloseDisplayFn = std::mem::transmute(close_p);
+        let dpy = x_open(std::ptr::null());
+        if dpy.is_null() {
+            libc::dlclose(lib);
+            return false;
+        }
+        let mut keys = [0 as libc::c_char; 32];
+        x_query(dpy, keys.as_mut_ptr());
+        let mut held = false;
+        for keysym in [XK_ALT_L, XK_ALT_R] {
+            let code = x_code(dpy, keysym);
+            if code != 0 {
+                let byte = keys[(code / 8) as usize] as u8;
+                if byte & (1u8 << (code % 8)) != 0 {
+                    held = true;
+                }
+            }
+        }
+        x_close(dpy);
+        libc::dlclose(lib);
+        held
+    }
 }
 
 fn config_dir(app: &tauri::AppHandle) -> Result<PathBuf, String> {
@@ -348,10 +447,10 @@ fn probe_remote(url: &Url) -> serde_json::Value {
 
 // ── injected page bridge ─────────────────────────────────────────────────────
 
-/// Injected into every page this window loads (splash and the local backend).
-/// Adds the launch token to /api requests on the app's own origins only.
-/// In remote mode the navigation allowlist pins the configured server and no
-/// local backend exists, so a leaked-token risk does not arise there either.
+/// Injected into every page this window loads (splash and the local gateway
+/// origin). Adds the launch token to /api requests on the app's own origins
+/// only. In remote mode the gateway strips this header before forwarding, so
+/// the token never leaves the machine.
 fn init_script(token: &str) -> String {
     format!(
         r#"(function () {{
@@ -400,6 +499,18 @@ fn splash_status(app: &tauri::AppHandle, msg: &str, error: bool) {
         let f = if error { "__splashError" } else { "__splashStatus" };
         let _ = w.eval(&format!("window.{f} && window.{f}({});",
                                 serde_json::to_string(msg).unwrap_or_default()));
+    }
+}
+
+/// Open the launcher's runtime selector (optionally carrying the error that
+/// brought the user there). Recovery guarantee: a failed/invalid saved
+/// backend never traps the user — the selector appears with the current
+/// configuration intact, ready to be corrected, retried, or switched.
+fn open_runtime_selector(app: &tauri::AppHandle, error: Option<&str>) {
+    navigate(app, launcher_url("#runtime"));
+    if let Some(w) = app.get_webview_window("main") {
+        let msg = serde_json::to_string(error.unwrap_or("")).unwrap_or_default();
+        let _ = w.eval(&format!("window.__openRuntime && window.__openRuntime({msg});"));
     }
 }
 
@@ -516,6 +627,9 @@ fn run_start(
     let fail = |msg: String| {
         *state.status.lock().unwrap() = format!("error: {msg}");
         splash_status(handle, &msg, true);
+        // Never trap the user on a failed backend: surface the selector with
+        // the saved configuration preserved for correction/retry.
+        open_runtime_selector(handle, Some(&msg));
     };
 
     let plan = match runtime::start_plan(&cfg, is_windows(), mlx_supported()) {
@@ -524,18 +638,30 @@ fn run_start(
     };
 
     match plan {
-        StartPlan::Navigate(url) => {
+        StartPlan::ServeRemote { upstream, policy } => {
             splash_status(handle, "Checking the SmartDocs server…", false);
-            let probe = probe_remote(&url);
+            let probe = probe_remote(&upstream);
             let st = probe["state"].as_str().unwrap_or("unreachable");
-            if st == "ok" || st == "auth_required" {
-                nav.lock().unwrap().remote = Some(url.clone());
-                nav.lock().unwrap().local_port = None;
-                *state.status.lock().unwrap() = "remote".into();
-                navigate(handle, url);
-            } else {
-                fail(probe["message"].as_str().unwrap_or("server check failed").to_string());
+            if st != "ok" && st != "auth_required" {
+                return fail(
+                    probe["message"].as_str().unwrap_or("server check failed").to_string(),
+                );
             }
+            splash_status(handle, "Starting the SmartDocs desktop UI…", false);
+            // The gateway-only entry: same sidecar binary, but the env flag
+            // routes desktop_server.py into desktop_gateway BEFORE any
+            // Flask/app/DB import — no processing service can start.
+            let mut cmd = match sidecar_command(handle) {
+                Ok(c) => c,
+                Err(e) => return fail(format!("Could not start the desktop UI. {e}")),
+            };
+            cmd.env("SMARTDOCS_GATEWAY_ONLY", "1")
+                .env("SMARTDOCS_GATEWAY_UPSTREAM", upstream.as_str())
+                .env(
+                    "SMARTDOCS_GATEWAY_INSECURE",
+                    if policy == runtime::RemotePolicy::HttpInsecureLan { "1" } else { "0" },
+                );
+            finish_local_start(handle, state, nav, cmd, BackendMode::Remote);
         }
         StartPlan::SpawnBundled => {
             splash_status(handle, "Starting local backend…", false);
@@ -582,25 +708,30 @@ fn finish_local_start(
         Ok((child, port)) => {
             *state.child.lock().unwrap() = Some(child);
             *state.port.lock().unwrap() = Some(port);
-            {
-                let mut rule = nav.lock().unwrap();
-                rule.local_port = Some(port);
-                rule.remote = None;
-            }
+            nav.lock().unwrap().local_port = Some(port);
             splash_status(handle, "Waiting for the backend…", false);
             match wait_healthy(port, &state.token) {
                 Ok(()) => {
-                    *state.status.lock().unwrap() = "running".into();
-                    let boot: Url = format!("http://127.0.0.1:{port}/desktop/boot")
+                    *state.status.lock().unwrap() = if mode == BackendMode::Remote {
+                        "remote".into()
+                    } else {
+                        "running".into()
+                    };
+                    // Local backends bootstrap the cookie session on
+                    // /desktop/boot; remote mode signs in through the
+                    // gateway-proxied /login instead.
+                    let entry = if mode == BackendMode::Remote { "" } else { "desktop/boot" };
+                    let url: Url = format!("http://127.0.0.1:{port}/{entry}")
                         .parse()
-                        .expect("valid boot url");
-                    navigate(handle, boot);
+                        .expect("valid entry url");
+                    navigate(handle, url);
                 }
                 Err(e) => {
                     let msg = format!("Backend failed its health check. {e}");
                     *state.status.lock().unwrap() = format!("error: {msg}");
                     splash_status(handle, &msg, true);
                     stop_all(state);
+                    open_runtime_selector(handle, Some(&msg));
                 }
             }
         }
@@ -609,6 +740,7 @@ fn finish_local_start(
             *state.status.lock().unwrap() = format!("error: {msg}");
             splash_status(handle, &msg, true);
             stop_all(state); // reap the GLM helper if it was already up
+            open_runtime_selector(handle, Some(&msg));
         }
     }
 }
@@ -659,9 +791,14 @@ fn runtime_validate(path: String) -> serde_json::Value {
 }
 
 #[tauri::command]
-async fn runtime_test_remote(url: String) -> serde_json::Value {
-    match runtime::check_remote_url(&url) {
-        Ok(u) => probe_remote(&u),
+async fn runtime_test_remote(url: String, allow_insecure_lan: Option<bool>) -> serde_json::Value {
+    match runtime::check_remote_url(&url, allow_insecure_lan.unwrap_or(false)) {
+        Ok((u, policy)) => {
+            let mut v = probe_remote(&u);
+            v["insecure_lan"] =
+                (policy == runtime::RemotePolicy::HttpInsecureLan).into();
+            v
+        }
         Err(e) => serde_json::json!({"state": "invalid_url", "message": e}),
     }
 }
@@ -694,14 +831,13 @@ fn runtime_apply(
 fn runtime_resume(
     app: tauri::AppHandle,
     state: tauri::State<'_, Arc<BackendState>>,
-    nav: tauri::State<'_, Arc<Mutex<NavRule>>>,
 ) -> Result<(), String> {
     if let Some(port) = *state.port.lock().unwrap() {
-        navigate(&app, format!("http://127.0.0.1:{port}/desktop/boot").parse().unwrap());
-        return Ok(());
-    }
-    if let Some(url) = nav.lock().unwrap().remote.clone() {
-        navigate(&app, url);
+        let entry = match *state.active_mode.lock().unwrap() {
+            Some(BackendMode::Remote) => "",
+            _ => "desktop/boot",
+        };
+        navigate(&app, format!("http://127.0.0.1:{port}/{entry}").parse().unwrap());
         return Ok(());
     }
     Err("no backend is running".into())
@@ -757,7 +893,9 @@ fn main() {
                 .initialization_script(&init_script(&state.token))
                 .on_navigation(move |url: &Url| {
                     // Allowlist: the bundled launcher and exactly the active
-                    // backend origin (local port or configured remote server).
+                    // LOCAL gateway origin. Remote servers are only ever
+                    // reached through the gateway's proxy, so no remote (or
+                    // redirect-target) origin is ever navigable.
                     match url.scheme() {
                         "tauri" => true,
                         "http" | "https" => {
@@ -780,12 +918,6 @@ fn main() {
                                     return true;
                                 }
                             }
-                            if let Some(remote) = &rule.remote {
-                                return url.scheme() == remote.scheme()
-                                    && url.host_str() == remote.host_str()
-                                    && url.port_or_known_default()
-                                        == remote.port_or_known_default();
-                            }
                             false
                         }
                         _ => false,
@@ -793,13 +925,45 @@ fn main() {
                 })
                 .build()?;
 
+                // Native, backend-independent access to the runtime selector:
+                // “Backend Runtime…” with Cmd+, (macOS) / Ctrl+, (Win/Linux),
+                // appended to the platform's default menu (edit/copy/paste
+                // etc. stay intact).
+                {
+                    use tauri::menu::{Menu, MenuItemBuilder, SubmenuBuilder};
+                    let item = MenuItemBuilder::with_id("backend-runtime", "Backend Runtime…")
+                        .accelerator("CmdOrCtrl+,")
+                        .build(app)?;
+                    let submenu = SubmenuBuilder::new(app, "Backend").item(&item).build()?;
+                    let menu = Menu::default(app.handle())?;
+                    menu.append(&submenu)?;
+                    app.set_menu(menu)?;
+                }
+
                 let handle = app.handle().clone();
                 let state = state.clone();
                 let nav = nav.clone();
-                std::thread::spawn(move || start_backend(handle, state, nav));
+                if startup_selector_forced() {
+                    // Option/Alt held during launch: open the selector
+                    // instead of auto-starting the saved backend. runtime.json
+                    // is left untouched — the user corrects or confirms it
+                    // from here and applies.
+                    *state.status.lock().unwrap() = "idle".into();
+                    std::thread::spawn(move || {
+                        std::thread::sleep(Duration::from_millis(200));
+                        open_runtime_selector(&handle, None);
+                    });
+                } else {
+                    std::thread::spawn(move || start_backend(handle, state, nav));
+                }
 
                 let _ = window; // window lives in the app; nothing else to do
                 Ok(())
+            }
+        })
+        .on_menu_event(|app, event| {
+            if event.id().0 == "backend-runtime" {
+                open_runtime_selector(app, None);
             }
         })
         .build(tauri::generate_context!())
