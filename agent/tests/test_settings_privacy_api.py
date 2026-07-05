@@ -135,7 +135,10 @@ def test_choice_persists_for_the_next_start():
     c = _client()
     _put_privacy(c, allow=False)
     sp = settings_store._settings_path()
-    assert sp.exists() and sp.parent == pathlib.Path(_TMP)
+    # Canonical comparison: on macOS tempfile yields /var/folders/… while
+    # config resolves through the /private/var symlink — same directory,
+    # unequal as raw Paths.
+    assert sp.exists() and sp.parent.resolve() == pathlib.Path(_TMP).resolve()
     assert json.loads(sp.read_text())["allow_cloud"] is False
     # What a fresh process would resolve on startup:
     assert settings_store.get_allow_cloud() is False
