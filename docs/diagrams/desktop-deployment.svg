@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="570" viewBox="0 0 1360 570" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_3F61A8" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#3F61A8"/></marker>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_6C8EBF" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#6C8EBF"/></marker>
+<marker id="arr_9673A6" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#9673A6"/></marker>
+<marker id="arr_999999" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#999999"/></marker>
+<marker id="arr_B85450" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#B85450"/></marker>
+<marker id="arr_D6B656" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#D6B656"/></marker>
+</defs>
+<rect x="0" y="0" width="1360" height="570" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">D3 · Kiến trúc triển khai DesktopApp — mô hình client</text>
+<line x1="40" y1="50" x2="1320" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="40" y="64" width="640" height="448" rx="11" fill="#F0F6FD" stroke="#6C8EBF" stroke-width="1.6"/>
+<path d="M40.0,98.0 L40.0,75.0 A11,11 0 0 1 51.0,64.0 L669.0,64.0 A11,11 0 0 1 680.0,75.0 L680.0,98.0 Z" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="54.0" y="88.0" font-size="14.5" font-weight="700" fill="#10202E">Máy người dùng — macOS · Windows · Linux</text>
+<rect x="720" y="64" width="600" height="152" rx="11" fill="#FFFAEB" stroke="#D6B656" stroke-width="1.6"/>
+<path d="M720.0,98.0 L720.0,75.0 A11,11 0 0 1 731.0,64.0 L1309.0,64.0 A11,11 0 0 1 1320.0,75.0 L1320.0,98.0 Z" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="734.0" y="88.0" font-size="14.5" font-weight="700" fill="#10202E">Máy chủ LLM tự host — LAN / server riêng</text>
+<rect x="720" y="244" width="600" height="118" rx="11" fill="#EEF3FB" stroke="#3F61A8" stroke-width="1.6"/>
+<path d="M720.0,278.0 L720.0,255.0 A11,11 0 0 1 731.0,244.0 L1309.0,244.0 A11,11 0 0 1 1320.0,255.0 L1320.0,278.0 Z" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="734.0" y="268.0" font-size="14.5" font-weight="700" fill="#10202E">Server SmartDocs từ xa (tùy chọn — chế độ Remote)</text>
+<rect x="720" y="392" width="600" height="118" rx="11" fill="#FBFBFB" stroke="#999999" stroke-width="1.6"/>
+<path d="M720.0,426.0 L720.0,403.0 A11,11 0 0 1 731.0,392.0 L1309.0,392.0 A11,11 0 0 1 1320.0,403.0 L1320.0,426.0 Z" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="734.0" y="416.0" font-size="14.5" font-weight="700" fill="#10202E">Dịch vụ cloud (tùy chọn)</text>
+<path d="M446.0,173.0 L458.0,173.0" fill="none" stroke="#6C8EBF" stroke-width="1.7" marker-end="url(#arr_6C8EBF)"/>
+<path d="M557.0,196.0 L557.0,268.0 L254.0,268.0 L254.0,214.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<path d="M154.0,196.0 L254.0,214.0" fill="none" stroke="#999999" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_999999)"/>
+<rect x="131.0" y="196.0" width="146.0" height="16" rx="3" fill="#FFFFFF" stroke="#999999" stroke-width="0.8" opacity="0.95"/>
+<text x="204.0" y="207.5" font-size="10.5" fill="#243B4A" text-anchor="middle">spawn + token qua stdin</text>
+<path d="M444.0,240.0 L700.0,236.0 L700.0,140.0 L720.0,140.0" fill="none" stroke="#D6B656" stroke-width="1.7" marker-end="url(#arr_D6B656)"/>
+<path d="M656.0,173.0 L690.0,173.0 L690.0,303.0 L720.0,303.0" fill="none" stroke="#3F61A8" stroke-width="1.7" marker-end="url(#arr_3F61A8)"/>
+<rect x="647.0" y="227.0" width="86.0" height="16" rx="3" fill="#FFFFFF" stroke="#3F61A8" stroke-width="0.8" opacity="0.95"/>
+<text x="690.0" y="238.5" font-size="10.5" fill="#243B4A" text-anchor="middle">chế độ Remote</text>
+<path d="M64.0,240.0 L30.0,240.0 L30.0,545.0 L690.0,545.0 L690.0,451.0 L720.0,451.0" fill="none" stroke="#B85450" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_B85450)"/>
+<rect x="146.5" y="536.0" width="212.0" height="16" rx="3" fill="#FFFFFF" stroke="#B85450" stroke-width="0.8" opacity="0.95"/>
+<text x="252.5" y="547.5" font-size="10.5" fill="#243B4A" text-anchor="middle">HTTPS — BỊ CHẶN khi bật Local-only</text>
+<rect x="64.0" y="104.0" width="592.0" height="34.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="360.0" y="124.9" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Ứng dụng SmartDocs Desktop (.app · .exe · AppImage)</text>
+<rect x="64.0" y="150.0" width="180.0" height="46.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="154.0" y="176.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Tauri Shell (Rust)</text>
+<rect x="256.0" y="150.0" width="190.0" height="46.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="351.0" y="169.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">WebView</text>
+<text x="351.0" y="183.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Giao diện SmartDocs</text>
+<rect x="458.0" y="150.0" width="198.0" height="46.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="557.0" y="169.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">UI Gateway</text>
+<text x="557.0" y="183.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">127.0.0.1:&lt;cổng&gt; (loopback)</text>
+<rect x="64.0" y="214.0" width="380.0" height="52.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="254.0" y="236.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Sidecar Python (PyInstaller)</text>
+<text x="254.0" y="250.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Flask · OCR · RAG · Qwen cục bộ</text>
+<path d="M64.0,297.0 a150.0,9.0 0 0 0 300.0,0 v60.0 a150.0,9.0 0 0 1 -300.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="214.0" cy="297.0" rx="150.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="214.0" y="328.2" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Dữ liệu ứng dụng</text>
+<text x="214.0" y="341.6" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">SQLite · uploads · artifacts</text>
+<rect x="388.0" y="288.0" width="268.0" height="78.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="522.0" y="317.4" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Kho khóa HĐH</text>
+<text x="522.0" y="330.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Keychain · Credential Manager</text>
+<text x="522.0" y="343.1" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">· Secret Service</text>
+<rect x="64.0" y="386.0" width="592.0" height="40.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="360.0" y="409.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Chế độ Remote Server: sidecar KHÔNG chạy — chỉ còn gateway phục vụ UI</text>
+<rect x="744.0" y="104.0" width="552.0" height="48.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1020.0" y="124.5" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Ollama · vLLM · llama.cpp · LM Studio</text>
+<text x="1020.0" y="138.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">API OpenAI-compatible (/v1)</text>
+<rect x="744.0" y="162.0" width="552.0" height="40.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1020.0" y="185.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Mô hình lớn triển khai TẠI ĐÂY — DesktopApp chỉ là client, không tải trọng số về máy</text>
+<rect x="744.0" y="286.0" width="552.0" height="54.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1020.0" y="309.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Flask backend + cơ sở dữ liệu + tài liệu nằm trên server</text>
+<text x="1020.0" y="323.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">kết nối: HTTPS — hoặc HTTP IP LAN riêng + xác nhận rõ ràng</text>
+<rect x="744.0" y="436.0" width="260.0" height="50.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="874.0" y="464.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Groq API</text>
+<rect x="1036.0" y="436.0" width="260.0" height="50.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="1166.0" y="464.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Google Gemini API</text>
+</svg>

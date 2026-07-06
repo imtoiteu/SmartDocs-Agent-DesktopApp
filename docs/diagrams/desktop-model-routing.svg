@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="700" viewBox="0 0 1360 700" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_6C8EBF" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#6C8EBF"/></marker>
+<marker id="arr_82B366" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#82B366"/></marker>
+<marker id="arr_D6B656" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#D6B656"/></marker>
+</defs>
+<rect x="0" y="0" width="1360" height="700" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">D6 · Định tuyến mô hình AI theo tác vụ — Model Registry &amp; Router</text>
+<line x1="40" y1="50" x2="1320" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="40" y="64" width="620" height="180" rx="11" fill="#F0F6FD" stroke="#6C8EBF" stroke-width="1.6"/>
+<path d="M40.0,98.0 L40.0,75.0 A11,11 0 0 1 51.0,64.0 L649.0,64.0 A11,11 0 0 1 660.0,75.0 L660.0,98.0 Z" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="54.0" y="88.0" font-size="14.5" font-weight="700" fill="#10202E">Cài đặt → AI models</text>
+<rect x="700" y="64" width="620" height="180" rx="11" fill="#EFF6EE" stroke="#82B366" stroke-width="1.6"/>
+<path d="M700.0,98.0 L700.0,75.0 A11,11 0 0 1 711.0,64.0 L1309.0,64.0 A11,11 0 0 1 1320.0,75.0 L1320.0,98.0 Z" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="714.0" y="88.0" font-size="14.5" font-weight="700" fill="#10202E">Các consumer LLM (mọi lời gọi đều hỏi Router)</text>
+<rect x="40" y="270" width="1280" height="226" rx="11" fill="#F3EFF5" stroke="#9673A6" stroke-width="1.6"/>
+<path d="M40.0,304.0 L40.0,281.0 A11,11 0 0 1 51.0,270.0 L1309.0,270.0 A11,11 0 0 1 1320.0,281.0 L1320.0,304.0 Z" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="54.0" y="294.0" font-size="14.5" font-weight="700" fill="#10202E">Model Router — llm_gateway.resolve(task)</text>
+<rect x="40" y="522" width="1280" height="142" rx="11" fill="#FFFAEB" stroke="#D6B656" stroke-width="1.6"/>
+<path d="M40.0,556.0 L40.0,533.0 A11,11 0 0 1 51.0,522.0 L1309.0,522.0 A11,11 0 0 1 1320.0,533.0 L1320.0,556.0 Z" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="54.0" y="546.0" font-size="14.5" font-weight="700" fill="#10202E">Model Registry — danh mục model (không bao giờ giữ khóa API)</text>
+<path d="M350.0,244.0 L680.0,270.0" fill="none" stroke="#6C8EBF" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_6C8EBF)"/>
+<rect x="487.0" y="248.0" width="56.0" height="16" rx="3" fill="#FFFFFF" stroke="#6C8EBF" stroke-width="0.8" opacity="0.95"/>
+<text x="515.0" y="259.5" font-size="10.5" fill="#243B4A" text-anchor="middle">cấu hình</text>
+<path d="M1010.0,244.0 L680.0,270.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<rect x="802.0" y="248.0" width="86.0" height="16" rx="3" fill="#FFFFFF" stroke="#82B366" stroke-width="0.8" opacity="0.95"/>
+<text x="845.0" y="259.5" font-size="10.5" fill="#243B4A" text-anchor="middle">resolve(task)</text>
+<path d="M680.0,496.0 L680.0,522.0" fill="none" stroke="#D6B656" stroke-width="1.7" marker-end="url(#arr_D6B656)"/>
+<rect x="535.0" y="500.0" width="290.0" height="16" rx="3" fill="#FFFFFF" stroke="#D6B656" stroke-width="0.8" opacity="0.95"/>
+<text x="680.0" y="511.5" font-size="10.5" fill="#243B4A" text-anchor="middle">tra cứu model → build provider (+ fit ngữ cảnh)</text>
+<rect x="64.0" y="104.0" width="572.0" height="48.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="350.0" y="124.5" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Định tuyến theo tác vụ (task_models):</text>
+<text x="350.0" y="138.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Chat / Hỏi đáp tài liệu · Tóm tắt · Viết lại AI · Agent</text>
+<rect x="64.0" y="160.0" width="572.0" height="36.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="350.0" y="181.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Model dự phòng (fallback_model) — tùy chọn, chính sách tường minh</text>
+<rect x="64.0" y="202.0" width="572.0" height="36.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="350.0" y="223.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Mặc định: Automatic (auto) = giữ nguyên hành vi trước đây</text>
+<rect x="724.0" y="104.0" width="286.0" height="48.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="867.0" y="131.7" font-size="12.0" font-weight="400" fill="#15202B" text-anchor="middle">Chat / Hỏi đáp tài liệu</text>
+<rect x="1030.0" y="104.0" width="266.0" height="48.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="1163.0" y="131.7" font-size="12.0" font-weight="400" fill="#15202B" text-anchor="middle">Tóm tắt · Viết lại AI</text>
+<rect x="724.0" y="168.0" width="572.0" height="48.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="1010.0" y="195.7" font-size="12.0" font-weight="400" fill="#15202B" text-anchor="middle">Agent — lập kế hoạch &amp; tổng hợp (tác vụ “agent”)</text>
+<rect x="64.0" y="310.0" width="390.0" height="76.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="259.0" y="338.0" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">auto → chuỗi legacy (offline-first):</text>
+<text x="259.0" y="351.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Groq → Gemini → self-hosted → Qwen cục bộ</text>
+<text x="259.0" y="364.8" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">(cloud chỉ khi CÓ khóa và ĐƯỢC phép)</text>
+<rect x="478.0" y="310.0" width="390.0" height="76.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="673.0" y="338.0" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Model chỉ định → kiểm tra:</text>
+<text x="673.0" y="351.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">còn tồn tại · hỗ trợ tác vụ · đã cấu hình</text>
+<text x="673.0" y="364.8" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Local-only ⇒ chặn model cloud</text>
+<rect x="892.0" y="310.0" width="404.0" height="76.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="1094.0" y="338.0" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Không đạt ⇒ RouteError (thông báo rõ, xử lý được)</text>
+<text x="1094.0" y="351.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">KHÔNG âm thầm đổi model</text>
+<text x="1094.0" y="364.8" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">KHÔNG fallback ngầm sang cloud</text>
+<rect x="64.0" y="406.0" width="520.0" height="56.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="324.0" y="430.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Vừa khít ngữ cảnh: cắt prompt theo context_limit</text>
+<text x="324.0" y="444.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">của model (ưu tiên nội dung mới nhất)</text>
+<rect x="608.0" y="406.0" width="688.0" height="56.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="952.0" y="430.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">fallback_model (nếu đặt) chỉ được dùng khi vượt qua CÙNG các kiểm tra —</text>
+<text x="952.0" y="444.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">fallback bị chặn không bao giờ được thay thế vào</text>
+<rect x="64.0" y="562.0" width="236.0" height="76.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="182.0" y="590.4" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Bundled local</text>
+<text x="182.0" y="603.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Qwen cục bộ (CPU)</text>
+<text x="182.0" y="616.1" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">ctx ~4096</text>
+<rect x="313.0" y="562.0" width="236.0" height="76.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="431.0" y="596.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Managed local</text>
+<text x="431.0" y="609.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">snapshot HF (tùy chọn)</text>
+<rect x="562.0" y="562.0" width="236.0" height="76.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="680.0" y="590.4" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Self-hosted (OpenAI-compatible)</text>
+<text x="680.0" y="603.3" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Ollama · vLLM · llama.cpp</text>
+<text x="680.0" y="616.1" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">· LM Studio</text>
+<rect x="811.0" y="562.0" width="236.0" height="76.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="929.0" y="596.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Groq (cloud)</text>
+<text x="929.0" y="609.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">cần khóa API · ctx 32k</text>
+<rect x="1060.0" y="562.0" width="236.0" height="76.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1178.0" y="596.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Gemini (cloud)</text>
+<text x="1178.0" y="609.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">cần khóa API · ctx 131k</text>
+</svg>

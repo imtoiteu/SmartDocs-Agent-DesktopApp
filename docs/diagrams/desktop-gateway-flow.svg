@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="680" viewBox="0 0 1360 680" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_3F61A8" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#3F61A8"/></marker>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_82B366" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#82B366"/></marker>
+<marker id="arr_B85450" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#B85450"/></marker>
+<marker id="arr_D6B656" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#D6B656"/></marker>
+</defs>
+<rect x="0" y="0" width="1360" height="680" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">D5 · UI Gateway — luồng xử lý yêu cầu (mọi chế độ runtime)</text>
+<line x1="40" y1="50" x2="1320" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<path d="M970.0,122.0 L1020.0,122.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M570.0,148.0 L630.0,122.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<rect x="578.0" y="126.0" width="44.0" height="16" rx="3" fill="#FFFFFF" stroke="#82B366" stroke-width="0.8" opacity="0.95"/>
+<text x="600.0" y="137.5" font-size="10.5" fill="#243B4A" text-anchor="middle">hợp lệ</text>
+<path d="M970.0,194.0 L1020.0,194.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M570.0,148.0 L630.0,194.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<path d="M970.0,266.0 L1020.0,266.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M570.0,148.0 L630.0,266.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<path d="M970.0,338.0 L1020.0,338.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M570.0,148.0 L630.0,338.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<path d="M290.0,148.0 L340.0,148.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M455.0,188.0 L455.0,236.0" fill="none" stroke="#B85450" stroke-width="1.7" marker-end="url(#arr_B85450)"/>
+<rect x="427.0" y="203.0" width="56.0" height="16" rx="3" fill="#FFFFFF" stroke="#B85450" stroke-width="0.8" opacity="0.95"/>
+<text x="455.0" y="214.5" font-size="10.5" fill="#243B4A" text-anchor="middle">sai Host</text>
+<path d="M1170.0,292.0 L1170.0,420.0" fill="none" stroke="#3F61A8" stroke-width="1.7" marker-end="url(#arr_3F61A8)"/>
+<path d="M1170.0,292.0 L1350.0,336.0 L1350.0,528.0 L1170.0,500.0" fill="none" stroke="#D6B656" stroke-width="1.7" marker-end="url(#arr_D6B656)"/>
+<rect x="50.0" y="120.0" width="240.0" height="56.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="170.0" y="144.2" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">WebView</text>
+<text x="170.0" y="159.5" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Giao diện DesktopApp</text>
+<polygon points="455.0,108.0 570.0,148.0 455.0,188.0 340.0,148.0" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="455.0" y="144.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Host là 127.0.0.1 /</text>
+<text x="455.0" y="158.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">localhost / ::1 ?</text>
+<rect x="350.0" y="236.0" width="210.0" height="40.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="455.0" y="259.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Từ chối — chống DNS-rebinding</text>
+<rect x="630.0" y="96.0" width="340.0" height="52.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="800.0" y="125.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">GET / · /agent · /static/*</text>
+<rect x="1020.0" y="96.0" width="300.0" height="52.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="1170.0" y="118.5" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Asset giao diện DesktopApp</text>
+<text x="1170.0" y="132.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">(cục bộ — trong MỌI chế độ)</text>
+<rect x="630.0" y="168.0" width="340.0" height="52.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="800.0" y="197.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">/api/desktop/health · /api/desktop/shutdown</text>
+<rect x="1020.0" y="168.0" width="300.0" height="52.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1170.0" y="190.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Trả lời ngay tại gateway</text>
+<text x="1170.0" y="204.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">(shutdown yêu cầu token)</text>
+<rect x="630.0" y="240.0" width="340.0" height="52.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="800.0" y="269.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">/api/* · /login · /logout · /admin(/…)</text>
+<rect x="1020.0" y="240.0" width="300.0" height="52.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1170.0" y="269.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Proxy tới backend upstream</text>
+<rect x="630.0" y="312.0" width="340.0" height="52.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="800.0" y="341.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Đường dẫn khác</text>
+<rect x="1020.0" y="312.0" width="300.0" height="52.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="1170.0" y="341.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">404 — không phục vụ</text>
+<rect x="1020.0" y="420.0" width="300.0" height="56.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1170.0" y="444.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Bundled / WebApp Runtime:</text>
+<text x="1170.0" y="458.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Flask trong tiến trình sidecar</text>
+<rect x="1020.0" y="500.0" width="300.0" height="56.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1170.0" y="524.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Remote: server SmartDocs từ xa</text>
+<text x="1170.0" y="538.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">(trang được gate đăng nhập qua /api/auth/me)</text>
+<rect x="50.0" y="400.0" width="640.0" height="154.0" rx="7" fill="#FFFFFF" stroke="#D6B656" stroke-width="1.6"/>
+<path d="M50.0,428.0 L50.0,407.0 A7,7 0 0 1 57.0,400.0 L683.0,400.0 A7,7 0 0 1 690.0,407.0 L690.0,428.0 Z" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="370.0" y="419.0" font-size="13" font-weight="700" fill="#10202E" text-anchor="middle">Hành vi proxy (giống nhau ở mọi chế độ)</text>
+<text x="59.0" y="446.0" font-size="11" fill="#243B4A">Stream 2 chiều không đệm — upload · download · SSE</text>
+<line x1="54.0" y1="452.0" x2="686.0" y2="452.0" stroke="#D6B656" stroke-width="0.5" opacity="0.5"/>
+<text x="59.0" y="470.0" font-size="11" fill="#243B4A">Không follow redirect — Location cùng origin được viết lại về origin gateway</text>
+<line x1="54.0" y1="476.0" x2="686.0" y2="476.0" stroke="#D6B656" stroke-width="0.5" opacity="0.5"/>
+<text x="59.0" y="494.0" font-size="11" fill="#243B4A">Set-Cookie: bỏ Domain/Secure → phiên bám vào origin cục bộ</text>
+<line x1="54.0" y1="500.0" x2="686.0" y2="500.0" stroke="#D6B656" stroke-width="0.5" opacity="0.5"/>
+<text x="59.0" y="518.0" font-size="11" fill="#243B4A">Chế độ Remote: gỡ header X-SmartDocs-Token — token không bao giờ rời máy</text>
+<line x1="54.0" y1="524.0" x2="686.0" y2="524.0" stroke="#D6B656" stroke-width="0.5" opacity="0.5"/>
+<text x="59.0" y="542.0" font-size="11" fill="#243B4A">Kết nối LAN không an toàn → hiển thị chip cảnh báo cố định trên UI</text>
+<line x1="54.0" y1="548.0" x2="686.0" y2="548.0" stroke="#D6B656" stroke-width="0.5" opacity="0.5"/>
+</svg>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="900" viewBox="0 0 1240 900" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_5B6B7B" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#5B6B7B"/></marker>
+<marker id="arr_82B366" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#82B366"/></marker>
+<marker id="arr_B85450" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#B85450"/></marker>
+</defs>
+<rect x="0" y="0" width="1240" height="900" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">D4 · Luồng chọn &amp; khởi động Backend Runtime</text>
+<line x1="40" y1="50" x2="1200" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<path d="M310.0,114.0 L310.0,146.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M310.0,198.0 L310.0,232.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M310.0,384.0 L310.0,416.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M310.0,476.0 L310.0,508.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M310.0,552.0 L310.0,584.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M310.0,628.0 L310.0,660.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M310.0,704.0 L310.0,736.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M310.0,792.0 L310.0,824.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M310.0,304.0 L310.0,340.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="291.0" y="313.0" width="38.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="310.0" y="324.5" font-size="10.5" fill="#243B4A" text-anchor="middle">không</text>
+<path d="M500.0,268.0 L560.0,268.0 L560.0,446.0 L640.0,446.0" fill="none" stroke="#B85450" stroke-width="1.7" marker-end="url(#arr_B85450)"/>
+<rect x="550.0" y="358.0" width="20.0" height="16" rx="3" fill="#FFFFFF" stroke="#B85450" stroke-width="0.8" opacity="0.95"/>
+<text x="560.0" y="369.5" font-size="10.5" fill="#243B4A" text-anchor="middle">có</text>
+<path d="M910.0,276.0 L910.0,416.0" fill="none" stroke="#5B6B7B" stroke-width="1.7" marker-end="url(#arr_5B6B7B)"/>
+<path d="M500.0,530.0 L580.0,530.0 L580.0,588.0 L640.0,588.0" fill="none" stroke="#B85450" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_B85450)"/>
+<rect x="567.0" y="540.0" width="26.0" height="16" rx="3" fill="#FFFFFF" stroke="#B85450" stroke-width="0.8" opacity="0.95"/>
+<text x="580.0" y="551.5" font-size="10.5" fill="#243B4A" text-anchor="middle">lỗi</text>
+<path d="M500.0,606.0 L580.0,606.0 L580.0,588.0 L640.0,588.0" fill="none" stroke="#B85450" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_B85450)"/>
+<path d="M500.0,682.0 L580.0,682.0 L580.0,588.0 L640.0,588.0" fill="none" stroke="#B85450" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_B85450)"/>
+<path d="M910.0,560.0 L910.0,476.0" fill="none" stroke="#B85450" stroke-width="1.7" marker-end="url(#arr_B85450)"/>
+<path d="M640.0,446.0 L500.0,446.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<rect x="512.0" y="437.0" width="116.0" height="16" rx="3" fill="#FFFFFF" stroke="#82B366" stroke-width="0.8" opacity="0.95"/>
+<text x="570.0" y="448.5" font-size="10.5" fill="#243B4A" text-anchor="middle">áp dụng &amp; tiếp tục</text>
+<ellipse cx="310.0" cy="92.0" rx="130.0" ry="22.0" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="310.0" y="95.9" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Khởi động DesktopApp</text>
+<rect x="120.0" y="146.0" width="380.0" height="52.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="310.0" y="168.2" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Sinh token khởi chạy (64 hex — OS RNG)</text>
+<text x="310.0" y="183.5" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">mở splash đóng gói</text>
+<polygon points="310.0,232.0 500.0,268.0 310.0,304.0 120.0,268.0" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="310.0" y="264.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Ép mở trình chọn runtime?</text>
+<text x="310.0" y="278.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">(giữ Option/Alt · biến môi trường)</text>
+<rect x="120.0" y="340.0" width="380.0" height="44.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="310.0" y="365.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Đọc runtime.json → chế độ đã lưu</text>
+<rect x="120.0" y="416.0" width="380.0" height="60.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="310.0" y="442.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Kiểm tra &amp; lập kế hoạch khởi chạy (StartPlan)</text>
+<text x="310.0" y="456.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">bundled · external (validate venv) · remote (chính sách URL)</text>
+<rect x="120.0" y="508.0" width="380.0" height="44.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="310.0" y="533.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Chạy sidecar / gateway — token qua stdin</text>
+<rect x="120.0" y="584.0" width="380.0" height="44.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="310.0" y="609.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Handshake stdout ≤ 90 giây → cổng gateway</text>
+<rect x="120.0" y="660.0" width="380.0" height="44.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="310.0" y="685.9" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">Thăm dò /api/desktop/health ≤ 30 giây (kèm token)</text>
+<rect x="120.0" y="736.0" width="380.0" height="56.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="310.0" y="760.2" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">WebView → /desktop/boot → cookie phiên</text>
+<text x="310.0" y="775.5" font-size="12.5" font-weight="400" fill="#15202B" text-anchor="middle">→ giao diện SmartDocs (cùng origin)</text>
+<ellipse cx="310.0" cy="844.0" rx="90.0" ry="20.0" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="310.0" y="847.9" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Sẵn sàng</text>
+<rect x="640.0" y="416.0" width="540.0" height="60.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="910.0" y="442.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Trình chọn Runtime (trang splash)</text>
+<text x="910.0" y="456.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">runtime_validate · runtime_test_remote · runtime_apply · runtime_resume</text>
+<rect x="640.0" y="560.0" width="540.0" height="56.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="910.0" y="584.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Khởi chạy LỖI → mở trình chọn kèm thông báo lỗi</text>
+<text x="910.0" y="598.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">runtime.json được GIỮ NGUYÊN để người dùng sửa</text>
+<rect x="640.0" y="146.0" width="540.0" height="130.0" rx="7" fill="#FFFFFF" stroke="#999999" stroke-width="1.6"/>
+<path d="M640.0,174.0 L640.0,153.0 A7,7 0 0 1 647.0,146.0 L1173.0,146.0 A7,7 0 0 1 1180.0,153.0 L1180.0,174.0 Z" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="910.0" y="165.0" font-size="13" font-weight="700" fill="#10202E" text-anchor="middle">Các lối vào Trình chọn Runtime (không phụ thuộc backend)</text>
+<text x="649.0" y="192.0" font-size="11" fill="#243B4A">Menu gốc: Backend Runtime…  (Cmd/Ctrl + ,)</text>
+<line x1="644.0" y1="198.0" x2="1176.0" y2="198.0" stroke="#999999" stroke-width="0.5" opacity="0.5"/>
+<text x="649.0" y="216.0" font-size="11" fill="#243B4A">Nút “Đổi backend…” trên màn hình lỗi (splash · trang 502 của gateway)</text>
+<line x1="644.0" y1="222.0" x2="1176.0" y2="222.0" stroke="#999999" stroke-width="0.5" opacity="0.5"/>
+<text x="649.0" y="240.0" font-size="11" fill="#243B4A">Giữ Option/Alt trong lúc khởi động</text>
+<line x1="644.0" y1="246.0" x2="1176.0" y2="246.0" stroke="#999999" stroke-width="0.5" opacity="0.5"/>
+<text x="649.0" y="264.0" font-size="11" fill="#243B4A">Biến môi trường SMARTDOCS_FORCE_RUNTIME_SELECTOR=1</text>
+<line x1="644.0" y1="270.0" x2="1176.0" y2="270.0" stroke="#999999" stroke-width="0.5" opacity="0.5"/>
+</svg>

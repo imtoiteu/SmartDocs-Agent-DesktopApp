@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="540" viewBox="0 0 1360 540" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_5A5A5A" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#5A5A5A"/></marker>
+<marker id="arr_82B366" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#82B366"/></marker>
+<marker id="arr_9673A6" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#9673A6"/></marker>
+</defs>
+<rect x="0" y="0" width="1360" height="540" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">D8 · Vòng đời tài liệu — OCR · xử lý · chat kèm trích dẫn</text>
+<line x1="40" y1="50" x2="1320" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<path d="M330.0,172.0 L370.0,172.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M660.0,172.0 L700.0,172.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M990.0,172.0 L1030.0,172.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M1175.0,204.0 L185.0,268.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<path d="M1175.0,204.0 L515.0,268.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<path d="M1175.0,204.0 L845.0,268.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<path d="M1175.0,204.0 L1175.0,268.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<path d="M1175.0,332.0 L1010.0,396.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<path d="M700.0,428.0 L600.0,428.0" fill="none" stroke="#9673A6" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_9673A6)"/>
+<rect x="607.0" y="419.0" width="86.0" height="16" rx="3" fill="#FFFFFF" stroke="#9673A6" stroke-width="0.8" opacity="0.95"/>
+<text x="650.0" y="430.5" font-size="10.5" fill="#243B4A" text-anchor="middle">resolve(task)</text>
+<path d="M845.0,332.0 L845.0,372.0 L320.0,372.0 L320.0,396.0" fill="none" stroke="#9673A6" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_9673A6)"/>
+<rect x="40.0" y="64.0" width="1280.0" height="44.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="680.0" y="89.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Toàn bộ luồng chạy trong backend đã chọn — Bundled / WebApp Runtime: ngay trên máy người dùng · Remote Server: trên server (máy này chỉ hiển thị UI)</text>
+<rect x="40.0" y="140.0" width="290.0" height="64.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="185.0" y="168.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Tải tài liệu lên</text>
+<text x="185.0" y="182.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">POST /api/upload (PDF · ảnh · DOCX…)</text>
+<rect x="370.0" y="140.0" width="290.0" height="64.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="515.0" y="162.0" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">OCR engine</text>
+<text x="515.0" y="175.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">PaddleOCR (legacy · modern)</text>
+<text x="515.0" y="188.8" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">VietOCR · GLM-OCR</text>
+<rect x="700.0" y="140.0" width="290.0" height="64.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="845.0" y="168.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Trích xuất cấu trúc</text>
+<text x="845.0" y="182.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">markdown · bảng · bố cục</text>
+<rect x="1030.0" y="140.0" width="290.0" height="64.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1175.0" y="168.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Artifacts</text>
+<text x="1175.0" y="182.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">markdown · JSON · ảnh trích xuất</text>
+<rect x="40.0" y="268.0" width="290.0" height="64.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="185.0" y="303.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Sửa lỗi (correction)</text>
+<rect x="370.0" y="268.0" width="290.0" height="64.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="515.0" y="303.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Dịch thuật (Google / Argos)</text>
+<rect x="700.0" y="268.0" width="290.0" height="64.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="845.0" y="303.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Tóm tắt · Viết lại AI</text>
+<rect x="1030.0" y="268.0" width="290.0" height="64.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="1175.0" y="296.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">RAG index</text>
+<text x="1175.0" y="310.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">SBERT / hashing + FAISS</text>
+<rect x="700.0" y="396.0" width="620.0" height="64.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="1010.0" y="431.9" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Chat / Hỏi đáp tài liệu — trả lời kèm TRÍCH DẪN từ tài liệu</text>
+<rect x="40.0" y="396.0" width="560.0" height="64.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="320.0" y="424.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">LLM qua Model Router</text>
+<text x="320.0" y="438.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">(Chat/QA · Tóm tắt · Viết lại — theo Cài đặt AI models)</text>
+</svg>

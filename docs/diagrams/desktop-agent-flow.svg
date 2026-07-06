@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="700" viewBox="0 0 1360 700" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_5A5A5A" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#5A5A5A"/></marker>
+<marker id="arr_9673A6" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#9673A6"/></marker>
+<marker id="arr_D6B656" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#D6B656"/></marker>
+<marker id="arr_D79B00" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#D79B00"/></marker>
+</defs>
+<rect x="0" y="0" width="1360" height="700" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">D9 · Luồng thực thi Agent — vòng lặp tool có giới hạn</text>
+<line x1="40" y1="50" x2="1320" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="40" y="176" width="900" height="300" rx="11" fill="#F3EFF5" stroke="#9673A6" stroke-width="1.6"/>
+<path d="M40.0,210.0 L40.0,187.0 A11,11 0 0 1 51.0,176.0 L929.0,176.0 A11,11 0 0 1 940.0,187.0 L940.0,210.0 Z" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="54.0" y="200.0" font-size="14.5" font-weight="700" fill="#10202E">AgentCore — vòng lặp suy luận (giới hạn bước + ngân sách thời gian)</text>
+<rect x="40" y="508" width="900" height="134" rx="11" fill="#FFF5EB" stroke="#D79B00" stroke-width="1.6"/>
+<path d="M40.0,542.0 L40.0,519.0 A11,11 0 0 1 51.0,508.0 L929.0,508.0 A11,11 0 0 1 940.0,519.0 L940.0,542.0 Z" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="54.0" y="532.0" font-size="14.5" font-weight="700" fill="#10202E">Bộ tool an toàn cho Agent (HTTP-safe set)</text>
+<path d="M300.0,108.0 L340.0,108.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M510.0,136.0 L490.0,176.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<path d="M324.0,258.0 L354.0,258.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M614.0,258.0 L644.0,258.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M780.0,290.0 L780.0,308.0 L194.0,308.0 L194.0,290.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<rect x="384.0" y="299.0" width="206.0" height="16" rx="3" fill="#FFFFFF" stroke="#9673A6" stroke-width="0.8" opacity="0.95"/>
+<text x="487.0" y="310.5" font-size="10.5" fill="#243B4A" text-anchor="middle">lặp (≤ max_steps · còn thời gian)</text>
+<path d="M490.0,476.0 L490.0,508.0" fill="none" stroke="#D79B00" stroke-width="1.7" marker-end="url(#arr_D79B00)"/>
+<rect x="462.0" y="483.0" width="56.0" height="16" rx="3" fill="#FFFFFF" stroke="#D79B00" stroke-width="0.8" opacity="0.95"/>
+<text x="490.0" y="494.5" font-size="10.5" fill="#243B4A" text-anchor="middle">gọi tool</text>
+<path d="M324.0,258.0 L960.0,210.0 L980.0,258.0" fill="none" stroke="#D6B656" stroke-width="1.7" marker-end="url(#arr_D6B656)"/>
+<path d="M916.0,356.0 L960.0,356.0 L960.0,470.0 L1150.0,470.0 L1150.0,508.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<rect x="40.0" y="80.0" width="260.0" height="56.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="170.0" y="104.2" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Trang Agent</text>
+<text x="170.0" y="119.5" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">(giao diện riêng /agent)</text>
+<rect x="340.0" y="80.0" width="340.0" height="56.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="510.0" y="104.5" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">agent_bp — POST /api/agent/run</text>
+<text x="510.0" y="118.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">phạm vi: CHỈ các tài liệu được phép (tenancy)</text>
+<rect x="64.0" y="226.0" width="260.0" height="64.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="194.0" y="254.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">1 · Suy nghĩ</text>
+<text x="194.0" y="268.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">LLM chọn hành động kế tiếp</text>
+<rect x="354.0" y="226.0" width="260.0" height="64.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="484.0" y="254.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">2 · Hành động</text>
+<text x="484.0" y="268.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">gọi tool qua ToolRegistry</text>
+<rect x="644.0" y="226.0" width="272.0" height="64.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="780.0" y="254.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">3 · Quan sát</text>
+<text x="780.0" y="268.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">kết quả có cấu trúc của tool</text>
+<rect x="64.0" y="330.0" width="852.0" height="52.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="490.0" y="359.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Hết bước / hết giờ → MỘT lượt tổng hợp cuối (không gọi thêm tool) — kết quả đánh dấu completed / timed_out</text>
+<rect x="64.0" y="402.0" width="852.0" height="48.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="490.0" y="429.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Phát tiến trình run theo thời gian thực lên UI: thinking → acting → observation</text>
+<rect x="64.0" y="556.0" width="160.0" height="60.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="144.0" y="582.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">chat</text>
+<text x="144.0" y="596.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Hỏi đáp tài liệu</text>
+<rect x="237.0" y="556.0" width="160.0" height="60.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="317.0" y="582.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">knowledge_search</text>
+<text x="317.0" y="596.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">tìm kiếm tri thức</text>
+<rect x="410.0" y="556.0" width="160.0" height="60.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="490.0" y="582.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">summarize</text>
+<text x="490.0" y="596.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">tóm tắt</text>
+<rect x="583.0" y="556.0" width="160.0" height="60.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="663.0" y="582.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">translate</text>
+<text x="663.0" y="596.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">dịch thuật</text>
+<rect x="756.0" y="556.0" width="160.0" height="60.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="836.0" y="582.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">correct</text>
+<text x="836.0" y="596.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">sửa lỗi</text>
+<rect x="980.0" y="226.0" width="340.0" height="64.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1150.0" y="254.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">LLM qua Model Router</text>
+<text x="1150.0" y="268.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">tác vụ “agent” (auto → chuỗi legacy)</text>
+<rect x="980.0" y="330.0" width="340.0" height="64.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="1150.0" y="358.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Giới hạn an toàn: ngữ cảnh bị chặn trên;</text>
+<text x="1150.0" y="372.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">OcrTool KHÔNG lộ ra bề mặt agent</text>
+<rect x="980.0" y="508.0" width="340.0" height="72.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1150.0" y="540.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Kết quả + artifacts của run</text>
+<text x="1150.0" y="554.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">(không ghi đè artifact hiện có)</text>
+</svg>

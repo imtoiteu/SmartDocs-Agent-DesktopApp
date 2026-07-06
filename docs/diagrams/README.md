@@ -4,7 +4,26 @@ Editable Draw.io sources + publication SVGs for the architecture documented in
 [`../ARCHITECTURE.md`](../ARCHITECTURE.md) and [`../ARCHITECTURE-DIAGRAMS.md`](../ARCHITECTURE-DIAGRAMS.md).
 Every diagram reflects the **current implementation** (grounded in source), not an idealized design.
 
-## Files
+## DesktopApp diagram set (tiếng Việt)
+
+Bộ sơ đồ **DesktopApp hiện tại** (Tauri shell · UI gateway · 3 chế độ runtime ·
+Model Router · Local-only), nhãn tiếng Việt, dùng cho báo cáo/tài liệu kỹ thuật.
+Nguồn sinh: `build_desktop_diagrams.py` (chạy `python3 build_desktop_diagrams.py`
+để tạo lại cả `.drawio` + `.svg`).
+
+| # | Sơ đồ | Editable | Publication |
+|---|-------|----------|-------------|
+| D1 | Kiến trúc tổng thể DesktopApp | `desktop-overall-architecture.drawio` | `desktop-overall-architecture.svg` |
+| D2 | Ba chế độ Backend Runtime | `desktop-runtime-architecture.drawio` | `desktop-runtime-architecture.svg` |
+| D3 | Kiến trúc triển khai (mô hình client) | `desktop-deployment.drawio` | `desktop-deployment.svg` |
+| D4 | Luồng chọn & khởi động runtime | `desktop-runtime-selection-flow.drawio` | `desktop-runtime-selection-flow.svg` |
+| D5 | UI Gateway — luồng xử lý yêu cầu | `desktop-gateway-flow.drawio` | `desktop-gateway-flow.svg` |
+| D6 | Model Registry & Router theo tác vụ | `desktop-model-routing.drawio` | `desktop-model-routing.svg` |
+| D7 | Local-only · khóa API · chính sách URL | `desktop-privacy-local-only.drawio` | `desktop-privacy-local-only.svg` |
+| D8 | Vòng đời tài liệu (OCR → chat trích dẫn) | `desktop-document-flow.drawio` | `desktop-document-flow.svg` |
+| D9 | Luồng thực thi Agent | `desktop-agent-flow.drawio` | `desktop-agent-flow.svg` |
+
+## Files (backend chung — nhãn tiếng Anh)
 
 | # | Diagram | Editable | Publication |
 |---|---------|----------|-------------|

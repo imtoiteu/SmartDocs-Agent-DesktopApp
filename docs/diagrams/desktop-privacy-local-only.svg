@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="650" viewBox="0 0 1360 650" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+</defs>
+<rect x="0" y="0" width="1360" height="650" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">D7 · Quyền riêng tư — Local-only · khóa API · chính sách URL</text>
+<line x1="40" y1="50" x2="1320" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="40" y="64" width="620" height="196" rx="11" fill="#FCECEB" stroke="#B85450" stroke-width="1.6"/>
+<path d="M40.0,98.0 L40.0,75.0 A11,11 0 0 1 51.0,64.0 L649.0,64.0 A11,11 0 0 1 660.0,75.0 L660.0,98.0 Z" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="54.0" y="88.0" font-size="14.5" font-weight="700" fill="#10202E">Local-only (Cài đặt → Quyền riêng tư)</text>
+<rect x="700" y="64" width="620" height="196" rx="11" fill="#EEF3FB" stroke="#3F61A8" stroke-width="1.6"/>
+<path d="M700.0,98.0 L700.0,75.0 A11,11 0 0 1 711.0,64.0 L1309.0,64.0 A11,11 0 0 1 1320.0,75.0 L1320.0,98.0 Z" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="714.0" y="88.0" font-size="14.5" font-weight="700" fill="#10202E">Khóa API — CHỈ nằm trong kho khóa hệ điều hành</text>
+<rect x="64.0" y="104.0" width="572.0" height="42.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="350.0" y="128.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">CHẶN Groq · Gemini — không dữ liệu nào được gửi lên cloud</text>
+<rect x="64.0" y="154.0" width="572.0" height="42.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="350.0" y="178.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">CHO PHÉP model cục bộ và server tự host (mạng của bạn)</text>
+<rect x="64.0" y="204.0" width="572.0" height="42.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="350.0" y="228.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Không fallback ngầm sang cloud — báo lỗi rõ ràng, có hướng xử lý</text>
+<rect x="724.0" y="104.0" width="572.0" height="42.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1010.0" y="128.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Keychain (macOS) · Credential Manager (Windows) · Secret Service (Linux)</text>
+<rect x="724.0" y="154.0" width="572.0" height="42.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1010.0" y="178.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Không bao giờ ghi khóa thô vào file cài đặt — UI chỉ hiển thị dạng che</text>
+<rect x="724.0" y="204.0" width="572.0" height="42.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1010.0" y="228.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Kho khóa không khả dụng → cảnh báo rõ + TỪ CHỐI lưu (không âm thầm)</text>
+<rect x="40.0" y="546.0" width="1280.0" height="56.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="680.0" y="570.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Kiểm tra kết nối: GET /v1/models (kèm Bearer nếu có khóa) → nếu server không hỗ trợ, thử chat completion tối thiểu (max_tokens = 1).</text>
+<text x="680.0" y="584.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">KHÔNG bao giờ gửi nội dung tài liệu ra ngoài khi kiểm tra.</text>
+<rect x="40.0" y="296.0" width="620.0" height="178.0" rx="7" fill="#FFFFFF" stroke="#D6B656" stroke-width="1.6"/>
+<path d="M40.0,324.0 L40.0,303.0 A7,7 0 0 1 47.0,296.0 L653.0,296.0 A7,7 0 0 1 660.0,303.0 L660.0,324.0 Z" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="350.0" y="315.0" font-size="13" font-weight="700" fill="#10202E" text-anchor="middle">Chính sách URL — server tự host &amp; Remote Server</text>
+<text x="49.0" y="342.0" font-size="11" fill="#243B4A">HTTPS</text>
+<text x="652.0" y="342.0" font-size="9.5" font-weight="700" fill="#D6B656" text-anchor="end">luôn cho phép</text>
+<line x1="44.0" y1="348.0" x2="656.0" y2="348.0" stroke="#D6B656" stroke-width="0.5" opacity="0.5"/>
+<text x="49.0" y="366.0" font-size="11" fill="#243B4A">HTTP → localhost / 127.0.0.1 / ::1</text>
+<text x="652.0" y="366.0" font-size="9.5" font-weight="700" fill="#D6B656" text-anchor="end">cho phép</text>
+<line x1="44.0" y1="372.0" x2="656.0" y2="372.0" stroke="#D6B656" stroke-width="0.5" opacity="0.5"/>
+<text x="49.0" y="390.0" font-size="11" fill="#243B4A">HTTP → IP LAN riêng (10/8 · 172.16/12 · 192.168/16 · fc00::/7)</text>
+<text x="652.0" y="390.0" font-size="9.5" font-weight="700" fill="#D6B656" text-anchor="end">bật tùy chọn + xác nhận</text>
+<line x1="44.0" y1="396.0" x2="656.0" y2="396.0" stroke="#D6B656" stroke-width="0.5" opacity="0.5"/>
+<text x="49.0" y="414.0" font-size="11" fill="#243B4A">HTTP → địa chỉ công cộng hoặc hostname</text>
+<text x="652.0" y="414.0" font-size="9.5" font-weight="700" fill="#D6B656" text-anchor="end">từ chối</text>
+<line x1="44.0" y1="420.0" x2="656.0" y2="420.0" stroke="#D6B656" stroke-width="0.5" opacity="0.5"/>
+<text x="49.0" y="438.0" font-size="11" fill="#243B4A">URL chứa thông tin đăng nhập (user:pass@)</text>
+<text x="652.0" y="438.0" font-size="9.5" font-weight="700" fill="#D6B656" text-anchor="end">từ chối</text>
+<line x1="44.0" y1="444.0" x2="656.0" y2="444.0" stroke="#D6B656" stroke-width="0.5" opacity="0.5"/>
+<text x="49.0" y="462.0" font-size="11" fill="#243B4A">Hạ cấp HTTPS xuống HTTP</text>
+<text x="652.0" y="462.0" font-size="9.5" font-weight="700" fill="#D6B656" text-anchor="end">không bao giờ</text>
+<line x1="44.0" y1="468.0" x2="656.0" y2="468.0" stroke="#D6B656" stroke-width="0.5" opacity="0.5"/>
+<rect x="700.0" y="296.0" width="620.0" height="226.0" rx="7" fill="#FFFFFF" stroke="#82B366" stroke-width="1.6"/>
+<path d="M700.0,324.0 L700.0,303.0 A7,7 0 0 1 707.0,296.0 L1313.0,296.0 A7,7 0 0 1 1320.0,303.0 L1320.0,324.0 Z" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="1010.0" y="315.0" font-size="13" font-weight="700" fill="#10202E" text-anchor="middle">Kiểm tra kết nối self-hosted — các trạng thái hiển thị</text>
+<text x="709.0" y="342.0" font-size="11" fill="#243B4A">Đã kết nối (connected) — server &amp; model sẵn sàng</text>
+<line x1="704.0" y1="348.0" x2="1316.0" y2="348.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="709.0" y="366.0" font-size="11" fill="#243B4A">Không truy cập được (unavailable)</text>
+<line x1="704.0" y1="372.0" x2="1316.0" y2="372.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="709.0" y="390.0" font-size="11" fill="#243B4A">Xác thực thất bại (auth_failed — 401 · 403)</text>
+<line x1="704.0" y1="396.0" x2="1316.0" y2="396.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="709.0" y="414.0" font-size="11" fill="#243B4A">Không tìm thấy model (model_not_found)</text>
+<line x1="704.0" y1="420.0" x2="1316.0" y2="420.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="709.0" y="438.0" font-size="11" fill="#243B4A">Phản hồi không tương thích (incompatible)</text>
+<line x1="704.0" y1="444.0" x2="1316.0" y2="444.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="709.0" y="462.0" font-size="11" fill="#243B4A">Hết thời gian chờ (timeout)</text>
+<line x1="704.0" y1="468.0" x2="1316.0" y2="468.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="709.0" y="486.0" font-size="11" fill="#243B4A">Bị chính sách URL chặn (policy_blocked)</text>
+<line x1="704.0" y1="492.0" x2="1316.0" y2="492.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="709.0" y="510.0" font-size="11" fill="#243B4A">Giới hạn ngữ cảnh quá nhỏ (context_insufficient)</text>
+<line x1="704.0" y1="516.0" x2="1316.0" y2="516.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+</svg>
