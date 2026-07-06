@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1860" height="1180" viewBox="0 0 1860 1180" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_0E8088" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#0E8088"/></marker>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_5A5A5A" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#5A5A5A"/></marker>
+<marker id="arr_6C8EBF" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#6C8EBF"/></marker>
+<marker id="arr_82B366" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#82B366"/></marker>
+<marker id="arr_9673A6" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#9673A6"/></marker>
+<marker id="arr_999999" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#999999"/></marker>
+<marker id="arr_D79B00" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#D79B00"/></marker>
+</defs>
+<rect x="0" y="0" width="1860" height="1180" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">Phụ lục · Kiến trúc thành phần đầy đủ (mức file &amp; module)</text>
+<line x1="40" y1="50" x2="1820" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="40" y="70" width="560" height="250" rx="11" fill="#F0F6FD" stroke="#6C8EBF" stroke-width="1.6"/>
+<path d="M40.0,104.0 L40.0,81.0 A11,11 0 0 1 51.0,70.0 L589.0,70.0 A11,11 0 0 1 600.0,81.0 L600.0,104.0 Z" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="54.0" y="94.0" font-size="14.5" font-weight="700" fill="#10202E">Frontend (static/, templates/) — JS thuần, không cần build</text>
+<rect x="40" y="340" width="560" height="470" rx="11" fill="#EEF3FB" stroke="#3F61A8" stroke-width="1.6"/>
+<path d="M40.0,374.0 L40.0,351.0 A11,11 0 0 1 51.0,340.0 L589.0,340.0 A11,11 0 0 1 600.0,351.0 L600.0,374.0 Z" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="54.0" y="364.0" font-size="14.5" font-weight="700" fill="#10202E">Flask backend (app.py — app toàn cục, 6 blueprint)</text>
+<rect x="630" y="70" width="560" height="360" rx="11" fill="#E0F4F5" stroke="#0E8088" stroke-width="1.6"/>
+<path d="M630.0,104.0 L630.0,81.0 A11,11 0 0 1 641.0,70.0 L1179.0,70.0 A11,11 0 0 1 1190.0,81.0 L1190.0,104.0 Z" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="644.0" y="94.0" font-size="14.5" font-weight="700" fill="#10202E">Quy trình OCR (services/ + services/ocr_engines/)</text>
+<rect x="630" y="450" width="270" height="360" rx="11" fill="#FFF5EB" stroke="#D79B00" stroke-width="1.6"/>
+<path d="M630.0,484.0 L630.0,461.0 A11,11 0 0 1 641.0,450.0 L889.0,450.0 A11,11 0 0 1 900.0,461.0 L900.0,484.0 Z" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="644.0" y="474.0" font-size="14.5" font-weight="700" fill="#10202E">Dịch vụ AI (services/)</text>
+<rect x="920" y="450" width="270" height="360" rx="11" fill="#EFF6EE" stroke="#82B366" stroke-width="1.6"/>
+<path d="M920.0,484.0 L920.0,461.0 A11,11 0 0 1 931.0,450.0 L1179.0,450.0 A11,11 0 0 1 1190.0,461.0 L1190.0,484.0 Z" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="934.0" y="474.0" font-size="14.5" font-weight="700" fill="#10202E">Chat / RAG (services/chat_service.py)</text>
+<rect x="1220" y="70" width="600" height="470" rx="11" fill="#F3EFF5" stroke="#9673A6" stroke-width="1.6"/>
+<path d="M1220.0,104.0 L1220.0,81.0 A11,11 0 0 1 1231.0,70.0 L1809.0,70.0 A11,11 0 0 1 1820.0,81.0 L1820.0,104.0 Z" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1234.0" y="94.0" font-size="14.5" font-weight="700" fill="#10202E">Agent (agent/)</text>
+<rect x="1220" y="560" width="600" height="250" rx="11" fill="#F8F8F8" stroke="#5A5A5A" stroke-width="1.6"/>
+<path d="M1220.0,594.0 L1220.0,571.0 A11,11 0 0 1 1231.0,560.0 L1809.0,560.0 A11,11 0 0 1 1820.0,571.0 L1820.0,594.0 Z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1234.0" y="584.0" font-size="14.5" font-weight="700" fill="#10202E">Lưu trữ (models.py · SQLite paddleocr.db)</text>
+<path d="M1108.0,290.0 L910.0,368.0" fill="none" stroke="#0E8088" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_0E8088)"/>
+<path d="M1394.0,186.0 L1394.0,200.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M1544.0,151.0 L1678.0,116.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M1394.0,292.0 L1394.0,306.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M320.0,320.0 L320.0,340.0" fill="none" stroke="#6C8EBF" stroke-width="1.7" marker-end="url(#arr_6C8EBF)"/>
+<rect x="238.0" y="321.0" width="164.0" height="16" rx="3" fill="#FFFFFF" stroke="#6C8EBF" stroke-width="0.8" opacity="0.95"/>
+<text x="320.0" y="332.5" font-size="10.5" fill="#243B4A" text-anchor="middle">HTTP / JSON (cookie phiên)</text>
+<path d="M576.0,430.0 L612.0,410.0 L630.0,250.0" fill="none" stroke="#0E8088" stroke-width="1.7" marker-end="url(#arr_0E8088)"/>
+<path d="M576.0,430.0 L610.0,600.0 L630.0,630.0" fill="none" stroke="#D79B00" stroke-width="1.7" marker-end="url(#arr_D79B00)"/>
+<path d="M314.0,616.0 L905.0,616.0 L920.0,630.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<path d="M576.0,616.0 L1205.0,300.0 L1220.0,305.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<path d="M1520.0,540.0 L1190.0,440.0 L1055.0,450.0" fill="none" stroke="#82B366" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_82B366)"/>
+<rect x="1223.2" y="461.4" width="134.0" height="16" rx="3" fill="#FFFFFF" stroke="#82B366" stroke-width="0.8" opacity="0.95"/>
+<text x="1290.2" y="472.9" font-size="10.5" fill="#243B4A" text-anchor="middle">tool chat / knowledge</text>
+<path d="M900.0,630.0 L920.0,630.0" fill="none" stroke="#999999" stroke-width="1.7" stroke-dasharray="6 5"/>
+<path d="M1055.0,810.0 L1055.0,830.0 L1300.0,700.0 L1520.0,560.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<path d="M765.0,810.0 L765.0,880.0 L1300.0,830.0 L1520.0,560.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_5A5A5A)"/>
+<path d="M1520.0,540.0 L1520.0,560.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" marker-end="url(#arr_5A5A5A)"/>
+<path d="M910.0,430.0 L900.0,440.0 L1500.0,555.0 L1520.0,560.0" fill="none" stroke="#5A5A5A" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_5A5A5A)"/>
+<rect x="1160.2" y="489.1" width="86.0" height="16" rx="3" fill="#FFFFFF" stroke="#5A5A5A" stroke-width="0.8" opacity="0.95"/>
+<text x="1203.2" y="500.6" font-size="10.5" fill="#243B4A" text-anchor="middle">save_artifact</text>
+<rect x="64.0" y="116.0" width="250.0" height="92.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="189.0" y="136.0" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">Main SPA (index.html)</text>
+<text x="189.0" y="147.6" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">• app.js — Router, OCRView, DocumentsView</text>
+<text x="189.0" y="159.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">• chat.js — ChatModule</text>
+<text x="189.0" y="170.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">• ocr-canvas.js — OCRCanvas</text>
+<text x="189.0" y="182.3" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">• i18n.js — I18n (vi/en)</text>
+<text x="189.0" y="193.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">• vendor: marked, katex</text>
+<rect x="332.0" y="116.0" width="244.0" height="56.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="454.0" y="135.4" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">Không gian Agent (agent.html)</text>
+<text x="454.0" y="146.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">• agent.js — runAgent, runSkill,</text>
+<text x="454.0" y="158.5" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">loadSessions, renderTranscript</text>
+<rect x="332.0" y="184.0" width="244.0" height="56.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="454.0" y="209.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">Admin (templates/admin/*.html)</text>
+<text x="454.0" y="220.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">• base · dashboard · users · logs · files</text>
+<rect x="64.0" y="232.0" width="250.0" height="56.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="189.0" y="257.1" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">login.html · 403.html</text>
+<text x="189.0" y="268.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">(Jinja render phía server)</text>
+<rect x="332.0" y="252.0" width="244.0" height="56.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="454.0" y="277.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">route băm: #ocr/&lt;id&gt; · #translate/&lt;id&gt;</text>
+<text x="454.0" y="288.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">#summarize/&lt;id&gt; · #chat/&lt;id&gt;</text>
+<rect x="64.0" y="384.0" width="512.0" height="92.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="320.0" y="410.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">app.py — OCR/upload/document routes</text>
+<text x="320.0" y="421.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">/api/upload · /api/read-text · /api/ocr/page · /api/ocr/all</text>
+<text x="320.0" y="432.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">/api/ocr/reconstruct-region · /api/correct · /api/translate</text>
+<text x="320.0" y="443.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">/api/summarize · /api/documents[/&lt;id&gt;/text|ocr-images|download]</text>
+<text x="320.0" y="454.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">helpers: _resolve_owned_file · _persist_ocr_structured · _safe_basename</text>
+<rect x="64.0" y="488.0" width="250.0" height="70.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="189.0" y="514.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">auth.py (auth_bp)</text>
+<text x="189.0" y="525.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">/login · /logout · /api/auth/me</text>
+<text x="189.0" y="536.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">/api/set-lang (no auth) · admin_required</text>
+<rect x="332.0" y="488.0" width="244.0" height="70.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="454.0" y="514.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">admin_bp.py (/admin)</text>
+<text x="454.0" y="525.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">dashboard · users CRUD · reset/toggle/delete</text>
+<text x="454.0" y="536.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">logs · files · admin_required</text>
+<rect x="64.0" y="570.0" width="250.0" height="92.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="189.0" y="602.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">chat_bp.py</text>
+<text x="189.0" y="613.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">/api/chat/status · /index · /index/&lt;id&gt;</text>
+<text x="189.0" y="624.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">/cancel · /send · /conversations[CRUD]</text>
+<text x="189.0" y="635.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">_owned_conversation/document/file_ids</text>
+<rect x="332.0" y="570.0" width="244.0" height="92.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="454.0" y="603.1" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">agent_bp.py</text>
+<text x="454.0" y="613.5" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">/api/agent/run · /ingest · /skill/&lt;name&gt;</text>
+<text x="454.0" y="623.8" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">/tools · /ocr-engine · /index-status</text>
+<text x="454.0" y="634.2" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">/ensure-indexed · /skills · /conversations[CRUD]</text>
+<rect x="64.0" y="678.0" width="512.0" height="56.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="320.0" y="703.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">config.py — _Config (dirs, devices, model paths, OFFLINE) · auth.py login_manager · @after_request</text>
+<text x="320.0" y="714.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">_no_cache_static</text>
+<rect x="64.0" y="744.0" width="512.0" height="50.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="320.0" y="766.5" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">agent_bp: _SAFE_TOOL_NAMES (5 tools, no ocr) · _AGENT_SKILL_NAMES = () · _HTTP_SKILLS = {summarize,</text>
+<text x="320.0" y="776.8" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">translate, correct} · max_steps∈[1,6]</text>
+<rect x="654.0" y="116.0" width="512.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="910.0" y="143.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">smart_ocr_service.py — run_ocr_pipeline · _apply_ai_enhancement (Qwen line cleanup, safety-gated)</text>
+<rect x="654.0" y="176.0" width="250.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="779.0" y="198.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">ocr_service.py — run_ocr ·</text>
+<text x="779.0" y="209.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">pdf_page_to_pil · pdf_page_count</text>
+<rect x="922.0" y="176.0" width="244.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="1044.0" y="198.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">ocr_engines/router.py — get_engine ·</text>
+<text x="1044.0" y="209.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">run_ocr · normalize_engine_name</text>
+<rect x="654.0" y="240.0" width="122.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="715.0" y="262.4" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">PaddleOCREngine</text>
+<text x="715.0" y="272.8" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">PP-OCRv5</text>
+<rect x="786.0" y="240.0" width="122.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="847.0" y="262.4" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">PaddleOCRModern</text>
+<text x="847.0" y="272.8" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">PP-StructureV3</text>
+<rect x="918.0" y="240.0" width="122.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="979.0" y="262.4" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">VietOCREngine</text>
+<text x="979.0" y="272.8" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">(images only)</text>
+<rect x="1050.0" y="240.0" width="116.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="1108.0" y="262.4" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">GLMOCREngine</text>
+<text x="1108.0" y="272.8" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">subprocess</text>
+<rect x="654.0" y="304.0" width="250.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="779.0" y="326.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">geometry_service.py ·</text>
+<text x="779.0" y="337.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">layout_service.py (LayoutParser opt)</text>
+<rect x="922.0" y="304.0" width="244.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="1044.0" y="326.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">markdown_normalize.py ·</text>
+<text x="1044.0" y="337.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">activity_registry · cpu_threads</text>
+<rect x="654.0" y="368.0" width="512.0" height="46.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="910.0" y="393.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">GLM-OCR subprocess (venv riêng) → MLX server localhost:8080  [bên ngoài]</text>
+<rect x="654.0" y="496.0" width="222.0" height="54.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="765.0" y="520.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">correction_service.py</text>
+<text x="765.0" y="531.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">correct() — regex + autocorrect</text>
+<rect x="654.0" y="560.0" width="222.0" height="64.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="765.0" y="584.3" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">translate_service.py</text>
+<text x="765.0" y="594.6" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">Google (online) / Argos (offline)</text>
+<text x="765.0" y="605.0" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">translate() · get_engine_status</text>
+<rect x="654.0" y="634.0" width="222.0" height="64.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="765.0" y="658.3" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">summary_service.py</text>
+<text x="765.0" y="668.6" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">TF-IDF/TextRank · PhoBERT · MMR</text>
+<text x="765.0" y="679.0" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">summarize() · ai_rewrite path</text>
+<rect x="654.0" y="708.0" width="222.0" height="64.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="765.0" y="732.3" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">ai_rewrite_service.py</text>
+<text x="765.0" y="742.6" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">local Qwen · run_local_messages</text>
+<text x="765.0" y="753.0" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">prewarm · API fallback</text>
+<rect x="654.0" y="782.0" width="222.0" height="22.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="765.0" y="795.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">text_service.py — read_file</text>
+<rect x="944.0" y="496.0" width="222.0" height="50.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="1055.0" y="518.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">chat() · retrieve_chunks ·</text>
+<text x="1055.0" y="529.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">chunk_text (400/80)</text>
+<rect x="944.0" y="560.0" width="222.0" height="54.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="1055.0" y="579.3" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">EmbeddingEngine</text>
+<text x="1055.0" y="589.6" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">SBERT → HashingVectorizer</text>
+<text x="1055.0" y="600.0" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">(16384-dim, L2-norm)</text>
+<rect x="944.0" y="626.0" width="222.0" height="54.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="1055.0" y="645.3" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">DocumentIndex · _index_cache</text>
+<text x="1055.0" y="655.6" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">FAISS IndexFlatIP (cosine)</text>
+<text x="1055.0" y="666.0" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">in-memory per file_id</text>
+<rect x="944.0" y="692.0" width="222.0" height="54.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="1055.0" y="711.3" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">_run_inference — Qwen chat model</text>
+<text x="1055.0" y="721.6" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">CHAT_MODEL 1.5B default (3B opt-in)</text>
+<text x="1055.0" y="732.0" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">cancellable · MPS→CPU fallback</text>
+<rect x="944.0" y="758.0" width="222.0" height="44.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="1055.0" y="777.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">rebuild_indexes_from_db</text>
+<text x="1055.0" y="788.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">llm_registry (shared weights)</text>
+<rect x="1244.0" y="116.0" width="300.0" height="70.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1394.0" y="142.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">core/agent.py — AgentCore.run()</text>
+<text x="1394.0" y="153.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">ReAct loop · _extract_json · _make_plan</text>
+<text x="1394.0" y="164.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">AgentResult · AgentStep</text>
+<rect x="1560.0" y="116.0" width="236.0" height="70.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1678.0" y="142.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">core/provider.py</text>
+<text x="1678.0" y="153.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">LLMProvider · Groq · Gemini</text>
+<text x="1678.0" y="164.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">LocalQwen · FallbackProvider</text>
+<rect x="1244.0" y="200.0" width="300.0" height="92.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1394.0" y="233.1" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">tools/ — Tool · ToolRegistry · ToolResult</text>
+<text x="1394.0" y="243.4" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">OcrTool* · TranslateTool · SummarizeTool</text>
+<text x="1394.0" y="253.8" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">ChatTool · KnowledgeSearchTool · CorrectionTool</text>
+<text x="1394.0" y="264.2" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">(*bị loại khỏi bộ tool an toàn của agent)</text>
+<rect x="1560.0" y="200.0" width="236.0" height="92.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1678.0" y="229.0" font-size="8.0" font-weight="400" fill="#15202B" text-anchor="middle">skills/ — Skill · SkillRegistry</text>
+<text x="1678.0" y="238.7" font-size="8.0" font-weight="400" fill="#15202B" text-anchor="middle">SkillContext · SkillResult</text>
+<text x="1678.0" y="248.5" font-size="8.0" font-weight="400" fill="#15202B" text-anchor="middle">OcrDigest · Research · DocQa</text>
+<text x="1678.0" y="258.2" font-size="8.0" font-weight="400" fill="#15202B" text-anchor="middle">SummarizeTranslate · …  [không dùng trong vòng</text>
+<text x="1678.0" y="268.0" font-size="8.0" font-weight="400" fill="#15202B" text-anchor="middle">lặp]</text>
+<rect x="1244.0" y="306.0" width="300.0" height="70.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1394.0" y="333.3" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">knowledge/ — KnowledgeSource</text>
+<text x="1394.0" y="343.6" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">DocumentKnowledge · CompositeKnowledge</text>
+<text x="1394.0" y="354.0" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">KnowledgeRegistry · Citation · merge_citations</text>
+<rect x="1560.0" y="306.0" width="236.0" height="70.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1678.0" y="332.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">memory/ — AgentMemory</text>
+<text x="1678.0" y="343.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">ConversationMemory</text>
+<text x="1678.0" y="354.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">InMemoryAgentMemory</text>
+<rect x="1244.0" y="390.0" width="300.0" height="64.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1394.0" y="419.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">ocr_routing.py — select_ocr_engine</text>
+<text x="1394.0" y="430.3" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">(mặc định GLM · vi→VietOCR · chỉ định thắng)</text>
+<rect x="1560.0" y="390.0" width="236.0" height="64.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1678.0" y="413.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">results.py</text>
+<text x="1678.0" y="424.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">deep-link đích đến</text>
+<text x="1678.0" y="435.8" font-size="9.0" font-weight="400" fill="#15202B" text-anchor="middle">(dedupe_destinations)</text>
+<rect x="1244.0" y="468.0" width="552.0" height="56.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="1520.0" y="493.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">Không có tầng chọn skill trong agent HTTP thực tế: AgentCore được tạo với skill registry RỖNG → điều</text>
+<text x="1520.0" y="504.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">phối trực tiếp 5 tool an toàn</text>
+<rect x="1244.0" y="606.0" width="175.0" height="50.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1331.5" y="634.1" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">users · documents</text>
+<rect x="1432.0" y="606.0" width="175.0" height="50.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1519.5" y="628.1" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">document_artifacts</text>
+<text x="1519.5" y="639.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">(mỗi kind một bản ghi)</text>
+<rect x="1620.0" y="606.0" width="175.0" height="50.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1707.5" y="628.1" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">chat_conversations</text>
+<text x="1707.5" y="639.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">chat_messages</text>
+<rect x="1244.0" y="672.0" width="175.0" height="50.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1331.5" y="694.1" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">agent_conversations</text>
+<text x="1331.5" y="705.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">agent_messages</text>
+<rect x="1432.0" y="672.0" width="175.0" height="50.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1519.5" y="694.1" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">agent_artifacts</text>
+<text x="1519.5" y="705.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">(bản ghi tham chiếu)</text>
+<rect x="1620.0" y="672.0" width="175.0" height="50.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1707.5" y="700.1" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">activity_logs</text>
+<rect x="1244.0" y="740.0" width="551.0" height="50.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1519.5" y="762.5" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">helpers: save_artifact · get_or_create_conversation · add_message · add_agent_message · add_agent_artifacts ·</text>
+<text x="1519.5" y="772.8" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">seed_admin · log_activity</text>
+</svg>

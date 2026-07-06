@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1660" height="1000" viewBox="0 0 1660 1000" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_0E8088" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#0E8088"/></marker>
+<marker id="arr_33475B" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#33475B"/></marker>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_82B366" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#82B366"/></marker>
+<marker id="arr_9673A6" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#9673A6"/></marker>
+<marker id="arr_D6B656" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#D6B656"/></marker>
+<marker id="arr_D79B00" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#D79B00"/></marker>
+</defs>
+<rect x="0" y="0" width="1660" height="1000" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">Sơ đồ luồng dữ liệu — Mức 1</text>
+<line x1="40" y1="50" x2="1620" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<path d="M200.0,131.0 L300.0,127.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)" marker-start="url(#arr_33475B)"/>
+<rect x="117.0" y="120.0" width="266.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="250.0" y="131.5" font-size="10.5" fill="#243B4A" text-anchor="middle">thao tác quản trị / người dùng·nhật ký·file</text>
+<path d="M550.0,127.0 L610.0,114.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)" marker-start="url(#arr_33475B)"/>
+<rect x="546.0" y="111.5" width="68.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="580.0" y="123.0" font-size="10.5" fill="#243B4A" text-anchor="middle">người dùng</text>
+<path d="M550.0,127.0 L575.0,127.0 L575.0,162.0 L610.0,164.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)"/>
+<rect x="550.0" y="140.5" width="50.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="575.0" y="152.0" font-size="10.5" fill="#243B4A" text-anchor="middle">ghi log</text>
+<path d="M125.0,398.0 L128.0,150.0 L300.0,127.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)" marker-start="url(#arr_33475B)"/>
+<rect x="72.5" y="178.2" width="110.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="127.5" y="189.7" font-size="10.5" fill="#243B4A" text-anchor="middle">đăng nhập / phiên</text>
+<path d="M200.0,434.0 L300.0,289.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)" marker-start="url(#arr_33475B)"/>
+<rect x="162.0" y="352.5" width="176.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="250.0" y="364.0" font-size="10.5" fill="#243B4A" text-anchor="middle">tải lên / file_id, danh sách</text>
+<path d="M425.0,330.0 L425.0,360.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)"/>
+<rect x="397.0" y="336.0" width="56.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="425.0" y="347.5" font-size="10.5" fill="#243B4A" text-anchor="middle">lưu file</text>
+<path d="M300.0,289.0 L272.0,310.0 L272.0,466.0 L300.0,466.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)" marker-start="url(#arr_33475B)"/>
+<rect x="241.0" y="375.5" width="62.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="272.0" y="387.0" font-size="10.5" fill="#243B4A" text-anchor="middle">tạo / đọc</text>
+<path d="M550.0,289.0 L610.0,289.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)"/>
+<rect x="555.0" y="280.0" width="50.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="580.0" y="291.5" font-size="10.5" fill="#243B4A" text-anchor="middle">file_id</text>
+<path d="M550.0,384.0 L580.0,385.0 L580.0,338.0 L720.0,330.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)"/>
+<rect x="583.6" y="327.2" width="56.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="611.6" y="338.7" font-size="10.5" fill="#243B4A" text-anchor="middle">đọc file</text>
+<path d="M125.0,398.0 L128.0,226.0 L710.0,226.0 L720.0,248.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)" marker-start="url(#arr_33475B)"/>
+<rect x="278.1" y="217.0" width="134.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="345.1" y="228.5" font-size="10.5" fill="#243B4A" text-anchor="middle">yêu cầu OCR / kết quả</text>
+<path d="M830.0,289.0 L855.0,270.0 L855.0,222.0 L1350.0,222.0 L1490.0,286.0" fill="none" stroke="#0E8088" stroke-width="1.7" marker-end="url(#arr_0E8088)" marker-start="url(#arr_0E8088)"/>
+<rect x="1081.8" y="213.0" width="116.0" height="16" rx="3" fill="#FFFFFF" stroke="#0E8088" stroke-width="0.8" opacity="0.95"/>
+<text x="1139.8" y="224.5" font-size="10.5" fill="#243B4A" text-anchor="middle">GLM engine (:8080)</text>
+<path d="M830.0,289.0 L1015.0,300.0 L1015.0,362.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)"/>
+<rect x="913.4" y="287.3" width="80.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="953.4" y="298.8" font-size="10.5" fill="#243B4A" text-anchor="middle">lưu artifact</text>
+<path d="M720.0,330.0 L740.0,430.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<rect x="669.0" y="371.0" width="122.0" height="16" rx="3" fill="#FFFFFF" stroke="#82B366" stroke-width="0.8" opacity="0.95"/>
+<text x="730.0" y="382.5" font-size="10.5" fill="#243B4A" text-anchor="middle">lập chỉ mục văn bản</text>
+<path d="M125.0,398.0 L128.0,200.0 L1015.0,200.0 L1015.0,248.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)" marker-start="url(#arr_33475B)"/>
+<rect x="441.5" y="191.0" width="110.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="496.5" y="202.5" font-size="10.5" fill="#243B4A" text-anchor="middle">yêu cầu / kết quả</text>
+<path d="M1015.0,362.0 L1015.0,330.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)" marker-start="url(#arr_33475B)"/>
+<rect x="921.0" y="337.0" width="188.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="1015.0" y="348.5" font-size="10.5" fill="#243B4A" text-anchor="middle">văn bản OCR / tóm tắt·bản dịch</text>
+<path d="M1140.0,289.0 L1340.0,289.0 L1340.0,408.0 L1490.0,408.0" fill="none" stroke="#D79B00" stroke-width="1.7" marker-end="url(#arr_D79B00)" marker-start="url(#arr_D79B00)"/>
+<rect x="1303.0" y="314.5" width="74.0" height="16" rx="3" fill="#FFFFFF" stroke="#D79B00" stroke-width="0.8" opacity="0.95"/>
+<text x="1340.0" y="326.0" font-size="10.5" fill="#243B4A" text-anchor="middle">dịch online</text>
+<path d="M870.0,473.0 L910.0,472.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)" marker-start="url(#arr_82B366)"/>
+<rect x="838.0" y="463.5" width="104.0" height="16" rx="3" fill="#FFFFFF" stroke="#82B366" stroke-width="0.8" opacity="0.95"/>
+<text x="890.0" y="475.0" font-size="10.5" fill="#243B4A" text-anchor="middle">nhúng / truy hồi</text>
+<path d="M125.0,470.0 L130.0,642.0 L300.0,642.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)" marker-start="url(#arr_33475B)"/>
+<rect x="36.0" y="632.0" width="188.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="130.0" y="643.5" font-size="10.5" fill="#243B4A" text-anchor="middle">câu hỏi chat / trả lời + nguồn</text>
+<path d="M550.0,642.0 L578.0,642.0 L578.0,520.0 L660.0,520.0 L740.0,516.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)" marker-start="url(#arr_82B366)"/>
+<rect x="508.0" y="511.0" width="152.0" height="16" rx="3" fill="#FFFFFF" stroke="#82B366" stroke-width="0.8" opacity="0.95"/>
+<text x="584.0" y="522.5" font-size="10.5" fill="#243B4A" text-anchor="middle">retrieve_chunks / chunks</text>
+<path d="M425.0,684.0 L425.0,712.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)" marker-start="url(#arr_33475B)"/>
+<rect x="382.0" y="689.0" width="86.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="425.0" y="700.5" font-size="10.5" fill="#243B4A" text-anchor="middle">lưu / lịch sử</text>
+<path d="M125.0,470.0 L130.0,800.0 L660.0,800.0 L740.0,690.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)" marker-start="url(#arr_33475B)"/>
+<rect x="222.0" y="791.0" width="152.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="298.0" y="802.5" font-size="10.5" fill="#243B4A" text-anchor="middle">tin nhắn agent / kết quả</text>
+<path d="M870.0,645.0 L1380.0,620.0 L1490.0,589.0" fill="none" stroke="#D6B656" stroke-width="1.7" marker-end="url(#arr_D6B656)" marker-start="url(#arr_D6B656)"/>
+<rect x="1127.1" y="620.7" width="110.0" height="16" rx="3" fill="#FFFFFF" stroke="#D6B656" stroke-width="0.8" opacity="0.95"/>
+<text x="1182.1" y="632.2" font-size="10.5" fill="#243B4A" text-anchor="middle">prompt / phản hồi</text>
+<path d="M870.0,645.0 L1400.0,670.0 L1490.0,677.0" fill="none" stroke="#D6B656" stroke-width="1.7" marker-end="url(#arr_D6B656)" marker-start="url(#arr_D6B656)"/>
+<rect x="1152.1" y="650.6" width="56.0" height="16" rx="3" fill="#FFFFFF" stroke="#D6B656" stroke-width="0.8" opacity="0.95"/>
+<text x="1180.1" y="662.1" font-size="10.5" fill="#243B4A" text-anchor="middle">dự phòng</text>
+<path d="M740.0,600.0 L885.0,560.0 L885.0,360.0 L1015.0,330.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<rect x="791.0" y="459.5" width="188.0" height="16" rx="3" fill="#FFFFFF" stroke="#9673A6" stroke-width="0.8" opacity="0.95"/>
+<text x="885.0" y="471.0" font-size="10.5" fill="#243B4A" text-anchor="middle">tool: tóm tắt / dịch / sửa lỗi</text>
+<path d="M610.0,645.0 L550.0,642.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<rect x="546.0" y="634.5" width="68.0" height="16" rx="3" fill="#FFFFFF" stroke="#9673A6" stroke-width="0.8" opacity="0.95"/>
+<text x="580.0" y="646.0" font-size="10.5" fill="#243B4A" text-anchor="middle">tool: chat</text>
+<path d="M740.0,600.0 L760.0,560.0 L870.0,473.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<rect x="727.5" y="521.4" width="140.0" height="16" rx="3" fill="#FFFFFF" stroke="#9673A6" stroke-width="0.8" opacity="0.95"/>
+<text x="797.5" y="532.9" font-size="10.5" fill="#243B4A" text-anchor="middle">tool: knowledge_search</text>
+<path d="M740.0,690.0 L740.0,712.0" fill="none" stroke="#33475B" stroke-width="1.7" marker-end="url(#arr_33475B)" marker-start="url(#arr_33475B)"/>
+<rect x="688.0" y="692.0" width="104.0" height="16" rx="3" fill="#FFFFFF" stroke="#33475B" stroke-width="0.8" opacity="0.95"/>
+<text x="740.0" y="703.5" font-size="10.5" fill="#243B4A" text-anchor="middle">lưu / tham chiếu</text>
+<rect x="50.0" y="398.0" width="150.0" height="72.0" rx="0" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="125.0" y="437.3" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">Người dùng</text>
+<rect x="50.0" y="95.0" width="150.0" height="72.0" rx="0" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="125.0" y="134.3" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">Quản trị viên</text>
+<rect x="1490.0" y="250.0" width="150.0" height="72.0" rx="0" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="1565.0" y="282.9" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">GLM-OCR</text>
+<text x="1565.0" y="295.7" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">MLX :8080</text>
+<rect x="1490.0" y="372.0" width="150.0" height="72.0" rx="0" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="1565.0" y="404.9" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">Dịch</text>
+<text x="1565.0" y="417.7" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">trực tuyến</text>
+<rect x="1490.0" y="560.0" width="150.0" height="58.0" rx="0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1565.0" y="592.3" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">Groq API</text>
+<rect x="1490.0" y="648.0" width="150.0" height="58.0" rx="0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1565.0" y="680.3" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">Gemini API</text>
+<rect x="300.0" y="88.0" width="250.0" height="78.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="425.0" y="124.0" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">1 · Xác thực</text>
+<text x="425.0" y="136.2" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">&amp; Quản trị</text>
+<rect x="300.0" y="248.0" width="250.0" height="82.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="425.0" y="286.0" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">2 · Tiếp nhận tài liệu</text>
+<text x="425.0" y="298.2" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">(tải lên · read-text · thư viện)</text>
+<rect x="610.0" y="248.0" width="220.0" height="82.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="720.0" y="286.0" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">3 · Xử lý OCR</text>
+<text x="720.0" y="298.2" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">(engine → artifact)</text>
+<rect x="890.0" y="248.0" width="250.0" height="82.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="1015.0" y="286.0" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">4 · Dịch vụ AI</text>
+<text x="1015.0" y="298.2" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">(sửa lỗi · dịch · tóm tắt)</text>
+<rect x="610.0" y="430.0" width="260.0" height="86.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="740.0" y="470.0" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">5 · Chỉ mục RAG &amp;</text>
+<text x="740.0" y="482.2" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">truy hồi</text>
+<rect x="300.0" y="600.0" width="250.0" height="84.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="425.0" y="639.0" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">6 · Chat (tổng quát / tài liệu)</text>
+<text x="425.0" y="651.2" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">model chat Qwen cục bộ</text>
+<rect x="610.0" y="600.0" width="260.0" height="90.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="740.0" y="642.0" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">7 · Điều phối Agent</text>
+<text x="740.0" y="654.2" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">provider + tool</text>
+<path d="M610.0,99.0 a100.0,9.0 0 0 0 200.0,0 v30.0 a100.0,9.0 0 0 1 -200.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="710.0" cy="99.0" rx="100.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="710.0" y="121.4" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">D1 · users</text>
+<path d="M610.0,149.0 a100.0,9.0 0 0 0 200.0,0 v30.0 a100.0,9.0 0 0 1 -200.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="710.0" cy="149.0" rx="100.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="710.0" y="171.4" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">D7 · activity_logs</text>
+<path d="M300.0,369.0 a125.0,9.0 0 0 0 250.0,0 v30.0 a125.0,9.0 0 0 1 -250.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="425.0" cy="369.0" rx="125.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="425.0" y="391.4" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">D8 · uploads/</text>
+<path d="M300.0,451.0 a125.0,9.0 0 0 0 250.0,0 v30.0 a125.0,9.0 0 0 1 -250.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="425.0" cy="451.0" rx="125.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="425.0" y="473.4" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">D2 · documents</text>
+<path d="M890.0,371.0 a125.0,9.0 0 0 0 250.0,0 v30.0 a125.0,9.0 0 0 1 -250.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="1015.0" cy="371.0" rx="125.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1015.0" y="393.4" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">D3 · document_artifacts</text>
+<path d="M910.0,457.0 a125.0,9.0 0 0 0 250.0,0 v30.0 a125.0,9.0 0 0 1 -250.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="1035.0" cy="457.0" rx="125.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1035.0" y="479.4" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">D4 · Chỉ mục RAG (trong bộ nhớ)</text>
+<path d="M300.0,721.0 a125.0,9.0 0 0 0 250.0,0 v30.0 a125.0,9.0 0 0 1 -250.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="425.0" cy="721.0" rx="125.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="425.0" y="743.4" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">D5 · chat_conversations / messages</text>
+<path d="M610.0,721.0 a130.0,9.0 0 0 0 260.0,0 v30.0 a130.0,9.0 0 0 1 -260.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="740.0" cy="721.0" rx="130.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="740.0" y="743.4" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">D6 · agent_* (conv / msg / artifacts)</text>
+<rect x="1180.0" y="770.0" width="280.0" height="100.0" rx="9" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="1320.0" y="801.9" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">Ký hiệu:</text>
+<text x="1320.0" y="812.3" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">· bo tròn = tiến trình (n)</text>
+<text x="1320.0" y="822.6" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">· trụ = kho dữ liệu (Dn)</text>
+<text x="1320.0" y="833.0" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">· chữ nhật = thực thể ngoài</text>
+<text x="1320.0" y="843.4" font-size="8.5" font-weight="400" fill="#15202B" text-anchor="middle">(mũi tên hai đầu = yêu cầu / phản hồi)</text>
+</svg>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_82B366" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#82B366"/></marker>
+<marker id="arr_9673A6" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#9673A6"/></marker>
+</defs>
+<rect x="0" y="0" width="1280" height="760" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">8 · Kiến trúc các chế độ Chat</text>
+<line x1="40" y1="50" x2="1240" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="60" y="80" width="360" height="360" rx="11" fill="#EEF3FB" stroke="#3F61A8" stroke-width="1.6"/>
+<path d="M60.0,114.0 L60.0,91.0 A11,11 0 0 1 71.0,80.0 L409.0,80.0 A11,11 0 0 1 420.0,91.0 L420.0,114.0 Z" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="74.0" y="104.0" font-size="14.5" font-weight="700" fill="#10202E">Chat tổng quát</text>
+<rect x="460" y="80" width="360" height="440" rx="11" fill="#EFF6EE" stroke="#82B366" stroke-width="1.6"/>
+<path d="M460.0,114.0 L460.0,91.0 A11,11 0 0 1 471.0,80.0 L809.0,80.0 A11,11 0 0 1 820.0,91.0 L820.0,114.0 Z" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="474.0" y="104.0" font-size="14.5" font-weight="700" fill="#10202E">Chat tài liệu</text>
+<rect x="860" y="80" width="360" height="440" rx="11" fill="#F3EFF5" stroke="#9673A6" stroke-width="1.6"/>
+<path d="M860.0,114.0 L860.0,91.0 A11,11 0 0 1 871.0,80.0 L1209.0,80.0 A11,11 0 0 1 1220.0,91.0 L1220.0,114.0 Z" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="874.0" y="104.0" font-size="14.5" font-weight="700" fill="#10202E">Agent</text>
+<path d="M240.0,180.0 L240.0,230.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M240.0,280.0 L240.0,330.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M640.0,186.0 L640.0,220.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M640.0,276.0 L640.0,312.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M640.0,368.0 L640.0,404.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M1040.0,176.0 L1040.0,210.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M1040.0,260.0 L1040.0,300.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M1040.0,260.0 L1100.0,360.0 L1040.0,392.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M640.0,276.0 L640.0,560.0 L570.0,580.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<path d="M1040.0,456.0 L1040.0,540.0 L800.0,610.0 L780.0,610.0" fill="none" stroke="#82B366" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_82B366)"/>
+<rect x="880.7" y="557.0" width="140.0" height="16" rx="3" fill="#FFFFFF" stroke="#82B366" stroke-width="0.8" opacity="0.95"/>
+<text x="950.7" y="568.5" font-size="10.5" fill="#243B4A" text-anchor="middle">tool chat dùng lại RAG</text>
+<path d="M240.0,380.0 L240.0,600.0 L300.0,600.0 L370.0,680.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M640.0,454.0 L640.0,540.0 L380.0,660.0 L370.0,680.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M1190.0,235.0 L1240.0,235.0 L1240.0,660.0 L1000.0,660.0 L1040.0,680.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<rect x="90.0" y="130.0" width="300.0" height="50.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="240.0" y="151.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">chat_bp · /api/chat/send</text>
+<text x="240.0" y="165.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">(mode = general)</text>
+<rect x="90.0" y="230.0" width="300.0" height="50.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="240.0" y="251.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">chat_service.chat()</text>
+<text x="240.0" y="265.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">KHÔNG truy hồi</text>
+<rect x="90.0" y="330.0" width="300.0" height="50.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="240.0" y="358.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Model chat Qwen</text>
+<rect x="490.0" y="130.0" width="300.0" height="56.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="640.0" y="154.8" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">chat_bp · /api/chat/send</text>
+<text x="640.0" y="167.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">(mode = doc_current / doc_all)</text>
+<rect x="490.0" y="220.0" width="300.0" height="56.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="640.0" y="244.8" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">retrieve_chunks()</text>
+<text x="640.0" y="257.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">RAG, giới hạn theo file_id sở hữu</text>
+<rect x="490.0" y="312.0" width="300.0" height="56.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="640.0" y="336.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">chat_service.chat()</text>
+<text x="640.0" y="349.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">prompt bám ngữ cảnh</text>
+<rect x="490.0" y="404.0" width="300.0" height="50.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="640.0" y="432.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Model chat Qwen</text>
+<rect x="890.0" y="130.0" width="300.0" height="46.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="1040.0" y="156.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">agent_bp · /api/agent/run</text>
+<rect x="890.0" y="210.0" width="300.0" height="50.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1040.0" y="231.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">Vòng lặp AgentCore</text>
+<text x="1040.0" y="245.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">(kế hoạch + tool)</text>
+<rect x="890.0" y="300.0" width="300.0" height="50.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1040.0" y="321.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">LLM qua Model Router — tác vụ “agent”</text>
+<text x="1040.0" y="335.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">(auto: Groq → Gemini → self-hosted → Qwen)</text>
+<rect x="890.0" y="392.0" width="300.0" height="64.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1040.0" y="421.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">tool: chat (RAG) · knowledge_search ·</text>
+<text x="1040.0" y="433.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">summarize · translate · correct</text>
+<rect x="360.0" y="580.0" width="420.0" height="60.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="570.0" y="606.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Dùng chung: chat_service · EmbeddingEngine ·</text>
+<text x="570.0" y="619.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">chỉ mục FAISS trong bộ nhớ</text>
+<path d="M220.0,689.0 a150.0,9.0 0 0 0 300.0,0 v38.0 a150.0,9.0 0 0 1 -300.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="370.0" cy="689.0" rx="150.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="370.0" y="709.2" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">chat_messages</text>
+<text x="370.0" y="722.6" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">(+ sources JSON)</text>
+<path d="M880.0,689.0 a160.0,9.0 0 0 0 320.0,0 v38.0 a160.0,9.0 0 0 1 -320.0,0 z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<ellipse cx="1040.0" cy="689.0" rx="160.0" ry="9.0" fill="#F0F0F0" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="1040.0" y="715.8" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">agent_messages + agent_artifacts</text>
+</svg>

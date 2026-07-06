@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="740" viewBox="0 0 1240 740" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_B85450" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#B85450"/></marker>
+</defs>
+<rect x="0" y="0" width="1240" height="740" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">21 · Chuỗi provider dự phòng — chế độ “auto” (legacy)</text>
+<line x1="40" y1="50" x2="1200" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="540" y="344" width="660" height="200" rx="11" fill="#FFFAEB" stroke="#D6B656" stroke-width="1.6"/>
+<path d="M540.0,378.0 L540.0,355.0 A11,11 0 0 1 551.0,344.0 L1189.0,344.0 A11,11 0 0 1 1200.0,355.0 L1200.0,378.0 Z" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="554.0" y="368.0" font-size="14.5" font-weight="700" fill="#10202E">FallbackProvider(chuỗi) — hạ cấp khi lỗi · ghi nhớ provider chạy được · chuỗi rỗng = lỗi rõ</text>
+<path d="M630.0,116.0 L630.0,150.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M710.0,190.0 L840.0,191.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="756.0" y="181.5" width="38.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="775.0" y="193.0" font-size="10.5" fill="#243B4A" text-anchor="middle">local</text>
+<path d="M630.0,230.0 L630.0,250.0 L440.0,268.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="490.0" y="249.1" width="110.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="545.0" y="260.6" font-size="10.5" fill="#243B4A" text-anchor="middle">các lựa chọn khác</text>
+<path d="M440.0,318.0 L270.0,334.0 L270.0,344.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M270.0,390.0 L270.0,402.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M270.0,448.0 L270.0,460.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M270.0,510.0 L270.0,524.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M706.0,444.0 L719.0,444.0" fill="none" stroke="#B85450" stroke-width="1.7" marker-end="url(#arr_B85450)"/>
+<rect x="699.5" y="435.0" width="26.0" height="16" rx="3" fill="#FFFFFF" stroke="#B85450" stroke-width="0.8" opacity="0.95"/>
+<text x="712.5" y="446.5" font-size="10.5" fill="#243B4A" text-anchor="middle">lỗi</text>
+<path d="M865.0,444.0 L878.0,444.0" fill="none" stroke="#B85450" stroke-width="1.7" marker-end="url(#arr_B85450)"/>
+<rect x="858.5" y="435.0" width="26.0" height="16" rx="3" fill="#FFFFFF" stroke="#B85450" stroke-width="0.8" opacity="0.95"/>
+<text x="871.5" y="446.5" font-size="10.5" fill="#243B4A" text-anchor="middle">lỗi</text>
+<path d="M1024.0,444.0 L1038.0,444.0" fill="none" stroke="#B85450" stroke-width="1.7" marker-end="url(#arr_B85450)"/>
+<rect x="1018.0" y="435.0" width="26.0" height="16" rx="3" fill="#FFFFFF" stroke="#B85450" stroke-width="0.8" opacity="0.95"/>
+<text x="1031.0" y="446.5" font-size="10.5" fill="#243B4A" text-anchor="middle">lỗi</text>
+<path d="M460.0,546.0 L540.0,444.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="460.0" y="486.0" width="80.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="500.0" y="497.5" font-size="10.5" fill="#243B4A" text-anchor="middle">≥ 2 provider</text>
+<rect x="450.0" y="66.0" width="360.0" height="50.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="630.0" y="87.8" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">get_default_provider()</text>
+<text x="630.0" y="100.7" font-size="10.5" font-weight="700" fill="#15202B" text-anchor="middle">đọc AGENT_LLM_PROVIDER (mặc định: auto)</text>
+<polygon points="630.0,150.0 710.0,190.0 630.0,230.0 550.0,190.0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="630.0" y="192.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">AGENT_LLM_PROVIDER?</text>
+<rect x="840.0" y="168.0" width="300.0" height="46.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="990.0" y="194.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">chỉ LocalQwenProvider</text>
+<rect x="280.0" y="268.0" width="320.0" height="50.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="440.0" y="289.9" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">dựng chuỗi (auto / groq / gemini /</text>
+<text x="440.0" y="302.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">openai_compatible)</text>
+<rect x="80.0" y="344.0" width="380.0" height="46.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="270.0" y="364.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">nếu có GROQ_API_KEY và ĐƯỢC phép cloud</text>
+<text x="270.0" y="375.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">→ thêm GroqProvider</text>
+<rect x="80.0" y="402.0" width="380.0" height="46.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="270.0" y="422.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">nếu có GEMINI_API_KEY và ĐƯỢC phép cloud</text>
+<text x="270.0" y="433.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">→ thêm GeminiProvider</text>
+<rect x="80.0" y="460.0" width="380.0" height="50.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="270.0" y="482.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">nếu self-hosted (OpenAI-compatible) đã cấu hình</text>
+<text x="270.0" y="493.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">→ thêm OpenAICompatibleProvider</text>
+<rect x="80.0" y="524.0" width="380.0" height="44.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="270.0" y="548.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">luôn thêm LocalQwenProvider (cuối chuỗi)</text>
+<rect x="560.0" y="412.0" width="146.0" height="64.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="633.0" y="441.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">GroqProvider</text>
+<text x="633.0" y="452.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">(cloud)</text>
+<rect x="719.0" y="412.0" width="146.0" height="64.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="792.0" y="441.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">GeminiProvider</text>
+<text x="792.0" y="452.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">(cloud)</text>
+<rect x="878.0" y="412.0" width="146.0" height="64.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="951.0" y="441.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">OpenAICompatible</text>
+<text x="951.0" y="452.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">(self-hosted /v1)</text>
+<rect x="1038.0" y="412.0" width="146.0" height="64.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1111.0" y="441.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">LocalQwenProvider</text>
+<text x="1111.0" y="452.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">(cục bộ, cuối)</text>
+<rect x="540.0" y="566.0" width="660.0" height="50.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="870.0" y="588.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">Local-only (ALLOW_CLOUD=false): loại Groq · Gemini khỏi chuỗi kể cả khi có khóa</text>
+<text x="870.0" y="600.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">→ chuỗi = self-hosted (nếu có) + Qwen cục bộ</text>
+<rect x="540.0" y="632.0" width="660.0" height="44.0" rx="9" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="870.0" y="657.1" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">LLM_PROVIDER=openai_compatible: đẩy self-hosted lên ĐẦU chuỗi (Windows/Linux không có model cục bộ)</text>
+<rect x="80.0" y="600.0" width="380.0" height="76.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="270.0" y="628.9" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">Đây là chuỗi “auto” (hành vi cũ) mà Model Router</text>
+<text x="270.0" y="641.1" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">dùng khi tác vụ đặt Automatic — model chỉ định</text>
+<text x="270.0" y="653.3" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">đi qua Router (xem sơ đồ D6 / W2)</text>
+</svg>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="660" viewBox="0 0 1320 660" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_9AA7B5" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#9AA7B5"/></marker>
+<marker id="arr_B85450" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#B85450"/></marker>
+</defs>
+<rect x="0" y="0" width="1320" height="660" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">17 · Luồng tóm tắt</text>
+<line x1="40" y1="50" x2="1280" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<path d="M310.0,138.0 L360.0,180.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M310.0,230.0 L360.0,180.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M510.0,210.0 L515.0,252.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M590.0,291.0 L660.0,259.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="609.0" y="266.0" width="32.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="625.0" y="277.5" font-size="10.5" fill="#243B4A" text-anchor="middle">fast</text>
+<path d="M590.0,291.0 L620.0,291.0 L630.0,323.0 L660.0,323.0" fill="none" stroke="#9AA7B5" stroke-width="1.7" marker-end="url(#arr_9AA7B5)"/>
+<rect x="585.0" y="298.0" width="80.0" height="16" rx="3" fill="#FFFFFF" stroke="#9AA7B5" stroke-width="0.8" opacity="0.95"/>
+<text x="625.0" y="309.5" font-size="10.5" fill="#243B4A" text-anchor="middle">smart / auto</text>
+<path d="M835.0,282.0 L835.0,282.0 L835.0,368.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M835.0,346.0 L835.0,368.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M660.0,390.0 L630.0,390.0 L630.0,438.0 L590.0,438.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M590.0,438.0 L660.0,467.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="591.0" y="443.5" width="68.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="625.0" y="455.0" font-size="10.5" fill="#243B4A" text-anchor="middle">ai_rewrite</text>
+<path d="M840.0,494.0 L840.0,518.0" fill="none" stroke="#B85450" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_B85450)"/>
+<path d="M515.0,478.0 L515.0,560.0 L265.0,560.0 L265.0,470.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="370.0" y="551.0" width="32.0" height="16" rx="3" fill="#FFFFFF" stroke="#445" stroke-width="0.8" opacity="0.95"/>
+<text x="386.0" y="562.5" font-size="10.5" fill="#243B4A" text-anchor="middle">fast</text>
+<path d="M840.0,494.0 L840.0,600.0 L265.0,600.0 L265.0,520.0" fill="none" stroke="#B85450" stroke-width="1.7" stroke-dasharray="6 5" marker-end="url(#arr_B85450)"/>
+<rect x="474.5" y="591.0" width="182.0" height="16" rx="3" fill="#FFFFFF" stroke="#B85450" stroke-width="0.8" opacity="0.95"/>
+<text x="565.5" y="602.5" font-size="10.5" fill="#243B4A" text-anchor="middle">lỗi → trích xuất (extractive)</text>
+<rect x="60.0" y="110.0" width="250.0" height="56.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="185.0" y="135.0" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">POST /api/summarize</text>
+<text x="185.0" y="147.2" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">(+ GET /api/summarize/status)</text>
+<rect x="60.0" y="205.0" width="250.0" height="50.0" rx="9" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="185.0" y="226.8" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">Agent: tool summarize</text>
+<text x="185.0" y="239.7" font-size="10.5" font-weight="400" fill="#15202B" text-anchor="middle">(SummarizeTool)</text>
+<rect x="360.0" y="150.0" width="300.0" height="60.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="510.0" y="177.0" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">summary_service.summarize(</text>
+<text x="510.0" y="189.2" font-size="10.0" font-weight="700" fill="#15202B" text-anchor="middle">text, mode, engine, summary_mode)</text>
+<polygon points="515.0,252.0 590.0,291.0 515.0,330.0 440.0,291.0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="515.0" y="294.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">engine?</text>
+<rect x="660.0" y="236.0" width="350.0" height="46.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="835.0" y="261.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">fast: TF-IDF + TextRank (PageRank) + MMR</text>
+<rect x="660.0" y="300.0" width="350.0" height="46.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="835.0" y="325.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">smart: embedding PhoBERT + MMR (tiếng Việt)</text>
+<rect x="660.0" y="368.0" width="350.0" height="44.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="835.0" y="392.9" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">áp dụng mode: short / bullets / executive</text>
+<polygon points="515.0,398.0 590.0,438.0 515.0,478.0 440.0,438.0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<text x="515.0" y="441.1" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">summary_mode?</text>
+<rect x="660.0" y="440.0" width="360.0" height="54.0" rx="9" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="840.0" y="464.2" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">ai_rewrite_service · Qwen cục bộ / API dự phòng</text>
+<text x="840.0" y="475.7" font-size="9.5" font-weight="400" fill="#15202B" text-anchor="middle">(viết lại trừu tượng)</text>
+<rect x="660.0" y="518.0" width="360.0" height="40.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="840.0" y="541.1" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">model đang khởi động → HTTP 202</text>
+<rect x="120.0" y="470.0" width="290.0" height="50.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="265.0" y="498.1" font-size="10.0" font-weight="400" fill="#15202B" text-anchor="middle">kết quả {summary, mode, engine}</text>
+</svg>

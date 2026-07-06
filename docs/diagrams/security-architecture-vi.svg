@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="920" viewBox="0 0 1120 920" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+</defs>
+<rect x="0" y="0" width="1120" height="920" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">7 · Kiến trúc bảo mật (thực thi theo lớp)</text>
+<line x1="40" y1="50" x2="1080" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="120" y="140" width="880" height="110" rx="11" fill="#EEF3FB" stroke="#3F61A8" stroke-width="1.6"/>
+<path d="M120.0,174.0 L120.0,151.0 A11,11 0 0 1 131.0,140.0 L989.0,140.0 A11,11 0 0 1 1000.0,151.0 L1000.0,174.0 Z" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="134.0" y="164.0" font-size="14.5" font-weight="700" fill="#10202E">1 · Xác thực — Flask-Login</text>
+<rect x="120" y="280" width="880" height="110" rx="11" fill="#EEF3FB" stroke="#3F61A8" stroke-width="1.6"/>
+<path d="M120.0,314.0 L120.0,291.0 A11,11 0 0 1 131.0,280.0 L989.0,280.0 A11,11 0 0 1 1000.0,291.0 L1000.0,314.0 Z" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="134.0" y="304.0" font-size="14.5" font-weight="700" fill="#10202E">2 · Phân quyền</text>
+<rect x="120" y="420" width="880" height="110" rx="11" fill="#FCECEB" stroke="#B85450" stroke-width="1.6"/>
+<path d="M120.0,454.0 L120.0,431.0 A11,11 0 0 1 131.0,420.0 L989.0,420.0 A11,11 0 0 1 1000.0,431.0 L1000.0,454.0 Z" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="134.0" y="444.0" font-size="14.5" font-weight="700" fill="#10202E">3 · Kiểm tra quyền sở hữu</text>
+<rect x="120" y="560" width="880" height="110" rx="11" fill="#E0F4F5" stroke="#0E8088" stroke-width="1.6"/>
+<path d="M120.0,594.0 L120.0,571.0 A11,11 0 0 1 131.0,560.0 L989.0,560.0 A11,11 0 0 1 1000.0,571.0 L1000.0,594.0 Z" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="134.0" y="584.0" font-size="14.5" font-weight="700" fill="#10202E">4 · Kiểm soát truy cập tài liệu</text>
+<rect x="120" y="700" width="880" height="110" rx="11" fill="#EFF6EE" stroke="#82B366" stroke-width="1.6"/>
+<path d="M120.0,734.0 L120.0,711.0 A11,11 0 0 1 131.0,700.0 L989.0,700.0 A11,11 0 0 1 1000.0,711.0 L1000.0,734.0 Z" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="134.0" y="724.0" font-size="14.5" font-weight="700" fill="#10202E">5 · Thực thi phạm vi truy hồi</text>
+<path d="M560.0,116.0 L560.0,140.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M560.0,250.0 L560.0,280.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M560.0,390.0 L560.0,420.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M560.0,530.0 L560.0,560.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M560.0,670.0 L560.0,700.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<path d="M560.0,810.0 L560.0,840.0" fill="none" stroke="#445" stroke-width="1.7" marker-end="url(#arr_445)"/>
+<rect x="430.0" y="70.0" width="260.0" height="46.0" rx="9" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="560.0" y="96.9" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Yêu cầu HTTP đến</text>
+<rect x="150.0" y="188.0" width="820.0" height="50.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="560.0" y="216.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">@login_required (cookie phiên) · băm mật khẩu Werkzeug · thất bại → 401 JSON hoặc chuyển hướng /login</text>
+<rect x="150.0" y="328.0" width="820.0" height="50.0" rx="9" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="560.0" y="356.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">role = admin | user · @admin_required cho /admin/* và API quản trị</text>
+<rect x="150.0" y="468.0" width="820.0" height="50.0" rx="9" fill="#F8CECC" stroke="#B85450" stroke-width="1.6"/>
+<text x="560.0" y="496.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">_resolve_owned_file(file_id): file_id → Document → kiểm tra chủ sở hữu / admin · glob đĩa theo UUID ĐÃ LƯU (không path traversal)</text>
+<rect x="150.0" y="608.0" width="820.0" height="50.0" rx="9" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="560.0" y="636.4" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">danh sách + artifact giới hạn theo current_user · admin thấy tất cả</text>
+<rect x="150.0" y="748.0" width="820.0" height="50.0" rx="9" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="560.0" y="769.7" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">allowed_file_ids → retrieve_chunks (None = admin) · Agent tiêm phạm vi phía server (LLM không bao giờ chọn) · tool chat/knowledge bỏ</text>
+<text x="560.0" y="783.1" font-size="11.0" font-weight="400" fill="#15202B" text-anchor="middle">file_id không sở hữu</text>
+<rect x="400.0" y="840.0" width="320.0" height="50.0" rx="9" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="560.0" y="868.9" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Truy cập dịch vụ / dữ liệu</text>
+</svg>

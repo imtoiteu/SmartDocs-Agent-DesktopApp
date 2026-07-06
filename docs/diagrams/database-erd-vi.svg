@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="980" viewBox="0 0 1400 980" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_0E8088" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#0E8088"/></marker>
+<marker id="arr_3F61A8" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#3F61A8"/></marker>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_82B366" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#82B366"/></marker>
+<marker id="arr_9673A6" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#9673A6"/></marker>
+</defs>
+<rect x="0" y="0" width="1400" height="980" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">6 · Sơ đồ quan hệ CSDL (SQLite · paddleocr.db)</text>
+<line x1="40" y1="50" x2="1360" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<path d="M725.0,240.0 L445.0,320.0" fill="none" stroke="#3F61A8" stroke-width="1.7" marker-end="url(#arr_3F61A8)"/>
+<rect x="551.0" y="271.0" width="68.0" height="16" rx="3" fill="#FFFFFF" stroke="#3F61A8" stroke-width="0.8" opacity="0.95"/>
+<text x="585.0" y="282.5" font-size="10.5" fill="#243B4A" text-anchor="middle">sở hữu 1→*</text>
+<path d="M725.0,240.0 L750.0,380.0" fill="none" stroke="#3F61A8" stroke-width="1.7" marker-end="url(#arr_3F61A8)"/>
+<rect x="685.5" y="301.0" width="104.0" height="16" rx="3" fill="#FFFFFF" stroke="#3F61A8" stroke-width="0.8" opacity="0.95"/>
+<text x="737.5" y="312.5" font-size="10.5" fill="#243B4A" text-anchor="middle">sở hữu · CASCADE</text>
+<path d="M850.0,160.0 L1100.0,200.0 L1105.0,360.0" fill="none" stroke="#3F61A8" stroke-width="1.7" marker-end="url(#arr_3F61A8)"/>
+<rect x="1002.0" y="183.6" width="104.0" height="16" rx="3" fill="#FFFFFF" stroke="#3F61A8" stroke-width="0.8" opacity="0.95"/>
+<text x="1054.0" y="195.1" font-size="10.5" fill="#243B4A" text-anchor="middle">sở hữu · CASCADE</text>
+<path d="M600.0,160.0 L450.0,149.5" fill="none" stroke="#3F61A8" stroke-width="1.7" marker-end="url(#arr_3F61A8)"/>
+<rect x="497.0" y="145.8" width="56.0" height="16" rx="3" fill="#FFFFFF" stroke="#3F61A8" stroke-width="0.8" opacity="0.95"/>
+<text x="525.0" y="157.2" font-size="10.5" fill="#243B4A" text-anchor="middle">SET NULL</text>
+<path d="M445.0,501.0 L185.0,620.0" fill="none" stroke="#0E8088" stroke-width="1.7" marker-end="url(#arr_0E8088)"/>
+<rect x="275.0" y="551.5" width="80.0" height="16" rx="3" fill="#FFFFFF" stroke="#0E8088" stroke-width="0.8" opacity="0.95"/>
+<text x="315.0" y="563.0" font-size="10.5" fill="#243B4A" text-anchor="middle">có · CASCADE</text>
+<path d="M570.0,410.5 L620.0,449.5" fill="none" stroke="#0E8088" stroke-width="1.7" marker-end="url(#arr_0E8088)"/>
+<rect x="510.0" y="421.0" width="170.0" height="16" rx="3" fill="#FFFFFF" stroke="#0E8088" stroke-width="0.8" opacity="0.95"/>
+<text x="595.0" y="432.5" font-size="10.5" fill="#243B4A" text-anchor="middle">giới hạn phạm vi · SET NULL</text>
+<path d="M750.0,519.0 L755.0,640.0" fill="none" stroke="#82B366" stroke-width="1.7" marker-end="url(#arr_82B366)"/>
+<rect x="727.5" y="570.5" width="50.0" height="16" rx="3" fill="#FFFFFF" stroke="#82B366" stroke-width="0.8" opacity="0.95"/>
+<text x="752.5" y="582.0" font-size="10.5" fill="#243B4A" text-anchor="middle">CASCADE</text>
+<path d="M1105.0,457.0 L1115.0,540.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<rect x="1085.0" y="489.5" width="50.0" height="16" rx="3" fill="#FFFFFF" stroke="#9673A6" stroke-width="0.8" opacity="0.95"/>
+<text x="1110.0" y="501.0" font-size="10.5" fill="#243B4A" text-anchor="middle">CASCADE</text>
+<path d="M1105.0,457.0 L1300.0,700.0 L1255.0,760.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<rect x="1201.0" y="598.7" width="50.0" height="16" rx="3" fill="#FFFFFF" stroke="#9673A6" stroke-width="0.8" opacity="0.95"/>
+<text x="1226.0" y="610.2" font-size="10.5" fill="#243B4A" text-anchor="middle">CASCADE</text>
+<path d="M1115.0,700.0 L1255.0,760.0" fill="none" stroke="#9673A6" stroke-width="1.7" marker-end="url(#arr_9673A6)"/>
+<rect x="1160.0" y="721.0" width="50.0" height="16" rx="3" fill="#FFFFFF" stroke="#9673A6" stroke-width="0.8" opacity="0.95"/>
+<text x="1185.0" y="732.5" font-size="10.5" fill="#243B4A" text-anchor="middle">CASCADE</text>
+<rect x="600.0" y="80.0" width="250.0" height="160.0" rx="7" fill="#FFFFFF" stroke="#6C8EBF" stroke-width="1.6"/>
+<path d="M600.0,108.0 L600.0,87.0 A7,7 0 0 1 607.0,80.0 L843.0,80.0 A7,7 0 0 1 850.0,87.0 L850.0,108.0 Z" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="725.0" y="99.0" font-size="13" font-weight="700" fill="#10202E" text-anchor="middle">người dùng</text>
+<text x="609.0" y="123.0" font-size="11" fill="#243B4A">id</text>
+<text x="842.0" y="123.0" font-size="9.5" font-weight="700" fill="#6C8EBF" text-anchor="end">PK</text>
+<line x1="604.0" y1="129.0" x2="846.0" y2="129.0" stroke="#6C8EBF" stroke-width="0.5" opacity="0.5"/>
+<text x="609.0" y="144.0" font-size="11" fill="#243B4A">username</text>
+<text x="842.0" y="144.0" font-size="9.5" font-weight="700" fill="#6C8EBF" text-anchor="end">UK</text>
+<line x1="604.0" y1="150.0" x2="846.0" y2="150.0" stroke="#6C8EBF" stroke-width="0.5" opacity="0.5"/>
+<text x="609.0" y="165.0" font-size="11" fill="#243B4A">email</text>
+<text x="842.0" y="165.0" font-size="9.5" font-weight="700" fill="#6C8EBF" text-anchor="end">UK</text>
+<line x1="604.0" y1="171.0" x2="846.0" y2="171.0" stroke="#6C8EBF" stroke-width="0.5" opacity="0.5"/>
+<text x="609.0" y="186.0" font-size="11" fill="#243B4A">password_hash</text>
+<line x1="604.0" y1="192.0" x2="846.0" y2="192.0" stroke="#6C8EBF" stroke-width="0.5" opacity="0.5"/>
+<text x="609.0" y="207.0" font-size="11" fill="#243B4A">role  (admin|user)</text>
+<line x1="604.0" y1="213.0" x2="846.0" y2="213.0" stroke="#6C8EBF" stroke-width="0.5" opacity="0.5"/>
+<text x="609.0" y="228.0" font-size="11" fill="#243B4A">is_active</text>
+<line x1="604.0" y1="234.0" x2="846.0" y2="234.0" stroke="#6C8EBF" stroke-width="0.5" opacity="0.5"/>
+<rect x="320.0" y="320.0" width="250.0" height="181.0" rx="7" fill="#FFFFFF" stroke="#0E8088" stroke-width="1.6"/>
+<path d="M320.0,348.0 L320.0,327.0 A7,7 0 0 1 327.0,320.0 L563.0,320.0 A7,7 0 0 1 570.0,327.0 L570.0,348.0 Z" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="445.0" y="339.0" font-size="13" font-weight="700" fill="#10202E" text-anchor="middle">documents</text>
+<text x="329.0" y="363.0" font-size="11" fill="#243B4A">id</text>
+<text x="562.0" y="363.0" font-size="9.5" font-weight="700" fill="#0E8088" text-anchor="end">PK</text>
+<line x1="324.0" y1="369.0" x2="566.0" y2="369.0" stroke="#0E8088" stroke-width="0.5" opacity="0.5"/>
+<text x="329.0" y="384.0" font-size="11" fill="#243B4A">user_id</text>
+<text x="562.0" y="384.0" font-size="9.5" font-weight="700" fill="#0E8088" text-anchor="end">FK</text>
+<line x1="324.0" y1="390.0" x2="566.0" y2="390.0" stroke="#0E8088" stroke-width="0.5" opacity="0.5"/>
+<text x="329.0" y="405.0" font-size="11" fill="#243B4A">file_id (UUID)</text>
+<text x="562.0" y="405.0" font-size="9.5" font-weight="700" fill="#0E8088" text-anchor="end">UK</text>
+<line x1="324.0" y1="411.0" x2="566.0" y2="411.0" stroke="#0E8088" stroke-width="0.5" opacity="0.5"/>
+<text x="329.0" y="426.0" font-size="11" fill="#243B4A">filename</text>
+<line x1="324.0" y1="432.0" x2="566.0" y2="432.0" stroke="#0E8088" stroke-width="0.5" opacity="0.5"/>
+<text x="329.0" y="447.0" font-size="11" fill="#243B4A">file_type</text>
+<line x1="324.0" y1="453.0" x2="566.0" y2="453.0" stroke="#0E8088" stroke-width="0.5" opacity="0.5"/>
+<text x="329.0" y="468.0" font-size="11" fill="#243B4A">page_count</text>
+<line x1="324.0" y1="474.0" x2="566.0" y2="474.0" stroke="#0E8088" stroke-width="0.5" opacity="0.5"/>
+<text x="329.0" y="489.0" font-size="11" fill="#243B4A">status</text>
+<line x1="324.0" y1="495.0" x2="566.0" y2="495.0" stroke="#0E8088" stroke-width="0.5" opacity="0.5"/>
+<rect x="60.0" y="620.0" width="250.0" height="139.0" rx="7" fill="#FFFFFF" stroke="#0E8088" stroke-width="1.6"/>
+<path d="M60.0,648.0 L60.0,627.0 A7,7 0 0 1 67.0,620.0 L303.0,620.0 A7,7 0 0 1 310.0,627.0 L310.0,648.0 Z" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="185.0" y="639.0" font-size="13" font-weight="700" fill="#10202E" text-anchor="middle">document_artifacts</text>
+<text x="69.0" y="663.0" font-size="11" fill="#243B4A">id</text>
+<text x="302.0" y="663.0" font-size="9.5" font-weight="700" fill="#0E8088" text-anchor="end">PK</text>
+<line x1="64.0" y1="669.0" x2="306.0" y2="669.0" stroke="#0E8088" stroke-width="0.5" opacity="0.5"/>
+<text x="69.0" y="684.0" font-size="11" fill="#243B4A">document_id</text>
+<text x="302.0" y="684.0" font-size="9.5" font-weight="700" fill="#0E8088" text-anchor="end">FK</text>
+<line x1="64.0" y1="690.0" x2="306.0" y2="690.0" stroke="#0E8088" stroke-width="0.5" opacity="0.5"/>
+<text x="69.0" y="705.0" font-size="11" fill="#243B4A">kind  (uq doc+kind)</text>
+<line x1="64.0" y1="711.0" x2="306.0" y2="711.0" stroke="#0E8088" stroke-width="0.5" opacity="0.5"/>
+<text x="69.0" y="726.0" font-size="11" fill="#243B4A">content</text>
+<line x1="64.0" y1="732.0" x2="306.0" y2="732.0" stroke="#0E8088" stroke-width="0.5" opacity="0.5"/>
+<text x="69.0" y="747.0" font-size="11" fill="#243B4A">meta</text>
+<line x1="64.0" y1="753.0" x2="306.0" y2="753.0" stroke="#0E8088" stroke-width="0.5" opacity="0.5"/>
+<rect x="620.0" y="380.0" width="260.0" height="139.0" rx="7" fill="#FFFFFF" stroke="#82B366" stroke-width="1.6"/>
+<path d="M620.0,408.0 L620.0,387.0 A7,7 0 0 1 627.0,380.0 L873.0,380.0 A7,7 0 0 1 880.0,387.0 L880.0,408.0 Z" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="750.0" y="399.0" font-size="13" font-weight="700" fill="#10202E" text-anchor="middle">chat_conversations</text>
+<text x="629.0" y="423.0" font-size="11" fill="#243B4A">id</text>
+<text x="872.0" y="423.0" font-size="9.5" font-weight="700" fill="#82B366" text-anchor="end">PK</text>
+<line x1="624.0" y1="429.0" x2="876.0" y2="429.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="629.0" y="444.0" font-size="11" fill="#243B4A">user_id</text>
+<text x="872.0" y="444.0" font-size="9.5" font-weight="700" fill="#82B366" text-anchor="end">FK</text>
+<line x1="624.0" y1="450.0" x2="876.0" y2="450.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="629.0" y="465.0" font-size="11" fill="#243B4A">document_id (null)</text>
+<text x="872.0" y="465.0" font-size="9.5" font-weight="700" fill="#82B366" text-anchor="end">FK</text>
+<line x1="624.0" y1="471.0" x2="876.0" y2="471.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="629.0" y="486.0" font-size="11" fill="#243B4A">title</text>
+<line x1="624.0" y1="492.0" x2="876.0" y2="492.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="629.0" y="507.0" font-size="11" fill="#243B4A">last_mode</text>
+<line x1="624.0" y1="513.0" x2="876.0" y2="513.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<rect x="620.0" y="640.0" width="270.0" height="181.0" rx="7" fill="#FFFFFF" stroke="#82B366" stroke-width="1.6"/>
+<path d="M620.0,668.0 L620.0,647.0 A7,7 0 0 1 627.0,640.0 L883.0,640.0 A7,7 0 0 1 890.0,647.0 L890.0,668.0 Z" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="755.0" y="659.0" font-size="13" font-weight="700" fill="#10202E" text-anchor="middle">chat_messages</text>
+<text x="629.0" y="683.0" font-size="11" fill="#243B4A">id</text>
+<text x="882.0" y="683.0" font-size="9.5" font-weight="700" fill="#82B366" text-anchor="end">PK</text>
+<line x1="624.0" y1="689.0" x2="886.0" y2="689.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="629.0" y="704.0" font-size="11" fill="#243B4A">conversation_id</text>
+<text x="882.0" y="704.0" font-size="9.5" font-weight="700" fill="#82B366" text-anchor="end">FK</text>
+<line x1="624.0" y1="710.0" x2="886.0" y2="710.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="629.0" y="725.0" font-size="11" fill="#243B4A">role</text>
+<line x1="624.0" y1="731.0" x2="886.0" y2="731.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="629.0" y="746.0" font-size="11" fill="#243B4A">content</text>
+<line x1="624.0" y1="752.0" x2="886.0" y2="752.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="629.0" y="767.0" font-size="11" fill="#243B4A">sources (JSON)</text>
+<line x1="624.0" y1="773.0" x2="886.0" y2="773.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="629.0" y="788.0" font-size="11" fill="#243B4A">mode</text>
+<line x1="624.0" y1="794.0" x2="886.0" y2="794.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<text x="629.0" y="809.0" font-size="11" fill="#243B4A">engine_used</text>
+<line x1="624.0" y1="815.0" x2="886.0" y2="815.0" stroke="#82B366" stroke-width="0.5" opacity="0.5"/>
+<rect x="980.0" y="360.0" width="250.0" height="97.0" rx="7" fill="#FFFFFF" stroke="#9673A6" stroke-width="1.6"/>
+<path d="M980.0,388.0 L980.0,367.0 A7,7 0 0 1 987.0,360.0 L1223.0,360.0 A7,7 0 0 1 1230.0,367.0 L1230.0,388.0 Z" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1105.0" y="379.0" font-size="13" font-weight="700" fill="#10202E" text-anchor="middle">agent_conversations</text>
+<text x="989.0" y="403.0" font-size="11" fill="#243B4A">id</text>
+<text x="1222.0" y="403.0" font-size="9.5" font-weight="700" fill="#9673A6" text-anchor="end">PK</text>
+<line x1="984.0" y1="409.0" x2="1226.0" y2="409.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="989.0" y="424.0" font-size="11" fill="#243B4A">user_id</text>
+<text x="1222.0" y="424.0" font-size="9.5" font-weight="700" fill="#9673A6" text-anchor="end">FK</text>
+<line x1="984.0" y1="430.0" x2="1226.0" y2="430.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="989.0" y="445.0" font-size="11" fill="#243B4A">title</text>
+<line x1="984.0" y1="451.0" x2="1226.0" y2="451.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<rect x="980.0" y="540.0" width="270.0" height="160.0" rx="7" fill="#FFFFFF" stroke="#9673A6" stroke-width="1.6"/>
+<path d="M980.0,568.0 L980.0,547.0 A7,7 0 0 1 987.0,540.0 L1243.0,540.0 A7,7 0 0 1 1250.0,547.0 L1250.0,568.0 Z" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1115.0" y="559.0" font-size="13" font-weight="700" fill="#10202E" text-anchor="middle">agent_messages</text>
+<text x="989.0" y="583.0" font-size="11" fill="#243B4A">id</text>
+<text x="1242.0" y="583.0" font-size="9.5" font-weight="700" fill="#9673A6" text-anchor="end">PK</text>
+<line x1="984.0" y1="589.0" x2="1246.0" y2="589.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="989.0" y="604.0" font-size="11" fill="#243B4A">conversation_id</text>
+<text x="1242.0" y="604.0" font-size="9.5" font-weight="700" fill="#9673A6" text-anchor="end">FK</text>
+<line x1="984.0" y1="610.0" x2="1246.0" y2="610.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="989.0" y="625.0" font-size="11" fill="#243B4A">role</text>
+<line x1="984.0" y1="631.0" x2="1246.0" y2="631.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="989.0" y="646.0" font-size="11" fill="#243B4A">content</text>
+<line x1="984.0" y1="652.0" x2="1246.0" y2="652.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="989.0" y="667.0" font-size="11" fill="#243B4A">tool_calls (JSON)</text>
+<line x1="984.0" y1="673.0" x2="1246.0" y2="673.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="989.0" y="688.0" font-size="11" fill="#243B4A">provider</text>
+<line x1="984.0" y1="694.0" x2="1246.0" y2="694.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<rect x="1120.0" y="760.0" width="270.0" height="202.0" rx="7" fill="#FFFFFF" stroke="#9673A6" stroke-width="1.6"/>
+<path d="M1120.0,788.0 L1120.0,767.0 A7,7 0 0 1 1127.0,760.0 L1383.0,760.0 A7,7 0 0 1 1390.0,767.0 L1390.0,788.0 Z" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="1255.0" y="779.0" font-size="13" font-weight="700" fill="#10202E" text-anchor="middle">agent_artifacts</text>
+<text x="1129.0" y="803.0" font-size="11" fill="#243B4A">id</text>
+<text x="1382.0" y="803.0" font-size="9.5" font-weight="700" fill="#9673A6" text-anchor="end">PK</text>
+<line x1="1124.0" y1="809.0" x2="1386.0" y2="809.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="1129.0" y="824.0" font-size="11" fill="#243B4A">conversation_id</text>
+<text x="1382.0" y="824.0" font-size="9.5" font-weight="700" fill="#9673A6" text-anchor="end">FK</text>
+<line x1="1124.0" y1="830.0" x2="1386.0" y2="830.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="1129.0" y="845.0" font-size="11" fill="#243B4A">message_id (null)</text>
+<text x="1382.0" y="845.0" font-size="9.5" font-weight="700" fill="#9673A6" text-anchor="end">FK</text>
+<line x1="1124.0" y1="851.0" x2="1386.0" y2="851.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="1129.0" y="866.0" font-size="11" fill="#243B4A">kind (source|result)</text>
+<line x1="1124.0" y1="872.0" x2="1386.0" y2="872.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="1129.0" y="887.0" font-size="11" fill="#243B4A">module</text>
+<line x1="1124.0" y1="893.0" x2="1386.0" y2="893.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="1129.0" y="908.0" font-size="11" fill="#243B4A">route (SPA hash)</text>
+<line x1="1124.0" y1="914.0" x2="1386.0" y2="914.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="1129.0" y="929.0" font-size="11" fill="#243B4A">file_id</text>
+<line x1="1124.0" y1="935.0" x2="1386.0" y2="935.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<text x="1129.0" y="950.0" font-size="11" fill="#243B4A">label</text>
+<line x1="1124.0" y1="956.0" x2="1386.0" y2="956.0" stroke="#9673A6" stroke-width="0.5" opacity="0.5"/>
+<rect x="200.0" y="80.0" width="250.0" height="139.0" rx="7" fill="#FFFFFF" stroke="#5A5A5A" stroke-width="1.6"/>
+<path d="M200.0,108.0 L200.0,87.0 A7,7 0 0 1 207.0,80.0 L443.0,80.0 A7,7 0 0 1 450.0,87.0 L450.0,108.0 Z" fill="#EDEDED" stroke="#5A5A5A" stroke-width="1.6"/>
+<text x="325.0" y="99.0" font-size="13" font-weight="700" fill="#10202E" text-anchor="middle">activity_logs</text>
+<text x="209.0" y="123.0" font-size="11" fill="#243B4A">id</text>
+<text x="442.0" y="123.0" font-size="9.5" font-weight="700" fill="#5A5A5A" text-anchor="end">PK</text>
+<line x1="204.0" y1="129.0" x2="446.0" y2="129.0" stroke="#5A5A5A" stroke-width="0.5" opacity="0.5"/>
+<text x="209.0" y="144.0" font-size="11" fill="#243B4A">user_id (null)</text>
+<text x="442.0" y="144.0" font-size="9.5" font-weight="700" fill="#5A5A5A" text-anchor="end">FK</text>
+<line x1="204.0" y1="150.0" x2="446.0" y2="150.0" stroke="#5A5A5A" stroke-width="0.5" opacity="0.5"/>
+<text x="209.0" y="165.0" font-size="11" fill="#243B4A">action</text>
+<line x1="204.0" y1="171.0" x2="446.0" y2="171.0" stroke="#5A5A5A" stroke-width="0.5" opacity="0.5"/>
+<text x="209.0" y="186.0" font-size="11" fill="#243B4A">detail</text>
+<line x1="204.0" y1="192.0" x2="446.0" y2="192.0" stroke="#5A5A5A" stroke-width="0.5" opacity="0.5"/>
+<text x="209.0" y="207.0" font-size="11" fill="#243B4A">ip_address</text>
+<line x1="204.0" y1="213.0" x2="446.0" y2="213.0" stroke="#5A5A5A" stroke-width="0.5" opacity="0.5"/>
+</svg>

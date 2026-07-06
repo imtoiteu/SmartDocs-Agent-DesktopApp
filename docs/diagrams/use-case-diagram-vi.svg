@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1460" height="760" viewBox="0 0 1460 760" font-family="Helvetica, Arial, sans-serif">
+<defs>
+<marker id="arr_445" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#445"/></marker>
+<marker id="arr_9AA7B5" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#9AA7B5"/></marker>
+<marker id="arr_B85450" markerWidth="11" markerHeight="11" refX="8.5" refY="3.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,3.2 L0,6.4 Z" fill="#B85450"/></marker>
+</defs>
+<rect x="0" y="0" width="1460" height="760" fill="#FFFFFF"/>
+<text x="40" y="40" font-size="22" font-weight="700" fill="#10202E">9 · Sơ đồ Use Case</text>
+<line x1="40" y1="50" x2="1420" y2="50" stroke="#10202E" stroke-width="1.5"/>
+<rect x="300" y="80" width="820" height="620" rx="11" fill="#FBFBFB" stroke="#999999" stroke-width="1.6"/>
+<path d="M300.0,114.0 L300.0,91.0 A11,11 0 0 1 311.0,80.0 L1109.0,80.0 A11,11 0 0 1 1120.0,91.0 L1120.0,114.0 Z" fill="#F5F5F5" stroke="#999999" stroke-width="1.6"/>
+<text x="314.0" y="104.0" font-size="14.5" font-weight="700" fill="#10202E">SmartDocs-Agent</text>
+<path d="M168.0,270.6 L409.9,158.0" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M168.0,281.9 L365.0,236.3" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M168.0,293.1 L365.0,293.7" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M168.0,304.4 L365.0,351.1" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M168.0,315.6 L410.6,430.0" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M168.0,326.9 L430.3,512.0" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M168.0,288.0 L795.0,222.9" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M168.0,293.1 L795.0,293.9" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M168.0,298.1 L795.0,364.8" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M155.9,506.0 L446.6,158.0" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M168.0,548.2 L795.0,537.8" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M120.0,506.0 L120.0,336.0" fill="none" stroke="#B85450" stroke-width="1.7" stroke-dasharray="6 5"/>
+<rect x="11.0" y="412.0" width="218.0" height="16" rx="3" fill="#FFFFFF" stroke="#B85450" stroke-width="0.8" opacity="0.95"/>
+<text x="120.0" y="423.5" font-size="10.5" fill="#243B4A" text-anchor="middle">kế thừa mọi use case của Người dùng</text>
+<path d="M957.8,348.0 L1300.0,182.1" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M1005.0,357.1 L1300.0,303.8" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M575.0,311.1 L1300.0,429.2" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<path d="M575.0,473.7 L1300.0,582.0" fill="none" stroke="#9AA7B5" stroke-width="1.7"/>
+<ellipse cx="470.0" cy="130.0" rx="105.0" ry="28.0" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="470.0" y="133.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Đăng nhập</text>
+<ellipse cx="470.0" cy="212.0" rx="105.0" ry="28.0" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="470.0" y="215.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Tải lên &amp; quản lý tài liệu</text>
+<ellipse cx="470.0" cy="294.0" rx="105.0" ry="28.0" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<text x="470.0" y="297.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Chạy OCR</text>
+<ellipse cx="470.0" cy="376.0" rx="105.0" ry="28.0" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="470.0" y="379.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Sửa lỗi văn bản</text>
+<ellipse cx="470.0" cy="458.0" rx="105.0" ry="28.0" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="470.0" y="461.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Dịch thuật</text>
+<ellipse cx="470.0" cy="540.0" rx="105.0" ry="28.0" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<text x="470.0" y="543.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Tóm tắt</text>
+<ellipse cx="900.0" cy="212.0" rx="105.0" ry="28.0" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="900.0" y="215.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Chat tổng quát</text>
+<ellipse cx="900.0" cy="294.0" rx="105.0" ry="28.0" fill="#D5E8D4" stroke="#82B366" stroke-width="1.6"/>
+<text x="900.0" y="297.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Chat tài liệu</text>
+<ellipse cx="900.0" cy="376.0" rx="105.0" ry="28.0" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.6"/>
+<text x="900.0" y="379.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Chạy Agent</text>
+<ellipse cx="900.0" cy="536.0" rx="105.0" ry="30.0" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="900.0" y="532.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">Quản trị hệ thống</text>
+<text x="900.0" y="546.6" font-size="11.5" font-weight="400" fill="#15202B" text-anchor="middle">(người dùng · nhật ký · file)</text>
+<circle cx="120.0" cy="263.0" r="8.0" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.6"/>
+<line x1="120.0" y1="271.0" x2="120.0" y2="289.0" stroke="#6C8EBF" stroke-width="1.6"/>
+<line x1="108.0" y1="277.0" x2="132.0" y2="277.0" stroke="#6C8EBF" stroke-width="1.6"/>
+<line x1="120.0" y1="289.0" x2="110.0" y2="301.0" stroke="#6C8EBF" stroke-width="1.6"/>
+<line x1="120.0" y1="289.0" x2="130.0" y2="301.0" stroke="#6C8EBF" stroke-width="1.6"/>
+<text x="120.0" y="315.0" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Người dùng</text>
+<circle cx="120.0" cy="519.0" r="8.0" fill="#D4E1F5" stroke="#3F61A8" stroke-width="1.6"/>
+<line x1="120.0" y1="527.0" x2="120.0" y2="545.0" stroke="#3F61A8" stroke-width="1.6"/>
+<line x1="108.0" y1="533.0" x2="132.0" y2="533.0" stroke="#3F61A8" stroke-width="1.6"/>
+<line x1="120.0" y1="545.0" x2="110.0" y2="557.0" stroke="#3F61A8" stroke-width="1.6"/>
+<line x1="120.0" y1="545.0" x2="130.0" y2="557.0" stroke="#3F61A8" stroke-width="1.6"/>
+<text x="120.0" y="571.0" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Quản trị viên</text>
+<circle cx="1360.0" cy="123.0" r="8.0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<line x1="1360.0" y1="131.0" x2="1360.0" y2="149.0" stroke="#D6B656" stroke-width="1.6"/>
+<line x1="1348.0" y1="137.0" x2="1372.0" y2="137.0" stroke="#D6B656" stroke-width="1.6"/>
+<line x1="1360.0" y1="149.0" x2="1350.0" y2="161.0" stroke="#D6B656" stroke-width="1.6"/>
+<line x1="1360.0" y1="149.0" x2="1370.0" y2="161.0" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1360.0" y="175.0" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Groq API</text>
+<circle cx="1360.0" cy="263.0" r="8.0" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.6"/>
+<line x1="1360.0" y1="271.0" x2="1360.0" y2="289.0" stroke="#D6B656" stroke-width="1.6"/>
+<line x1="1348.0" y1="277.0" x2="1372.0" y2="277.0" stroke="#D6B656" stroke-width="1.6"/>
+<line x1="1360.0" y1="289.0" x2="1350.0" y2="301.0" stroke="#D6B656" stroke-width="1.6"/>
+<line x1="1360.0" y1="289.0" x2="1370.0" y2="301.0" stroke="#D6B656" stroke-width="1.6"/>
+<text x="1360.0" y="315.0" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Gemini API</text>
+<circle cx="1360.0" cy="409.0" r="8.0" fill="#B0E3E6" stroke="#0E8088" stroke-width="1.6"/>
+<line x1="1360.0" y1="417.0" x2="1360.0" y2="435.0" stroke="#0E8088" stroke-width="1.6"/>
+<line x1="1348.0" y1="423.0" x2="1372.0" y2="423.0" stroke="#0E8088" stroke-width="1.6"/>
+<line x1="1360.0" y1="435.0" x2="1350.0" y2="447.0" stroke="#0E8088" stroke-width="1.6"/>
+<line x1="1360.0" y1="435.0" x2="1370.0" y2="447.0" stroke="#0E8088" stroke-width="1.6"/>
+<text x="1360.0" y="461.0" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">GLM-OCR MLX server</text>
+<circle cx="1360.0" cy="561.0" r="8.0" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.6"/>
+<line x1="1360.0" y1="569.0" x2="1360.0" y2="587.0" stroke="#D79B00" stroke-width="1.6"/>
+<line x1="1348.0" y1="575.0" x2="1372.0" y2="575.0" stroke="#D79B00" stroke-width="1.6"/>
+<line x1="1360.0" y1="587.0" x2="1350.0" y2="599.0" stroke="#D79B00" stroke-width="1.6"/>
+<line x1="1360.0" y1="587.0" x2="1370.0" y2="599.0" stroke="#D79B00" stroke-width="1.6"/>
+<text x="1360.0" y="613.0" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">Dịch trực tuyến</text>
+<text x="1360.0" y="627.4" font-size="12.5" font-weight="700" fill="#15202B" text-anchor="middle">(Google)</text>
+</svg>
