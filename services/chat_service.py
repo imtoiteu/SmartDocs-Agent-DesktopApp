@@ -1046,7 +1046,12 @@ def _complete_via_openai_compatible(messages: List[dict]) -> Optional[Tuple[str,
 
 
 def _run_inference_routed(messages: List[dict]) -> Tuple[str, str, bool]:
-    """Route chat inference through the configured LLM provider (P8).
+    """Route chat inference through the configured LLM provider.
+
+    Model Router first: when the user picked an explicit Chat model in
+    Settings → AI models, that model answers — no silent substitution; the
+    only fallback is the user-configured fallback model (handled inside the
+    gateway). ``auto`` (the default) keeps the exact pre-existing behavior:
 
     * ``LLM_PROVIDER=openai_compatible`` (+ endpoint configured) → the endpoint
       answers Document QA, no local model needed; the local model stays as a
@@ -1056,6 +1061,20 @@ def _run_inference_routed(messages: List[dict]) -> Tuple[str, str, bool]:
       tried before giving up — the original error is re-raised when it can't
       help, preserving the existing error contract.
     """
+    from agent.core import llm_gateway
+
+    route = llm_gateway.resolve("chat")          # RouteError → clear message
+    if route.kind == "model":
+        # Explicit bundled-local keeps THIS service's local runner (its
+        # cancellation + partial-output contract); anything else goes through
+        # the gateway-built provider for the routed model.
+        if route.entry.provider_type == "bundled_local" and route.fallback is None:
+            return _run_inference(messages)
+        provider = llm_gateway.provider_for_route(route)
+        answer = provider.complete(messages, max_tokens=MAX_OUT_TOKENS,
+                                   temperature=0.7)
+        return (answer or "").strip(), getattr(provider, "name", "routed"), False
+
     prefer_oc = cfg.LLM_PROVIDER == "openai_compatible"
     if prefer_oc:
         try:

@@ -23,12 +23,19 @@ logger = logging.getLogger(__name__)
 
 _SERVICE = "SmartDocs"                      # keyring service name
 
-# Supported cloud providers → the env var each one is configured through.
-# These are the two implicit-cloud LLM providers the app actually uses.
+# Supported providers → the env var each one is configured through.
+# groq/gemini are the implicit-cloud LLM providers; self_hosted is the API key
+# (when the server requires one) for the user's OpenAI-compatible endpoint —
+# self-hosted by definition, so it is NOT gated by Local-only mode.
 PROVIDERS: Dict[str, str] = {
     "groq": "GROQ_API_KEY",
     "gemini": "GEMINI_API_KEY",
+    "self_hosted": "OPENAI_COMPATIBLE_API_KEY",
 }
+
+# The subset that actually sends data to a third-party cloud (Local-only mode
+# blocks saving/testing THESE; the self-hosted key stays available).
+CLOUD_PROVIDERS = ("groq", "gemini")
 
 _lock = threading.Lock()
 # Env vars WE set from the keyring (vs set externally by the user/.env). Only
@@ -180,6 +187,10 @@ def test_key(provider: str, api_key: Optional[str] = None,
 
     if provider not in PROVIDERS:
         return {"state": "error", "detail": f"Unknown provider: {provider}"}
+    if provider not in TEST_URLS:            # self_hosted: endpoint is dynamic
+        return {"state": "error",
+                "detail": "Test this provider from Settings → AI models "
+                          "(connection test)."}
     key = (api_key or "").strip() or get_key(provider)
     if not key:
         return {"state": "not_configured", "detail": "No API key to test."}

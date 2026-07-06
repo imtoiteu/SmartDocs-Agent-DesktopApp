@@ -33,7 +33,8 @@ from models import (log_activity, AgentConversation, ChatConversation, Document,
 from chat_bp import _owned_file_ids, _owned_document_or_error   # reuse tenancy logic
 
 from agent.tools import get_registry, ToolRegistry
-from agent.core import AgentCore, get_default_provider
+from agent.core import AgentCore
+from agent.core.llm_gateway import provider_for_task
 from agent.skills import get_skill_registry, SkillContext, SkillRegistry
 from agent.knowledge import get_knowledge_registry
 from agent.memory import ConversationMemory
@@ -109,7 +110,7 @@ def _agent_skill_context() -> SkillContext:
     the per-run tenancy scope (allowed_file_ids) is injected by AgentCore."""
     return SkillContext(tools=_safe_registry(), allowed_file_ids=None,
                         knowledge=get_knowledge_registry().composite(),
-                        provider=get_default_provider())
+                        provider=provider_for_task("agent"))
 
 
 def _may_write_artifact(doc_id: int, kind: str, source_truncated: bool) -> bool:
@@ -642,7 +643,7 @@ def agent_run():
         progress.start(run_id, current_user.id, max_steps)
 
     core = AgentCore(registry=_safe_registry(),
-                     provider=get_default_provider(),
+                     provider=provider_for_task("agent"),
                      max_steps=max_steps,
                      skills=_safe_skill_registry(),
                      skill_context=_agent_skill_context(),
@@ -816,7 +817,7 @@ def agent_skill(name):
     ctx = SkillContext(tools=get_registry(),
                        allowed_file_ids=_owned_file_ids(),
                        knowledge=get_knowledge_registry().composite(),
-                       provider=get_default_provider())
+                       provider=provider_for_task("agent"))
     try:
         result = get_skill_registry().run(name, ctx, **args)
     except Exception as exc:  # noqa: BLE001

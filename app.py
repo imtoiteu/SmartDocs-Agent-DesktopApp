@@ -79,12 +79,14 @@ def _too_large(e):
                     "error": f"File too large (max {cfg.MAX_UPLOAD_MB} MB)."}), 413
 
 from settings_bp import settings_bp    # cloud keys (OS credential store) + privacy
+from models_bp import models_bp        # Model Registry / Router (Settings → AI models)
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(chat_bp)
 app.register_blueprint(agent_bp)       # Phase 5: additive Agent HTTP surface
 app.register_blueprint(settings_bp)
+app.register_blueprint(models_bp)
 
 # Apply persisted non-secret settings (Local only / Allow cloud) and mirror
 # keyring-stored API keys into this process's env — env vars set externally

@@ -120,6 +120,67 @@ class LocalQwenProvider(LLMProvider):
         return text or ""
 
 
+class ManagedLocalProvider(LLMProvider):
+    """A user-imported local HF model (the Managed Local profile).
+
+    Weights live OUTSIDE the app bundle in a directory the user registered
+    (Settings → AI models → Import). Loading is lazy (first completion),
+    deduplicated and unloadable through ``services.llm_registry`` — the same
+    weights cache the bundled model uses, so registry states and Unload work
+    identically. CPU by default (the safe cross-platform choice); set
+    LOCAL_LLM_DEVICE to opt into an accelerator.
+    """
+
+    def __init__(self, model_id: str, path: str, context_limit: int = 4096) -> None:
+        if not path:
+            raise ValueError("ManagedLocalProvider requires a model path")
+        self.model_id = model_id
+        self.path = path
+        self.context_limit = max(int(context_limit), 256)
+        self.name = f"managed-local:{model_id}"
+
+    def _device(self) -> str:
+        return (os.environ.get("LOCAL_LLM_DEVICE") or "cpu").strip().lower() or "cpu"
+
+    def _loader(self):
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        tok = AutoTokenizer.from_pretrained(self.path, local_files_only=True)
+        mdl = AutoModelForCausalLM.from_pretrained(self.path, local_files_only=True)
+        device = self._device()
+        if device != "cpu":
+            mdl = mdl.to(device)
+        mdl.eval()
+        return tok, mdl, device
+
+    def complete(self, messages: List[Message], *, max_tokens: int = 512,
+                 temperature: float = 0.2) -> str:
+        import torch  # lazy — never at import time
+        from services import llm_registry
+
+        fitted = fit_messages_to_char_budget(
+            list(messages), self.context_limit * _CHARS_PER_TOKEN)
+        device = self._device()
+        tok, mdl, device = llm_registry.load_or_get(
+            self.path, device, "float32", self._loader)
+        prompt = tok.apply_chat_template(fitted, tokenize=False,
+                                         add_generation_prompt=True)
+        inputs = tok(prompt, return_tensors="pt",
+                     truncation=True, max_length=self.context_limit)
+        if device != "cpu":
+            inputs = {k: v.to(device) for k, v in inputs.items()}
+        with llm_registry.generation_lock(self.path, device, "float32"):
+            with torch.no_grad():
+                out = mdl.generate(
+                    **inputs,
+                    max_new_tokens=max_tokens,
+                    do_sample=temperature > 0,
+                    temperature=max(temperature, 0.01),
+                    pad_token_id=tok.eos_token_id,
+                )
+        new_tokens = out[0][inputs["input_ids"].shape[1]:]
+        return tok.decode(new_tokens, skip_special_tokens=True).strip()
+
+
 class GeminiProvider(LLMProvider):
     """Google Gemini via the REST API (``generativelanguage.googleapis.com``)."""
 

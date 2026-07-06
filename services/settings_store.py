@@ -104,13 +104,109 @@ def set_allow_cloud(allow: bool, path: Optional[Path] = None) -> None:
 
 
 def apply_persisted_settings(path: Optional[Path] = None) -> None:
-    """Startup hook: overlay the persisted UI toggle onto the config default —
-    unless ALLOW_CLOUD was set externally, which always wins. Never raises."""
+    """Startup hook: overlay the persisted UI toggles onto the config defaults —
+    unless the matching env var was set externally, which always wins. Never
+    raises."""
     try:
-        if env_allow_cloud_is_explicit():
-            return
-        persisted = get_allow_cloud(path)
-        if persisted is not None:
-            _apply_runtime(persisted)
+        if not env_allow_cloud_is_explicit():
+            persisted = get_allow_cloud(path)
+            if persisted is not None:
+                _apply_runtime(persisted)
     except Exception:
         logger.warning("[Settings] applying persisted settings failed", exc_info=True)
+    try:
+        _apply_llm_runtime(get_llm_settings(path))
+    except Exception:
+        logger.warning("[Settings] applying LLM settings failed", exc_info=True)
+
+
+# ── LLM model settings (Model Registry / Router configuration) ───────────────
+# Non-secret model configuration: task routing, the self-hosted endpoint
+# (URL/model/limits — the API key stays in the OS credential store, see
+# secret_store), and imported managed-local models. Missing keys fall back to
+# defaults on read (the settings-schema migration: old files stay valid and
+# untouched until the user changes something; unknown keys are preserved).
+
+LLM_DEFAULTS: dict = {
+    "task_models": {"chat": "auto", "summarize": "auto",
+                    "rewrite": "auto", "agent": "auto"},
+    "fallback_model": None,
+    "self_hosted": {"base_url": "", "model": "", "context_limit": 8192,
+                    "timeout_s": 120, "allow_insecure_lan": False,
+                    "insecure_lan_ack": False},
+    "managed_local": [],
+}
+
+
+def _merged_llm(data: dict) -> dict:
+    """The stored ``llm`` section deep-merged over the defaults."""
+    stored = data.get("llm") if isinstance(data.get("llm"), dict) else {}
+    out = json.loads(json.dumps(LLM_DEFAULTS))        # deep copy
+    for key, val in stored.items():
+        if key in ("task_models", "self_hosted") and isinstance(val, dict):
+            out[key].update(val)
+        elif key == "managed_local" and isinstance(val, list):
+            out[key] = val
+        else:
+            out[key] = val
+    return out
+
+
+def get_llm_settings(path: Optional[Path] = None) -> dict:
+    return _merged_llm(_read(path))
+
+
+def env_self_hosted_is_explicit() -> bool:
+    """True when OPENAI_COMPATIBLE_BASE_URL comes from outside (.env/env) —
+    the pre-existing configuration surface, which always wins over Settings."""
+    return (os.environ.get("OPENAI_COMPATIBLE_BASE_URL") or "").strip() != "" \
+        and os.environ.get("_OPENAI_COMPATIBLE_MANAGED") != "1"
+
+
+def _apply_llm_runtime(llm: dict) -> None:
+    """Mirror the Settings-configured self-hosted endpoint into this process's
+    env (+cfg) so every pre-existing consumer of OPENAI_COMPATIBLE_* follows it
+    without changes — unless the env was set externally, which wins."""
+    if env_self_hosted_is_explicit():
+        return
+    sh = llm.get("self_hosted") or {}
+    base = (sh.get("base_url") or "").strip()
+    model = (sh.get("model") or "").strip()
+    if base and model:
+        os.environ["OPENAI_COMPATIBLE_BASE_URL"] = base
+        os.environ["OPENAI_COMPATIBLE_MODEL"] = model
+        os.environ["_OPENAI_COMPATIBLE_MANAGED"] = "1"
+    elif os.environ.get("_OPENAI_COMPATIBLE_MANAGED") == "1":
+        os.environ.pop("OPENAI_COMPATIBLE_BASE_URL", None)
+        os.environ.pop("OPENAI_COMPATIBLE_MODEL", None)
+        os.environ.pop("_OPENAI_COMPATIBLE_MANAGED", None)
+    try:
+        from config import cfg
+        cfg.OPENAI_COMPATIBLE_BASE_URL = os.environ.get("OPENAI_COMPATIBLE_BASE_URL", "")
+        cfg.OPENAI_COMPATIBLE_MODEL = os.environ.get("OPENAI_COMPATIBLE_MODEL", "")
+    except Exception:
+        pass
+
+
+def set_llm_settings(patch: dict, path: Optional[Path] = None) -> dict:
+    """Merge a partial update into the ``llm`` section, persist, and apply it
+    immediately. Only known top-level keys are accepted; everything else in
+    the settings file is preserved. Returns the effective settings."""
+    if not isinstance(patch, dict):
+        raise ValueError("Expected a settings object.")
+    unknown = set(patch) - set(LLM_DEFAULTS)
+    if unknown:
+        raise ValueError(f"Unknown LLM settings: {', '.join(sorted(unknown))}")
+    with _lock:
+        data = _read(path)
+        merged = _merged_llm(data)
+        for key, val in patch.items():
+            if key in ("task_models", "self_hosted") and isinstance(val, dict):
+                merged[key].update(val)
+            else:
+                merged[key] = val
+        data["llm"] = merged
+        _write(data, path)
+    _apply_llm_runtime(merged)
+    logger.info("[Settings] llm settings updated (%s)", ", ".join(sorted(patch)))
+    return merged

@@ -8,6 +8,7 @@ Public API:
 from .provider import (
     LLMProvider,
     LocalQwenProvider,
+    ManagedLocalProvider,
     GeminiProvider,
     GroqProvider,
     OpenAICompatibleProvider,
@@ -23,6 +24,7 @@ from .agent import AgentCore, AgentResult, AgentStep
 __all__ = [
     "LLMProvider",
     "LocalQwenProvider",
+    "ManagedLocalProvider",
     "GeminiProvider",
     "GroqProvider",
     "OpenAICompatibleProvider",

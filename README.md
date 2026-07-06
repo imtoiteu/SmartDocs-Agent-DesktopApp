@@ -68,6 +68,26 @@ shows the active mode and links to it. Duplicate launches are refused at
 three levels (single-instance plugin, shell start guard, per-data-dir PID
 lock), and only processes the shell itself spawned are ever stopped.
 
+## AI models (Model Registry / Router)
+
+LLM features (Chat / Document QA, Summarization, AI Rewrite, Agent) route
+through one gateway (`agent/core/llm_gateway.py`) over a Model Registry
+(`agent/core/model_registry.py`). Model profiles:
+
+| Profile | What it is |
+|---|---|
+| Bundled local | The shipped default — Qwen 2.5 1.5B, lazy-loaded, always the offline fallback. Unchanged for existing users. |
+| Managed local | Additional Hugging Face models imported by folder path (Settings → AI models). Weights stay outside the app bundle; loaded lazily, unloadable. |
+| Self-hosted | Any OpenAI-compatible server (vLLM / llama.cpp / LM Studio) on this machine, the LAN, or a private server. URL policy matches the remote-runtime policy: HTTPS always; plain HTTP for localhost; plain HTTP to private-LAN IP literals only behind the explicit insecure-LAN confirmation; public plain-HTTP and credentialed URLs refused. API key in the OS credential store. |
+| Cloud (Groq / Gemini) | The existing providers — still keyring-backed and still excluded entirely while Local-only is enabled. |
+
+Every task defaults to **Automatic**, which is byte-for-byte the pre-existing
+behavior (env-driven chains, `AGENT_LLM_PROVIDER` / `LLM_PROVIDER` /
+`OPENAI_COMPATIBLE_*` all still work; externally-set env vars win over the UI).
+An explicitly routed model is used as-is — the only fallback is the
+user-configured fallback model, and a cloud model is never routed in
+Local-only mode.
+
 ## Development
 
 Prerequisites: Rust (stable), Node 20+, Python 3.12, and on Linux the Tauri v2

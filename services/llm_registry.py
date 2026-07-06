@@ -82,3 +82,51 @@ def load_or_get(model_id, device, dtype, loader: Callable[[], Tuple]) -> Tuple:
         else:
             logger.info(f"[LLMRegistry] reuse model {k} (loaded while waiting)")
     return e["value"]
+
+
+def loaded_keys() -> list:
+    """The (model_id, device, dtype) keys with weights currently resident."""
+    with _registry_lock:
+        return [k for k, e in _entries.items() if e.get("value") is not None]
+
+
+def unload(model_id, device=None, dtype=None) -> int:
+    """Release cached weights so memory can be reclaimed (Managed Local /
+    Models UI "Unload"). Matches every loaded key with this ``model_id`` when
+    device/dtype are None. Refuses (RuntimeError) while a generation holds the
+    key's lock — never yanks a model out from under an in-flight request.
+    Returns how many entries were released."""
+    import gc
+
+    targets = [k for k in loaded_keys()
+               if k[0] == str(model_id)
+               and (device is None or k[1] == str(device))
+               and (dtype is None or k[2] == str(dtype))]
+    released = 0
+    for k in targets:
+        gen = _gen_locks.get(k)
+        if gen is not None and not gen.acquire(blocking=False):
+            raise RuntimeError(
+                f"Model {k[0]} is busy generating — try again when the "
+                "current request finishes.")
+        try:
+            with _registry_lock:
+                e = _entries.pop(k, None)
+            if e is not None and e.get("value") is not None:
+                e["value"] = None
+                released += 1
+                logger.info(f"[LLMRegistry] unloaded model {k}")
+        finally:
+            if gen is not None:
+                gen.release()
+    if released:
+        gc.collect()
+        try:
+            import torch
+            if torch.backends.mps.is_available():
+                torch.mps.empty_cache()
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+        except Exception:
+            pass
+    return released

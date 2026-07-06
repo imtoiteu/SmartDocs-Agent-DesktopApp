@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="/static/style.css?v=2026.07.05.2"/>
   <link rel="stylesheet" href="/static/chat.css"/>
   <link rel="stylesheet" href="/static/vendor/katex/katex.min.css"/>
-  <script src="/static/i18n.js?v=2026.07.05.2"></script>
+  <script src="/static/i18n.js?v=2026.07.06.1"></script>
 </head>
 <body>
 <div id="app">
@@ -693,6 +693,74 @@
     </div>
   </div>
 
+  <!-- Model Registry / Router: which model answers each task, the self-hosted
+       OpenAI-compatible server, and imported local models. -->
+  <div class="ws-panel" id="settings-models-panel" style="max-width:860px;margin:0 auto 18px">
+    <div class="panel-header">
+      <div class="panel-title" data-i18n="settings_models_title">🧠 AI models</div>
+    </div>
+    <div class="panel-body">
+      <p class="slbl" style="margin:0 0 10px" data-i18n="settings_models_desc">
+        “Local” runs on this machine, “Self-hosted” is your own
+        OpenAI-compatible server (this machine, LAN, or a private server), and
+        “Cloud” sends prompts to a third-party provider. The bundled local
+        model always remains the offline fallback.</p>
+      <div id="models-list" style="margin:0 0 14px"></div>
+
+      <div class="slbl" style="font-weight:600;margin:0 0 6px" data-i18n="models_routing_title">Task routing</div>
+      <div id="models-routing" style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end"></div>
+      <div style="display:flex;gap:8px;align-items:center;margin:10px 0 14px;flex-wrap:wrap">
+        <button id="models-routing-save" class="btn btn-primary btn-sm" data-i18n="models_save">Save routing</button>
+        <span id="models-routing-note" class="slbl" aria-live="polite"></span>
+      </div>
+
+      <div class="slbl" style="font-weight:600;margin:0 0 6px" data-i18n="models_self_hosted_title">Self-hosted OpenAI-compatible server</div>
+      <div id="models-selfhosted-env" class="slbl" style="display:none;color:var(--warn)" role="alert"></div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+        <input id="models-sh-url" type="url" autocomplete="off"
+               placeholder="https://host:8000  ·  http://127.0.0.1:8080"
+               aria-label="Server base URL"
+               style="flex:2;min-width:220px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
+        <input id="models-sh-model" type="text" autocomplete="off"
+               placeholder="model name" aria-label="Model name"
+               style="flex:1;min-width:140px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
+        <input id="models-sh-ctx" type="number" min="256" step="1024"
+               placeholder="context" aria-label="Context limit (tokens)" title="Context limit (tokens)"
+               style="width:110px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
+        <input id="models-sh-timeout" type="number" min="5" step="5"
+               placeholder="timeout s" aria-label="Timeout (seconds)" title="Timeout (seconds)"
+               style="width:100px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
+      </div>
+      <label style="display:flex;gap:6px;align-items:center;margin:8px 0" class="slbl">
+        <input type="checkbox" id="models-sh-insecure">
+        <span data-i18n="models_insecure_lan">Allow insecure HTTP on private LAN
+          (10.x / 172.16–31.x / 192.168.x only — traffic is unencrypted;
+          localhost never needs this)</span>
+      </label>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button id="models-sh-save" class="btn btn-primary btn-sm" data-i18n="models_save_server">Save server</button>
+        <button id="models-sh-test" class="btn btn-ghost btn-sm" data-i18n="models_test">Test connection</button>
+        <span id="models-sh-state" role="status" aria-live="polite"></span>
+      </div>
+      <p class="slbl" style="margin:8px 0 14px" data-i18n="models_sh_key_hint">
+        If the server needs an API key, save it below under “Self-hosted
+        server” — it is kept in the OS credential store.</p>
+
+      <div class="slbl" style="font-weight:600;margin:0 0 6px" data-i18n="models_managed_title">Import a local model</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+        <input id="models-managed-path" type="text" autocomplete="off"
+               placeholder="/path/to/downloaded/model" aria-label="Model folder"
+               style="flex:1;min-width:220px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
+        <button id="models-managed-add" class="btn btn-ghost btn-sm" data-i18n="models_import">Import</button>
+        <span id="models-managed-note" class="slbl" aria-live="polite"></span>
+      </div>
+      <p class="slbl" style="margin:8px 0 0" data-i18n="models_managed_desc">
+        Points at a Hugging Face model folder already on disk — weights stay
+        where they are, load only when used, and can be unloaded to free
+        memory.</p>
+    </div>
+  </div>
+
   <div class="ws-panel" style="max-width:860px;margin:0 auto">
     <div class="panel-header">
       <div class="panel-title" data-i18n="settings_keys_title">🔑 Cloud provider API keys</div>
@@ -721,7 +789,7 @@
 <script src="/static/privacy-ui.js?v=2026.07.05.1"></script>
 <script src="/static/sidebar.js?v=2026.07.05.1"></script>
 <script src="/static/ocr-canvas.js?v=2026.06.14.1"></script>
-<script src="/static/app.js?v=2026.07.05.2"></script>
+<script src="/static/app.js?v=2026.07.06.1"></script>
 <script src="/static/chat.js?v=2026.06.14.1"></script>
 <script>
 // Fetch current user and populate navbar; redirect to login if session expired

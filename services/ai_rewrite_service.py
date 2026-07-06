@@ -548,10 +548,19 @@ def _clean_output(text: str, style: str) -> str:
 #  PUBLIC API
 # ═══════════════════════════════════════════════════════════════════════════════
 
+def _run_routed_provider(provider, sentences: List[str], style: str,
+                         lang: str) -> Tuple[str, str]:
+    """Run the rewrite through a Model-Router-selected provider (gateway)."""
+    messages = _build_messages(sentences, style, lang)
+    text = provider.complete(messages, max_tokens=MAX_NEW_TOKENS, temperature=0.3)
+    return (text or "").strip(), f"ai:{getattr(provider, 'name', 'routed')}"
+
+
 def ai_rewrite(
     condensed_sentences: List[str],
     style:  str = "short",
     lang:   str = "english",
+    task:   str = "rewrite",
 ) -> Tuple[str, str]:
     """
     Generate an AI rewritten summary from condensed key sentences.
@@ -560,6 +569,9 @@ def ai_rewrite(
         condensed_sentences: Key sentences from the extractive engine.
         style:  "short" | "bullets" | "executive"
         lang:   "english" | "vietnamese"
+        task:   Model-Router task this call serves ("rewrite", or "summarize"
+                when invoked by the summary pipeline) — each can have its own
+                model in Settings → AI models.
 
     Returns:
         (summary_text, engine_used)
@@ -571,10 +583,35 @@ def ai_rewrite(
     if not condensed_sentences:
         raise NoAIAvailableError("No sentences provided to AI rewrite")
 
-    # Backend order (P8): the local model first by default; when the platform
-    # provider is the OpenAI-compatible endpoint (LLM_PROVIDER=openai_compatible)
-    # that endpoint comes FIRST so a cloud-only install needs no local model.
-    # The implicit cloud APIs (_run_api) stay last and are ALLOW_CLOUD-gated.
+    # Model Router first: an explicit model choice is honored as-is (its only
+    # fallback is the user-configured fallback model, applied INSIDE the
+    # gateway provider) — no silent hopping across local/self-hosted/cloud.
+    from agent.core import llm_gateway
+    route = llm_gateway.resolve(task if task in llm_gateway.TASKS else "rewrite")
+    if route.kind == "model":
+        if route.entry.provider_type == "bundled_local" and route.fallback is None:
+            result, engine = _run_local(condensed_sentences, style, lang)
+        else:
+            try:
+                provider = llm_gateway.provider_for_route(route)
+                result, engine = _run_routed_provider(
+                    provider, condensed_sentences, style, lang)
+            except llm_gateway.RouteError:
+                raise
+            except Exception as e:
+                logger.error(f"[AIRewrite] routed model failed: {e}")
+                raise NoAIAvailableError(
+                    f"The configured {route.task} model failed: {e}") from e
+        result = _clean_output(result, style)
+        if not result:
+            raise NoAIAvailableError("The configured model returned no text")
+        return result, engine
+
+    # Legacy backend order ("auto", P8): the local model first by default;
+    # when the platform provider is the OpenAI-compatible endpoint
+    # (LLM_PROVIDER=openai_compatible) that endpoint comes FIRST so a
+    # cloud-only install needs no local model. The implicit cloud APIs
+    # (_run_api) stay last and are ALLOW_CLOUD-gated.
     if cfg.LLM_PROVIDER == "openai_compatible":
         backends = (_run_openai_compatible, _run_local, _run_api)
     else:

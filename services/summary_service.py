@@ -470,7 +470,8 @@ def summarize(text: str, mode: str = "short", engine: str = "auto",
         # Step 2: AI rewrites the condensed content into natural prose/bullets
         try:
             from services import ai_rewrite_service
-            ai_summary, ai_engine = ai_rewrite_service.ai_rewrite(condensed, mode, lang)
+            ai_summary, ai_engine = ai_rewrite_service.ai_rewrite(
+                condensed, mode, lang, task="summarize")
             if ai_summary:
                 elapsed = round((time.time() - t0) * 1000)
                 if mode == "bullets":

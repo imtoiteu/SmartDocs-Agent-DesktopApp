@@ -121,6 +121,38 @@ const API = {
     return (await fetch('/api/settings/keys/' + encodeURIComponent(provider) + '/test', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify(apiKey ? { api_key: apiKey } : {}) })).json();
+  },
+  // ── Model Registry / Router (Settings → AI models) ──
+  async modelsGet() {
+    return (await fetch('/api/models')).json();
+  },
+  async modelsRouting(taskModels, fallbackModel) {
+    return (await fetch('/api/models/routing', { method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ task_models: taskModels, fallback_model: fallbackModel }) })).json();
+  },
+  async modelsSelfHosted(cfg) {
+    return (await fetch('/api/models/self-hosted', { method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(cfg) })).json();
+  },
+  async modelsSelfHostedTest(cfg) {
+    return (await fetch('/api/models/self-hosted/test', { method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(cfg || {}) })).json();
+  },
+  async modelsManagedAdd(cfg) {
+    return (await fetch('/api/models/managed', { method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(cfg) })).json();
+  },
+  async modelsManagedRemove(id) {
+    return (await fetch('/api/models/managed/' + encodeURIComponent(id), {
+      method:'DELETE' })).json();
+  },
+  async modelsUnload(id) {
+    return (await fetch('/api/models/' + encodeURIComponent(id) + '/unload', {
+      method:'POST' })).json();
   }
 };
 
@@ -1516,7 +1548,8 @@ document.addEventListener('sd-lang', () => {
 
 const SettingsView = {
   _data: null,
-  _names: { groq: 'Groq', gemini: 'Google Gemini' },
+  _models: null,
+  _names: { groq: 'Groq', gemini: 'Google Gemini', self_hosted: 'Self-hosted server' },
 
   init() { this._inited = true; },
 
@@ -1537,6 +1570,12 @@ const SettingsView = {
     this._renderPrivacy();
     this._renderProviders();
     this._renderRuntime();
+    try {
+      this._models = await API.modelsGet();
+    } catch (e) {
+      this._models = null;
+    }
+    this._renderModels();
   },
 
   // Desktop shell only: show the active backend runtime + the manage link.
@@ -1554,6 +1593,261 @@ const SettingsView = {
       }
       RuntimeChip.set(mode, h.insecure_lan === true);
     }).catch(() => {});
+  },
+
+  // ── AI models: registry list + task routing + self-hosted server ──────────
+  _taskNames() {
+    return { chat: t('models_task_chat') || 'Chat / Document QA',
+             summarize: t('models_task_summarize') || 'Summarization',
+             rewrite: t('models_task_rewrite') || 'AI Rewrite',
+             agent: t('models_task_agent') || 'Agent' };
+  },
+
+  _modelBadge(state, extra) {
+    const map = {
+      ready: ['engine-status-online', t('models_state_ready') || 'Ready (loaded)'],
+      loading: ['engine-status-checking', t('models_state_loading') || 'Loading…'],
+      installed: ['engine-status-all', t('models_state_installed') || 'Installed'],
+      unavailable: ['engine-status-none', t('models_state_unavailable') || 'Unavailable'],
+      failed: ['engine-status-none', t('models_state_failed') || 'Failed'],
+    };
+    const [cls, label] = map[state] || map.unavailable;
+    const span = document.createElement('span');
+    span.className = 'engine-status-badge ' + cls;
+    span.setAttribute('role', 'status');
+    const dot = document.createElement('span'); dot.className = 'status-dot';
+    span.appendChild(dot);
+    span.appendChild(document.createTextNode(' ' + label + (extra ? ' — ' + extra : '')));
+    return span;
+  },
+
+  _renderModels() {
+    const panel = document.getElementById('settings-models-panel');
+    if (!panel) return;
+    const m = this._models;
+    if (!m || !m.success) {
+      document.getElementById('models-list').textContent =
+        t('models_load_failed') || 'Could not load the model list.';
+      return;
+    }
+    this._renderModelsList(m);
+    this._renderRouting(m);
+    this._renderSelfHosted(m);
+    // Buttons (idempotent re-assignment on each render)
+    document.getElementById('models-routing-save').onclick = () => this._saveRouting();
+    document.getElementById('models-sh-save').onclick = () => this._saveSelfHosted(false);
+    document.getElementById('models-sh-test').onclick = () => this._testSelfHosted();
+    document.getElementById('models-managed-add').onclick = () => this._importManaged();
+  },
+
+  _renderModelsList(m) {
+    const wrap = document.getElementById('models-list');
+    wrap.innerHTML = '';
+    const locality = { local: t('models_local_label') || 'Local',
+                       self_hosted: t('models_self_hosted_label') || 'Self-hosted',
+                       cloud: t('models_cloud_label') || 'Cloud' };
+    (m.models || []).forEach((mod) => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;align-items:center;' +
+        'padding:8px 0;border-top:1px solid var(--border)';
+      const name = document.createElement('b');
+      name.style.cssText = 'flex:1;min-width:200px';
+      name.textContent = mod.display_name;
+      row.appendChild(name);
+      const loc = document.createElement('span');
+      loc.className = 'slbl';
+      loc.textContent = (locality[mod.locality] || mod.locality) +
+        ' · ' + (mod.context_limit ? (mod.context_limit + ' tok') : '');
+      row.appendChild(loc);
+      row.appendChild(this._modelBadge(mod.state,
+        mod.memory_warning ? '⚠' : ''));
+      if (mod.memory_warning) {
+        const warn = document.createElement('div');
+        warn.className = 'slbl';
+        warn.style.cssText = 'flex-basis:100%;color:var(--warn)';
+        warn.setAttribute('role', 'alert');
+        warn.textContent = mod.memory_warning;
+        row.appendChild(warn);
+      }
+      if (mod.provider_type === 'managed_local') {
+        const mkBtn = (label, onclick) => {
+          const b = document.createElement('button');
+          b.className = 'btn btn-ghost btn-sm';
+          b.textContent = label;
+          b.addEventListener('click', onclick);
+          row.appendChild(b);
+        };
+        if (mod.state === 'ready') {
+          mkBtn(t('models_unload') || 'Unload', async () => {
+            const res = await API.modelsUnload(mod.id).catch(() => null);
+            this._afterModels(res, t('models_unloaded') || 'Model unloaded.');
+          });
+        }
+        mkBtn(t('models_remove') || 'Remove', async () => {
+          if (!window.confirm(t('models_remove_confirm') ||
+            'Remove this model from the list? Files on disk are not deleted.')) return;
+          const res = await API.modelsManagedRemove(mod.id).catch(() => null);
+          this._afterModels(res, t('models_removed') || 'Model removed.');
+        });
+      }
+      wrap.appendChild(row);
+    });
+  },
+
+  _renderRouting(m) {
+    const wrap = document.getElementById('models-routing');
+    wrap.innerHTML = '';
+    const names = this._taskNames();
+    const routing = (m.routing || {});
+    const mkSelect = (id, label, value, withAuto) => {
+      const box = document.createElement('label');
+      box.style.cssText = 'display:flex;flex-direction:column;gap:4px;min-width:170px;flex:1';
+      const lab = document.createElement('span');
+      lab.className = 'slbl'; lab.textContent = label;
+      box.appendChild(lab);
+      const sel = document.createElement('select');
+      sel.id = id;
+      sel.style.cssText = 'background:var(--card2);border:1px solid var(--border);' +
+        'border-radius:8px;padding:8px 10px;color:inherit';
+      const opts = [];
+      if (withAuto) opts.push(['auto', t('models_auto') || 'Automatic (current behavior)']);
+      else opts.push(['', t('models_none') || 'None']);
+      (m.models || []).forEach((mod) => opts.push([mod.id, mod.display_name +
+        (mod.configured ? '' : ' — ' + (t('models_state_unavailable') || 'Unavailable'))]));
+      opts.forEach(([v, txt]) => {
+        const o = document.createElement('option');
+        o.value = v; o.textContent = txt;
+        sel.appendChild(o);
+      });
+      sel.value = value || (withAuto ? 'auto' : '');
+      box.appendChild(sel);
+      wrap.appendChild(box);
+    };
+    (m.tasks || []).forEach((task) => mkSelect('models-route-' + task,
+      names[task] || task, (routing.task_models || {})[task], true));
+    mkSelect('models-route-fallback', t('models_fallback') || 'Fallback model',
+      routing.fallback_model, false);
+  },
+
+  _renderSelfHosted(m) {
+    const sh = m.self_hosted || {};
+    document.getElementById('models-sh-url').value = sh.base_url || '';
+    document.getElementById('models-sh-model').value = sh.model || '';
+    document.getElementById('models-sh-ctx').value = sh.context_limit || '';
+    document.getElementById('models-sh-timeout').value = sh.timeout_s || '';
+    document.getElementById('models-sh-insecure').checked = !!sh.allow_insecure_lan;
+    const envNote = document.getElementById('models-selfhosted-env');
+    const locked = !!sh.env_locked;
+    envNote.style.display = locked ? '' : 'none';
+    if (locked) envNote.textContent = t('models_env_locked') ||
+      'This server is configured from .env (OPENAI_COMPATIBLE_*) and cannot be edited here.';
+    ['models-sh-url', 'models-sh-model', 'models-sh-ctx', 'models-sh-timeout',
+     'models-sh-insecure'].forEach((id) => {
+      document.getElementById(id).disabled = locked;
+    });
+    document.getElementById('models-sh-save').disabled = locked;
+  },
+
+  _shState(state, detail) {
+    const el = document.getElementById('models-sh-state');
+    const map = {
+      connected: ['engine-status-online', t('models_state_connected') || 'Connected'],
+      unavailable: ['engine-status-none', t('models_state_sh_unavailable') || 'Unavailable'],
+      incompatible: ['engine-status-none', t('models_state_incompatible') || 'Incompatible'],
+      auth_failed: ['engine-status-none', t('models_state_auth_failed') || 'Authentication failed'],
+      model_not_found: ['engine-status-none', t('models_state_model_not_found') || 'Model not found'],
+      context_insufficient: ['engine-status-offline', t('models_state_context') || 'Context insufficient'],
+      testing: ['engine-status-checking', t('settings_state_testing') || 'Testing…'],
+    };
+    el.innerHTML = '';
+    if (!state) return;
+    const [cls, label] = map[state] || map.unavailable;
+    const span = document.createElement('span');
+    span.className = 'engine-status-badge ' + cls;
+    const dot = document.createElement('span'); dot.className = 'status-dot';
+    span.appendChild(dot);
+    span.appendChild(document.createTextNode(' ' + label + (detail ? ' — ' + detail : '')));
+    el.appendChild(span);
+  },
+
+  _afterModels(res, okMsg) {
+    if (res && res.success) {
+      this._models = res;
+      this._renderModels();
+      if (okMsg) Toast.show(okMsg, 'success');
+    } else {
+      Toast.show((res && (res.error || res.detail || res.message)) ||
+        t('settings_save_failed') || 'Could not save the setting.', 'error');
+    }
+  },
+
+  async _saveRouting() {
+    const tm = {};
+    ((this._models && this._models.tasks) || []).forEach((task) => {
+      const sel = document.getElementById('models-route-' + task);
+      if (sel) tm[task] = sel.value || 'auto';
+    });
+    const fb = document.getElementById('models-route-fallback');
+    const note = document.getElementById('models-routing-note');
+    note.textContent = '';
+    const res = await API.modelsRouting(tm, (fb && fb.value) || null).catch(() => null);
+    if (res && !res.success) note.textContent = res.error || '';
+    this._afterModels(res, t('models_routing_saved') || 'Routing saved.');
+  },
+
+  async _saveSelfHosted(ack) {
+    const cfg = {
+      base_url: document.getElementById('models-sh-url').value.trim(),
+      model: document.getElementById('models-sh-model').value.trim(),
+      allow_insecure_lan: document.getElementById('models-sh-insecure').checked,
+      ack: !!ack,
+    };
+    const ctxv = document.getElementById('models-sh-ctx').value;
+    const tov = document.getElementById('models-sh-timeout').value;
+    if (ctxv) cfg.context_limit = parseInt(ctxv, 10);
+    if (tov) cfg.timeout_s = parseInt(tov, 10);
+    const res = await API.modelsSelfHosted(cfg).catch(() => null);
+    if (res && res.needs_ack) {
+      // First insecure-LAN connection: explicit warning BEFORE saving.
+      if (window.confirm(res.message ||
+        'This connection is unencrypted HTTP on your LAN. Continue?')) {
+        return this._saveSelfHosted(true);
+      }
+      this._shState('unavailable', t('models_insecure_cancelled') ||
+        'Cancelled — nothing was saved.');
+      return;
+    }
+    this._afterModels(res, t('models_server_saved') || 'Server saved.');
+  },
+
+  async _testSelfHosted() {
+    this._shState('testing');
+    const cfg = {
+      base_url: document.getElementById('models-sh-url').value.trim(),
+      model: document.getElementById('models-sh-model').value.trim(),
+      allow_insecure_lan: document.getElementById('models-sh-insecure').checked,
+    };
+    const ctxv = document.getElementById('models-sh-ctx').value;
+    if (ctxv) cfg.context_limit = parseInt(ctxv, 10);
+    let res = null;
+    try { res = await API.modelsSelfHostedTest(cfg); } catch (e) { res = null; }
+    if (!res) { this._shState('unavailable', ''); return; }
+    this._shState(res.state || 'unavailable',
+      (res.detail || '') + (res.policy === 'http_insecure_lan'
+        ? ' · ' + (t('models_insecure_active') || 'unencrypted HTTP (insecure LAN)') : ''));
+  },
+
+  async _importManaged() {
+    const input = document.getElementById('models-managed-path');
+    const note = document.getElementById('models-managed-note');
+    const path = input.value.trim();
+    if (!path) { note.textContent = t('models_import_need_path') ||
+      'Enter the model folder path.'; return; }
+    note.textContent = '';
+    const res = await API.modelsManagedAdd({ path }).catch(() => null);
+    if (res && res.success) input.value = '';
+    else note.textContent = (res && res.error) || '';
+    this._afterModels(res, t('models_imported') || 'Model imported.');
   },
 
   _renderPrivacy() {

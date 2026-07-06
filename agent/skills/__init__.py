@@ -54,13 +54,13 @@ def default_context(allowed_file_ids: Optional[set] = None) -> SkillContext:
     knowledge source, and the default (offline-first) LLM provider."""
     from ..tools import get_registry
     from ..knowledge import get_knowledge_registry
-    from ..core import get_default_provider
+    from ..core.llm_gateway import provider_for_task
 
     return SkillContext(
         tools=get_registry(),
         allowed_file_ids=allowed_file_ids,
         knowledge=get_knowledge_registry().composite(),
-        provider=get_default_provider(),
+        provider=provider_for_task("agent"),
     )
 
 

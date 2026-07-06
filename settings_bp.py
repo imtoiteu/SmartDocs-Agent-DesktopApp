@@ -89,7 +89,9 @@ def save_key(provider):
     """Body: {api_key}. Stores via the OS credential store; masked echo only."""
     if provider not in secret_store.PROVIDERS:
         return jsonify({"success": False, "error": "Unknown provider."}), 400
-    if not cfg.ALLOW_CLOUD:
+    # Local-only blocks CLOUD keys only — the self-hosted server key stays
+    # usable (self-hosted is local by policy, like the endpoint itself).
+    if not cfg.ALLOW_CLOUD and provider in secret_store.CLOUD_PROVIDERS:
         return jsonify({"success": False, "error": _LOCAL_ONLY_MSG}), 409
     api_key = ((request.get_json(silent=True) or {}).get("api_key") or "").strip()
     if not api_key:
@@ -136,7 +138,7 @@ def test_key(provider):
     one. Read-only call to the provider's model list; no document content."""
     if provider not in secret_store.PROVIDERS:
         return jsonify({"success": False, "error": "Unknown provider."}), 400
-    if not cfg.ALLOW_CLOUD:
+    if not cfg.ALLOW_CLOUD and provider in secret_store.CLOUD_PROVIDERS:
         return jsonify({"success": False, "state": "blocked",
                         "error": _LOCAL_ONLY_MSG}), 409
     api_key = ((request.get_json(silent=True) or {}).get("api_key") or "").strip()
