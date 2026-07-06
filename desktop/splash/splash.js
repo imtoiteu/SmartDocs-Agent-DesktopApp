@@ -261,5 +261,16 @@
     }
   });
 
-  if (location.hash === "#runtime") { showRuntime(); }
+  // Open the runtime panel straight away when asked to: by the #runtime hash
+  // (in-place open while the launcher shows in the main window) or by the
+  // shell's boot flag (injected into the dedicated selector window before
+  // this page loads — see open_runtime_selector in main.rs).
+  var boot = window.__SMARTDOCS_RUNTIME_BOOT__;
+  if (location.hash === "#runtime" || (boot && boot.open)) {
+    showRuntime();
+    if (boot && boot.error) {
+      $("rt-status").textContent = String(boot.error);
+      $("rt-status").className = "state-bad";
+    }
+  }
 })();

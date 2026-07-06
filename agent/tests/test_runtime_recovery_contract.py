@@ -101,6 +101,32 @@ def test_failures_open_the_selector_instead_of_trapping():
     assert "Change backend…" in GATEWAY_PY
 
 
+def test_runtime_selector_uses_supported_bundled_assets_not_raw_urls():
+    """Regression (macOS): navigating the gateway-origin WebView to a manually
+    built tauri://localhost/index.html URL fails with "asset not found:
+    index.html". The selector must come from WebviewUrl::App — in place while
+    the main window shows the launcher, else in ONE dedicated reusable window.
+    """
+    # No hand-built launcher asset URLs anywhere in the shell.
+    assert "tauri://localhost/index.html" not in MAIN_RS
+    assert "launcher_url" not in MAIN_RS
+    # Both the main window and the selector window boot from the supported
+    # embedded-asset mechanism (dev and packaged, all platforms).
+    assert MAIN_RS.count('WebviewUrl::App("index.html".into())') == 2
+    assert 'RUNTIME_WINDOW: &str = "runtime-settings"' in MAIN_RS
+    # Reuse-not-duplicate (+focus), created on the main thread (macOS), and
+    # put away after Apply succeeds or Back — never by deleting state.
+    assert "get_webview_window(RUNTIME_WINDOW)" in MAIN_RS
+    assert "set_focus" in MAIN_RS
+    assert "run_on_main_thread" in MAIN_RS
+    assert MAIN_RS.count("close_runtime_selector(") >= 3   # def + apply-success + resume
+    # The launcher page opens the panel from the shell's boot flag (dedicated
+    # window) or the #runtime hash (in-place), including the carried error.
+    assert "__SMARTDOCS_RUNTIME_BOOT__" in MAIN_RS
+    assert "__SMARTDOCS_RUNTIME_BOOT__" in SPLASH_JS
+    assert "#runtime" in SPLASH_JS
+
+
 def test_saved_config_is_preserved_not_deleted_on_failure():
     assert "remove_file" not in MAIN_RS, \
         "failure handling must never delete runtime.json"

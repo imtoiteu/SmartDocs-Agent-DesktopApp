@@ -495,33 +495,89 @@ fn init_script(token: &str) -> String {
 }
 
 fn splash_status(app: &tauri::AppHandle, msg: &str, error: bool) {
-    if let Some(w) = app.get_webview_window("main") {
-        let f = if error { "__splashError" } else { "__splashStatus" };
-        let _ = w.eval(&format!("window.{f} && window.{f}({});",
-                                serde_json::to_string(msg).unwrap_or_default()));
+    // Startup progress lives on the main window's splash; during an Apply
+    // from the dedicated selector window, that window shows the same splash
+    // hooks — drive both (evals no-op wherever the hook doesn't exist).
+    let f = if error { "__splashError" } else { "__splashStatus" };
+    let js = format!("window.{f} && window.{f}({});",
+                     serde_json::to_string(msg).unwrap_or_default());
+    for label in ["main", RUNTIME_WINDOW] {
+        if let Some(w) = app.get_webview_window(label) {
+            let _ = w.eval(&js);
+        }
     }
+}
+
+/// Label of the dedicated runtime-selector window (created on demand, reused).
+const RUNTIME_WINDOW: &str = "runtime-settings";
+
+/// Is this URL the bundled launcher's asset origin? (`tauri://` on
+/// macOS/Linux, `http://tauri.localhost` on Windows.)
+fn is_bundled_origin(url: &Url) -> bool {
+    url.scheme() == "tauri" || url.host_str() == Some("tauri.localhost")
 }
 
 /// Open the launcher's runtime selector (optionally carrying the error that
 /// brought the user there). Recovery guarantee: a failed/invalid saved
 /// backend never traps the user — the selector appears with the current
 /// configuration intact, ready to be corrected, retried, or switched.
+///
+/// While the main window still shows the bundled launcher (startup, startup
+/// failures) the selector opens in place. Once the main window is on the
+/// local gateway origin, a dedicated reusable window hosts it instead —
+/// created through `WebviewUrl::App`, the supported embedded-asset mechanism.
+/// Navigating an http-origin WebView to a manually built `tauri://…` asset
+/// URL is NOT reliably resolvable (macOS WKWebView answers "asset not found:
+/// index.html"), which is exactly the trap this function must never create.
 fn open_runtime_selector(app: &tauri::AppHandle, error: Option<&str>) {
-    navigate(app, launcher_url("#runtime"));
-    if let Some(w) = app.get_webview_window("main") {
-        let msg = serde_json::to_string(error.unwrap_or("")).unwrap_or_default();
-        let _ = w.eval(&format!("window.__openRuntime && window.__openRuntime({msg});"));
+    let msg = serde_json::to_string(error.unwrap_or("")).unwrap_or_default();
+
+    // Launcher still showing in the main window → open the panel in place.
+    if let Some(main) = app.get_webview_window("main") {
+        if main.url().map(|u| is_bundled_origin(&u)).unwrap_or(false) {
+            let _ = main.eval(&format!(
+                "window.__openRuntime && window.__openRuntime({msg});"));
+            let _ = main.set_focus();
+            return;
+        }
     }
+    // Selector window already open → focus it, never a duplicate.
+    if let Some(w) = app.get_webview_window(RUNTIME_WINDOW) {
+        let _ = w.eval(&format!(
+            "window.__openRuntime && window.__openRuntime({msg});"));
+        let _ = w.unminimize();
+        let _ = w.set_focus();
+        return;
+    }
+    // Create it. The boot flag makes the launcher page open the runtime panel
+    // (with the error, when there is one) as soon as it loads. macOS requires
+    // window creation on the main thread.
+    let handle = app.clone();
+    let boot = serde_json::json!({"open": true, "error": error.unwrap_or("")});
+    let _ = app.run_on_main_thread(move || {
+        let built = WebviewWindowBuilder::new(
+            &handle,
+            RUNTIME_WINDOW,
+            WebviewUrl::App("index.html".into()),
+        )
+        .title("Backend Runtime — SmartDocs")
+        .inner_size(760.0, 700.0)
+        .min_inner_size(560.0, 480.0)
+        .initialization_script(&format!("window.__SMARTDOCS_RUNTIME_BOOT__ = {boot};"))
+        .on_navigation(|url: &Url| is_bundled_origin(url))
+        .build();
+        if let Err(e) = built {
+            eprintln!("[shell] could not open the runtime selector window: {e}");
+        }
+    });
 }
 
-/// The bundled launcher page (splash + runtime settings), per-platform origin.
-fn launcher_url(fragment: &str) -> Url {
-    let base = if is_windows() {
-        format!("http://tauri.localhost/index.html{fragment}")
-    } else {
-        format!("tauri://localhost/index.html{fragment}")
-    };
-    base.parse().expect("valid launcher url")
+/// Put the dedicated selector window away (after a successful switch). The
+/// main window and the saved runtime.json are never touched here.
+fn close_runtime_selector(app: &tauri::AppHandle) {
+    if let Some(w) = app.get_webview_window(RUNTIME_WINDOW) {
+        let _ = w.close();
+    }
 }
 
 fn navigate(app: &tauri::AppHandle, url: Url) {
@@ -725,6 +781,9 @@ fn finish_local_start(
                         .parse()
                         .expect("valid entry url");
                     navigate(handle, url);
+                    // Switch finished — the dedicated selector window (if the
+                    // change came from one) has done its job.
+                    close_runtime_selector(handle);
                 }
                 Err(e) => {
                     let msg = format!("Backend failed its health check. {e}");
@@ -820,19 +879,32 @@ fn runtime_apply(
     let nav = nav.inner().clone();
     std::thread::spawn(move || {
         stop_all(&state);
-        navigate(&app, launcher_url(""));
+        // No navigation here: the main window keeps its current page while
+        // the backend restarts (the selector — main-window splash at startup,
+        // or the dedicated window later — shows the restart progress). On
+        // success finish_local_start() navigates the main window itself.
         start_backend(app, state, nav);
     });
     Ok(())
 }
 
-/// Return to whatever backend is currently active (launcher “Cancel”).
+/// Return to whatever backend is currently active (launcher “Back to app”).
 #[tauri::command]
 fn runtime_resume(
+    window: tauri::WebviewWindow,
     app: tauri::AppHandle,
     state: tauri::State<'_, Arc<BackendState>>,
 ) -> Result<(), String> {
     if let Some(port) = *state.port.lock().unwrap() {
+        if window.label() == RUNTIME_WINDOW {
+            // Dedicated selector window: the app keeps running untouched in
+            // the main window — just put the selector away and refocus.
+            close_runtime_selector(&app);
+            if let Some(main) = app.get_webview_window("main") {
+                let _ = main.set_focus();
+            }
+            return Ok(());
+        }
         let entry = match *state.active_mode.lock().unwrap() {
             Some(BackendMode::Remote) => "",
             _ => "desktop/boot",
@@ -908,10 +980,11 @@ fn main() {
                                 if host == "127.0.0.1" && url.port() == Some(p) {
                                     if url.path() == "/desktop/runtime-settings" {
                                         // In-app “Manage backend runtime” link:
-                                        // open the bundled launcher instead.
+                                        // open the selector (dedicated window)
+                                        // instead of leaving the app page.
                                         let h = nav_handle.clone();
                                         std::thread::spawn(move || {
-                                            navigate(&h, launcher_url("#runtime"));
+                                            open_runtime_selector(&h, None);
                                         });
                                         return false;
                                     }
