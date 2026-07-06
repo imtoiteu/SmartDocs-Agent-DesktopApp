@@ -78,8 +78,19 @@ through one gateway (`agent/core/llm_gateway.py`) over a Model Registry
 |---|---|
 | Bundled local | The shipped default — Qwen 2.5 1.5B, lazy-loaded, always the offline fallback. Unchanged for existing users. |
 | Managed local | Additional Hugging Face models imported by folder path (Settings → AI models). Weights stay outside the app bundle; loaded lazily, unloadable. |
-| Self-hosted | Any OpenAI-compatible server (vLLM / llama.cpp / LM Studio) on this machine, the LAN, or a private server. URL policy matches the remote-runtime policy: HTTPS always; plain HTTP for localhost; plain HTTP to private-LAN IP literals only behind the explicit insecure-LAN confirmation; public plain-HTTP and credentialed URLs refused. API key in the OS credential store. |
+| Self-hosted | Any OpenAI-compatible server (Ollama / vLLM / llama.cpp / LM Studio) on this machine, the LAN, or a private server. URL policy matches the remote-runtime policy: HTTPS always; plain HTTP for localhost; plain HTTP to private-LAN IP literals only behind the explicit insecure-LAN confirmation; public plain-HTTP and credentialed URLs refused. API key in the OS credential store. |
 | Cloud (Groq / Gemini) | The existing providers — still keyring-backed and still excluded entirely while Local-only is enabled. |
+
+For large models the DesktopApp is a **client**: the model is deployed on the
+server machine (a LAN GPU box, a homelab, a private VPS) and the app needs
+only the base URL, the model name, an optional API key, a context limit and a
+timeout (Settings → AI models). The app never downloads model weights and
+does not manage GPU runtimes. The connection test prefers the server's
+read-only `/v1/models` list (also used to suggest model names) and falls
+back to a minimal 1-token chat completion for servers without it; results
+are reported as Connected / Unavailable / Timeout / Authentication failed /
+Model not found / Incompatible / Context insufficient / Blocked by URL
+security policy.
 
 Every task defaults to **Automatic**, which is byte-for-byte the pre-existing
 behavior (env-driven chains, `AGENT_LLM_PROVIDER` / `LLM_PROVIDER` /
@@ -87,6 +98,15 @@ behavior (env-driven chains, `AGENT_LLM_PROVIDER` / `LLM_PROVIDER` /
 An explicitly routed model is used as-is — the only fallback is the
 user-configured fallback model, and a cloud model is never routed in
 Local-only mode.
+
+The same Model Registry / self-hosted configuration ships in the WebApp
+(shared Settings → AI models UI); the desktop-only parts (runtime modes,
+the runtime selector, `runtime.json`) stay desktop-only. macOS, Windows and
+Linux are the intended desktop platforms — model routing, URL policy,
+credential storage (Keychain / Credential Manager / Secret Service via
+`keyring`) and data paths are platform-neutral by construction, but native
+packages must still be built and validated on each OS (see
+[Platform limitations](#platform-limitations) for the current status).
 
 ## Development
 
