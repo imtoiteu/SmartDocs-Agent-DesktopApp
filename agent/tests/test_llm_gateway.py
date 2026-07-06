@@ -284,53 +284,55 @@ def test_self_hosted_url_policy_matrix():
 
 # ── 6. self-hosted connection states against a scriptable local server ───────
 class _FakeOpenAIServer(BaseHTTPRequestHandler):
-    behavior = "ok"                                    # ok|auth|badjson
+    behavior = "ok"                        # ok|auth|badjson|nomodels|slow
 
-    def do_GET(self):  # noqa: N802
-        if self.path != "/v1/models":
-            self.send_response(404); self.end_headers(); return
-        if self.behavior == "auth":
-            self.send_response(401); self.end_headers(); return
-        if self.behavior == "badjson":
-            body = b"<html>not an api</html>"
-            self.send_response(200)
-        else:
-            body = json.dumps({"data": [{"id": "served-model"}]}).encode()
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
+    def _send(self, code, body=b"", ctype="application/json"):
+        self.send_response(code)
+        if body:
+            self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
+
+    def do_GET(self):  # noqa: N802
+        if self.path != "/v1/models" or self.behavior == "nomodels":
+            self._send(404); return
+        if self.behavior == "slow":
+            import time
+            time.sleep(1.5)
+            self._send(200, b"{}"); return
+        if self.behavior == "auth":
+            self._send(401); return
+        if self.behavior == "badjson":
+            self._send(200, b"<html>not an api</html>", "text/html"); return
+        self._send(200, json.dumps({"data": [{"id": "served-model"}]}).encode())
+
+    def do_POST(self):  # noqa: N802 — the minimal chat-completion fallback
+        length = int(self.headers.get("Content-Length") or 0)
+        req = json.loads(self.rfile.read(length) or b"{}")
+        if self.path != "/v1/chat/completions" or req.get("model") != "served-model":
+            self._send(404); return
+        assert req.get("max_tokens") == 1          # tiny probe, never content
+        self._send(200, json.dumps(
+            {"choices": [{"message": {"content": "!"}}]}).encode())
 
     def log_message(self, *a):
         pass
 
 
-def _probe(base_url, model, ctx=None):
-    """The same probe models_bp's connection test runs (kept in sync by the
-    shared helper semantics: /v1/models + state mapping)."""
-    import requests
-    try:
-        resp = requests.get(base_url + "/v1/models", timeout=5)
-    except Exception:
-        return "unavailable"
-    if resp.status_code in (401, 403):
-        return "auth_failed"
-    if resp.status_code != 200:
-        return "incompatible"
-    try:
-        listed = [m.get("id") for m in resp.json().get("data") or []]
-    except Exception:
-        return "incompatible"
-    if model and listed and model not in listed:
-        return "model_not_found"
-    if ctx is not None and int(ctx) < 1024:
-        return "context_insufficient"
-    return "connected"
+def _probe(base_url, model, ctx=None, timeout=5):
+    """The REAL probe models_bp's connection test runs."""
+    return model_registry.probe_self_hosted_server(
+        base_url, model=model, context_limit=ctx, timeout=timeout)["state"]
+
+
+class _QuietHTTPServer(HTTPServer):
+    def handle_error(self, request, client_address):
+        pass    # expected: the timed-out client hangs up on the slow handler
 
 
 def test_self_hosted_connection_states():
-    srv = HTTPServer(("127.0.0.1", 0), _FakeOpenAIServer)
+    srv = _QuietHTTPServer(("127.0.0.1", 0), _FakeOpenAIServer)
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     base = f"http://127.0.0.1:{srv.server_address[1]}"
     try:
@@ -338,10 +340,23 @@ def test_self_hosted_connection_states():
         assert _probe(base, "served-model") == "connected"
         assert _probe(base, "missing-model") == "model_not_found"
         assert _probe(base, "served-model", ctx=512) == "context_insufficient"
+        # The /v1/models list comes back as model-name suggestions.
+        assert model_registry.probe_self_hosted_server(
+            base, model="served-model")["models"] == ["served-model"]
         _FakeOpenAIServer.behavior = "auth"
         assert _probe(base, "served-model") == "auth_failed"
         _FakeOpenAIServer.behavior = "badjson"
         assert _probe(base, "served-model") == "incompatible"
+        # No /v1/models → the manual model name is verified with a minimal
+        # 1-token chat completion instead (nothing sent but "ping").
+        _FakeOpenAIServer.behavior = "nomodels"
+        assert _probe(base, "served-model") == "connected"
+        assert _probe(base, "wrong-model") == "model_not_found"
+        assert _probe(base, "") == "incompatible"       # nothing to try
+        # Slow server → its own state, not a generic failure. LAST: the
+        # single-threaded fake blocks on the sleeping request until shutdown.
+        _FakeOpenAIServer.behavior = "slow"
+        assert _probe(base, "served-model", timeout=0.5) == "timeout"
     finally:
         srv.shutdown(); srv.server_close()
     # Dead server → unavailable

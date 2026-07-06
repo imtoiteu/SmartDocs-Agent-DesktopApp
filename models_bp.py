@@ -125,6 +125,8 @@ def set_self_hosted():
     sh: dict = {"base_url": base_url, "model": model,
                 "allow_insecure_lan": allow_lan}
 
+    routes_reset: list = []
+    route_patch: dict = {}
     if base_url:
         try:
             normalized, policy = model_registry.check_self_hosted_url(
@@ -141,6 +143,21 @@ def set_self_hosted():
         if not model:
             return jsonify({"success": False,
                             "error": "Enter the model name the server serves."}), 400
+    else:
+        # Clear/disable: routes still pointing at the now-unconfigured server
+        # would fail on every request — return them to Automatic and SAY so
+        # (the UI confirms the clear and reports the reset; never silent).
+        llm = settings_store.get_llm_settings()
+        task_models = dict(llm.get("task_models") or {})
+        for task, mid in task_models.items():
+            if mid == model_registry.SELF_HOSTED_ID:
+                task_models[task] = llm_gateway.AUTO
+                routes_reset.append(task)
+        if routes_reset:
+            route_patch["task_models"] = task_models
+        if llm.get("fallback_model") == model_registry.SELF_HOSTED_ID:
+            route_patch["fallback_model"] = None
+            routes_reset.append("fallback")
 
     for field, lo, hi in (("context_limit", 256, 2_000_000),
                           ("timeout_s", 5, 3600)):
@@ -156,23 +173,27 @@ def set_self_hosted():
             sh[field] = val
 
     try:
-        settings_store.set_llm_settings({"self_hosted": sh})
+        settings_store.set_llm_settings({"self_hosted": sh, **route_patch})
     except ValueError as e:
         return jsonify({"success": False, "error": str(e)}), 400
-    log_activity("models_self_hosted", f"configured={bool(base_url and model)}")
-    return jsonify(_models_payload())
+    log_activity("models_self_hosted",
+                 f"configured={bool(base_url and model)}" +
+                 (f" routes_reset={','.join(routes_reset)}" if routes_reset else ""))
+    payload = _models_payload()
+    payload["routes_reset"] = routes_reset
+    return jsonify(payload)
 
 
 @models_bp.route("/api/models/self-hosted/test", methods=["POST"])
 @login_required
 def test_self_hosted():
-    """Connection test against the server's read-only ``/v1/models`` list (no
-    document content). Body may override {base_url, model, allow_insecure_lan,
-    api_key} to test BEFORE saving. States: connected | unavailable |
-    incompatible | auth_failed | model_not_found | context_insufficient.
+    """Connection test (never document content). Body may override {base_url,
+    model, allow_insecure_lan, api_key, context_limit} to test BEFORE saving.
+    Prefers the read-only /v1/models list (echoed back as name suggestions);
+    servers without it get a minimal 1-token chat completion. States:
+    connected | unavailable | timeout | auth_failed | incompatible |
+    model_not_found | context_insufficient | policy_blocked.
     Self-hosted is available in Local-only mode by definition."""
-    import requests  # lazy
-
     data = request.get_json(silent=True) or {}
     stored = model_registry.self_hosted_config()
     base_url = (data.get("base_url") or stored.get("base_url") or "").strip()
@@ -186,55 +207,19 @@ def test_self_hosted():
         normalized, policy = model_registry.check_self_hosted_url(
             base_url, allow_insecure_lan=allow_lan)
     except ValueError as e:
-        return jsonify({"success": False, "state": "unavailable",
+        return jsonify({"success": False, "state": "policy_blocked",
                         "detail": str(e)}), 400
 
-    base = normalized[:-3] if normalized.endswith("/v1") else normalized
     key = ((data.get("api_key") or "").strip()
            or secret_store.get_key("self_hosted") or "")
-    headers = {"Authorization": f"Bearer {key}"} if key else {}
-    try:
-        resp = requests.get(f"{base}/v1/models", headers=headers, timeout=10)
-    except Exception as e:
-        return jsonify({"success": False, "state": "unavailable",
-                        "detail": f"Could not reach the server: {type(e).__name__}",
-                        "policy": policy})
-    if resp.status_code in (401, 403):
-        return jsonify({"success": False, "state": "auth_failed",
-                        "detail": f"Authentication failed (HTTP {resp.status_code}).",
-                        "policy": policy})
-    if resp.status_code != 200:
-        return jsonify({"success": False, "state": "incompatible",
-                        "detail": f"The server answered HTTP {resp.status_code} "
-                                  "for /v1/models — not an OpenAI-compatible API?",
-                        "policy": policy})
-    try:
-        listed = [m.get("id") for m in (resp.json() or {}).get("data") or []]
-    except Exception:
-        return jsonify({"success": False, "state": "incompatible",
-                        "detail": "The /v1/models response is not the "
-                                  "OpenAI-compatible format.",
-                        "policy": policy})
-    if model and listed and model not in listed:
-        return jsonify({"success": False, "state": "model_not_found",
-                        "detail": f"The server does not list model "
-                                  f"{model!r}. Available: "
-                                  f"{', '.join(str(x) for x in listed[:5])}…",
-                        "policy": policy})
-    ctx = data.get("context_limit", stored.get("context_limit"))
-    try:
-        if ctx is not None and int(ctx) < 1024:
-            return jsonify({"success": False, "state": "context_insufficient",
-                            "detail": f"A context limit of {ctx} tokens is too "
-                                      "small for document tasks (minimum ~1024).",
-                            "policy": policy})
-    except (TypeError, ValueError):
-        pass
-    log_activity("models_self_hosted_test", f"state=connected policy={policy}")
-    return jsonify({"success": True, "state": "connected",
-                    "detail": "Server reachable and OpenAI-compatible.",
-                    "policy": policy,
-                    "models_listed": len(listed)})
+    result = model_registry.probe_self_hosted_server(
+        normalized, model=model, api_key=key,
+        context_limit=data.get("context_limit", stored.get("context_limit")))
+    result["success"] = result["state"] == "connected"
+    result["policy"] = policy
+    log_activity("models_self_hosted_test",
+                 f"state={result['state']} policy={policy}")
+    return jsonify(result)
 
 
 @models_bp.route("/api/models/managed", methods=["POST"])

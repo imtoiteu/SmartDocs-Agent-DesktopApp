@@ -137,6 +137,120 @@ def check_self_hosted_url(raw: str, allow_insecure_lan: bool = False) -> Tuple[s
         "option. Use HTTPS for everything else.")
 
 
+# ── self-hosted connection probe ──────────────────────────────────────────────
+
+def probe_self_hosted_server(base_url: str, model: str = "",
+                             context_limit=None, api_key: str = "",
+                             timeout: float = 10) -> dict:
+    """Probe an OpenAI-compatible server. Returns ``{state, detail, models}``
+    with state in {connected, unavailable, timeout, auth_failed, incompatible,
+    model_not_found, context_insufficient}.
+
+    Prefers the read-only ``/v1/models`` list (also used to suggest model
+    names). Servers without it (404/405/501) are probed with a minimal
+    1-token chat completion instead — "ping", never document content — which
+    needs the model name. The URL must already have passed
+    ``check_self_hosted_url``; policy is the caller's concern.
+    """
+    import requests  # lazy
+
+    base = base_url[:-3] if base_url.endswith("/v1") else base_url
+    headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
+    try:
+        resp = requests.get(f"{base}/v1/models", headers=headers, timeout=timeout)
+    except requests.exceptions.Timeout:
+        return {"state": "timeout", "models": [],
+                "detail": f"The server did not answer within {timeout:g}s."}
+    except Exception as e:
+        return {"state": "unavailable", "models": [],
+                "detail": f"Could not reach the server: {type(e).__name__}"}
+    if resp.status_code in (401, 403):
+        return {"state": "auth_failed", "models": [],
+                "detail": f"Authentication failed (HTTP {resp.status_code})."}
+    if resp.status_code in (404, 405, 501):
+        if not model:
+            return {"state": "incompatible", "models": [], "detail":
+                    "The server has no /v1/models list. Enter the model name "
+                    "so the test can try a minimal chat completion instead."}
+        return _probe_chat_completion(base, model, headers, timeout,
+                                      context_limit)
+    if resp.status_code != 200:
+        return {"state": "incompatible", "models": [],
+                "detail": f"The server answered HTTP {resp.status_code} for "
+                          "/v1/models — not an OpenAI-compatible API?"}
+    try:
+        listed = [m.get("id") for m in (resp.json() or {}).get("data") or []]
+    except Exception:
+        return {"state": "incompatible", "models": [], "detail":
+                "The /v1/models response is not the OpenAI-compatible format."}
+    listed = [str(x) for x in listed if x][:50]
+    if model and listed and model not in listed:
+        return {"state": "model_not_found", "models": listed,
+                "detail": f"The server does not list model {model!r}. "
+                          f"Available: {', '.join(listed[:5])}…"}
+    ctx_state = _context_check(context_limit)
+    if ctx_state:
+        ctx_state["models"] = listed
+        return ctx_state
+    return {"state": "connected", "models": listed,
+            "detail": "Server reachable and OpenAI-compatible."}
+
+
+def _probe_chat_completion(base: str, model: str, headers: dict,
+                           timeout: float, context_limit=None) -> dict:
+    """Fallback probe: a 1-token "ping" completion (no document content)."""
+    import requests  # lazy
+
+    try:
+        resp = requests.post(
+            f"{base}/v1/chat/completions",
+            json={"model": model, "max_tokens": 1, "temperature": 0,
+                  "messages": [{"role": "user", "content": "ping"}]},
+            headers=headers, timeout=timeout)
+    except requests.exceptions.Timeout:
+        return {"state": "timeout", "models": [],
+                "detail": f"The server did not answer within {timeout:g}s."}
+    except Exception as e:
+        return {"state": "unavailable", "models": [],
+                "detail": f"Could not reach the server: {type(e).__name__}"}
+    if resp.status_code in (401, 403):
+        return {"state": "auth_failed", "models": [],
+                "detail": f"Authentication failed (HTTP {resp.status_code})."}
+    if resp.status_code in (400, 404, 422):
+        # OpenAI-compatible servers answer these for an unknown model name.
+        return {"state": "model_not_found", "models": [],
+                "detail": f"The server rejected model {model!r} "
+                          f"(HTTP {resp.status_code})."}
+    if resp.status_code != 200:
+        return {"state": "incompatible", "models": [],
+                "detail": f"The server answered HTTP {resp.status_code} for a "
+                          "minimal chat completion — not OpenAI-compatible?"}
+    try:
+        if not (resp.json() or {}).get("choices"):
+            raise ValueError
+    except Exception:
+        return {"state": "incompatible", "models": [], "detail":
+                "The chat-completion response is not the OpenAI-compatible "
+                "format."}
+    ctx_state = _context_check(context_limit)
+    if ctx_state:
+        return ctx_state
+    return {"state": "connected", "models": [], "detail":
+            "Server reachable (verified with a minimal chat completion — "
+            "it has no /v1/models list)."}
+
+
+def _context_check(context_limit) -> Optional[dict]:
+    try:
+        if context_limit is not None and int(context_limit) < 1024:
+            return {"state": "context_insufficient", "models": [],
+                    "detail": f"A context limit of {context_limit} tokens is "
+                              "too small for document tasks (minimum ~1024)."}
+    except (TypeError, ValueError):
+        pass
+    return None
+
+
 # ── hardware snapshot (recommendation input only, never a hard gate) ─────────
 
 def hardware_snapshot() -> dict:

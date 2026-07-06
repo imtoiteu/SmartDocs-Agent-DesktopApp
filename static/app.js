@@ -1637,7 +1637,18 @@ const SettingsView = {
     document.getElementById('models-routing-save').onclick = () => this._saveRouting();
     document.getElementById('models-sh-save').onclick = () => this._saveSelfHosted(false);
     document.getElementById('models-sh-test').onclick = () => this._testSelfHosted();
+    document.getElementById('models-sh-clear').onclick = () => this._clearSelfHosted();
+    document.getElementById('models-sh-key-remove').onclick = () => this._removeSelfHostedKey();
     document.getElementById('models-managed-add').onclick = () => this._importManaged();
+  },
+
+  // Bring the self-hosted form into view (it sits below the fold on small
+  // windows) and put the caret where configuration starts.
+  _jumpToSelfHosted() {
+    const section = document.getElementById('models-selfhosted-section');
+    if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const url = document.getElementById('models-sh-url');
+    if (url && !url.disabled) url.focus({ preventScroll: true });
   },
 
   _renderModelsList(m) {
@@ -1669,14 +1680,19 @@ const SettingsView = {
         warn.textContent = mod.memory_warning;
         row.appendChild(warn);
       }
+      const mkBtn = (label, onclick) => {
+        const b = document.createElement('button');
+        b.className = 'btn btn-ghost btn-sm';
+        b.textContent = label;
+        b.addEventListener('click', onclick);
+        row.appendChild(b);
+      };
+      if (mod.provider_type === 'self_hosted') {
+        // "Self-hosted server (not configured)" was a dead end — take the
+        // user straight to the form that configures it.
+        mkBtn(t('models_configure') || 'Configure…', () => this._jumpToSelfHosted());
+      }
       if (mod.provider_type === 'managed_local') {
-        const mkBtn = (label, onclick) => {
-          const b = document.createElement('button');
-          b.className = 'btn btn-ghost btn-sm';
-          b.textContent = label;
-          b.addEventListener('click', onclick);
-          row.appendChild(b);
-        };
         if (mod.state === 'ready') {
           mkBtn(t('models_unload') || 'Unload', async () => {
             const res = await API.modelsUnload(mod.id).catch(() => null);
@@ -1746,6 +1762,25 @@ const SettingsView = {
       document.getElementById(id).disabled = locked;
     });
     document.getElementById('models-sh-save').disabled = locked;
+    document.getElementById('models-sh-clear').disabled = locked || !sh.configured;
+
+    // API key: lives ONLY in the OS credential store (secret_store); this
+    // panel just shows configured/masked state and accepts a replacement.
+    const key = sh.key || {};
+    const keyInput = document.getElementById('models-sh-key');
+    const keyState = document.getElementById('models-sh-key-state');
+    const keyRemove = document.getElementById('models-sh-key-remove');
+    const keyringOk = !!((this._data && this._data.keyring) || {}).available;
+    const keyEnvLocked = key.source === 'env';
+    keyInput.disabled = !keyringOk || keyEnvLocked;
+    keyInput.placeholder = key.configured
+      ? (t('settings_key_replace') || 'Enter a new key to replace…') : 'sk-…';
+    keyState.textContent = key.configured
+      ? '🔑 ' + (key.masked || '') + (keyEnvLocked
+          ? ' · ' + (t('settings_from_env') || 'from .env') : '')
+      : (keyringOk ? (t('models_sh_key_none') || 'No key stored')
+                   : (t('settings_state_unavailable') || 'Credential store unavailable'));
+    keyRemove.style.display = (key.configured && !keyEnvLocked) ? '' : 'none';
   },
 
   _shState(state, detail) {
@@ -1757,6 +1792,8 @@ const SettingsView = {
       auth_failed: ['engine-status-none', t('models_state_auth_failed') || 'Authentication failed'],
       model_not_found: ['engine-status-none', t('models_state_model_not_found') || 'Model not found'],
       context_insufficient: ['engine-status-offline', t('models_state_context') || 'Context insufficient'],
+      timeout: ['engine-status-none', t('models_state_timeout') || 'Timeout'],
+      policy_blocked: ['engine-status-none', t('models_state_policy_blocked') || 'Blocked by URL security policy'],
       testing: ['engine-status-checking', t('settings_state_testing') || 'Testing…'],
     };
     el.innerHTML = '';
@@ -1806,6 +1843,19 @@ const SettingsView = {
     const tov = document.getElementById('models-sh-timeout').value;
     if (ctxv) cfg.context_limit = parseInt(ctxv, 10);
     if (tov) cfg.timeout_s = parseInt(tov, 10);
+    // A typed API key goes to the OS credential store first (its own
+    // endpoint) — it never travels or persists with the server settings.
+    const keyInput = document.getElementById('models-sh-key');
+    const typedKey = keyInput.disabled ? '' : (keyInput.value || '').trim();
+    if (typedKey) {
+      const kres = await API.settingsSaveKey('self_hosted', typedKey).catch(() => null);
+      keyInput.value = '';                         // never keep the key around
+      if (!kres || !kres.success) {
+        this._shState('unavailable', (kres && kres.error) ||
+          t('settings_save_failed') || 'Could not save the key.');
+        return;
+      }
+    }
     const res = await API.modelsSelfHosted(cfg).catch(() => null);
     if (res && res.needs_ack) {
       // First insecure-LAN connection: explicit warning BEFORE saving.
@@ -1820,6 +1870,29 @@ const SettingsView = {
     this._afterModels(res, t('models_server_saved') || 'Server saved.');
   },
 
+  async _clearSelfHosted() {
+    if (!window.confirm(t('models_sh_clear_confirm') ||
+      'Disable the self-hosted server? Tasks routed to it go back to ' +
+      'Automatic; the saved API key is kept in the credential store.')) return;
+    const res = await API.modelsSelfHosted({ base_url: '', model: '' }).catch(() => null);
+    const reset = (res && res.routes_reset) || [];
+    this._afterModels(res, (t('models_sh_cleared') || 'Self-hosted server disabled.') +
+      (reset.length ? ' ' + (t('models_routes_reset') ||
+        'Routes reset to Automatic:') + ' ' + reset.join(', ') : ''));
+  },
+
+  async _removeSelfHostedKey() {
+    const res = await API.settingsDeleteKey('self_hosted').catch(() => null);
+    if (res && res.success) {
+      Toast.show(t('models_sh_key_removed') || 'Key removed from the credential store.', 'success');
+      this._models = await API.modelsGet().catch(() => this._models);
+      this._renderModels();
+    } else {
+      Toast.show((res && res.error) || t('settings_save_failed') ||
+        'Could not remove the key.', 'error');
+    }
+  },
+
   async _testSelfHosted() {
     this._shState('testing');
     const cfg = {
@@ -1829,9 +1902,23 @@ const SettingsView = {
     };
     const ctxv = document.getElementById('models-sh-ctx').value;
     if (ctxv) cfg.context_limit = parseInt(ctxv, 10);
+    // Test with the typed (unsaved) key so the user can verify BEFORE saving.
+    const keyInput = document.getElementById('models-sh-key');
+    const typedKey = keyInput.disabled ? '' : (keyInput.value || '').trim();
+    if (typedKey) cfg.api_key = typedKey;
     let res = null;
     try { res = await API.modelsSelfHostedTest(cfg); } catch (e) { res = null; }
     if (!res) { this._shState('unavailable', ''); return; }
+    // Offer the server's own model list as suggestions for the name field.
+    const dl = document.getElementById('models-sh-datalist');
+    if (dl && Array.isArray(res.models)) {
+      dl.innerHTML = '';
+      res.models.forEach((id) => {
+        const o = document.createElement('option');
+        o.value = id;
+        dl.appendChild(o);
+      });
+    }
     this._shState(res.state || 'unavailable',
       (res.detail || '') + (res.policy === 'http_insecure_lan'
         ? ' · ' + (t('models_insecure_active') || 'unencrypted HTTP (insecure LAN)') : ''));
@@ -1943,6 +2030,9 @@ const SettingsView = {
     }
     wrap.innerHTML = '';
     (this._data.providers || []).forEach((prov) => {
+      // The self-hosted server's key is managed in the AI-models panel next
+      // to its URL (and unlike cloud keys it stays usable in Local only).
+      if (prov.provider === 'self_hosted') return;
       wrap.appendChild(this._providerRow(prov, kr.available, localOnly));
     });
   },

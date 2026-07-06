@@ -344,6 +344,19 @@ body {
         padding: 48px 32px
 }
 
+/* ── Settings ─── */
+/* Settings is a document-like column taller than the window: the VIEW is the
+   single scroller (like #view-home). Panels inside must not scroll on their
+   own, so there is never an inner/outer double-scrollbar fight. */
+#view-settings {
+        overflow-y: auto;
+        padding: 24px 24px 48px
+}
+
+#view-settings .ws-panel {
+        overflow: visible
+}
+
 .home-hero {
         text-align: center;
         margin-bottom: 48px

@@ -4,10 +4,10 @@
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>SmartDocs Platform — AI</title>
   <meta name="description" content="Extract, correct, translate and summarize text from images and documents."/>
-  <link rel="stylesheet" href="/static/style.css?v=2026.07.05.2"/>
+  <link rel="stylesheet" href="/static/style.css?v=2026.07.06.2"/>
   <link rel="stylesheet" href="/static/chat.css"/>
   <link rel="stylesheet" href="/static/vendor/katex/katex.min.css"/>
-  <script src="/static/i18n.js?v=2026.07.06.1"></script>
+  <script src="/static/i18n.js?v=2026.07.06.2"></script>
 </head>
 <body>
 <div id="app">
@@ -714,37 +714,69 @@
         <span id="models-routing-note" class="slbl" aria-live="polite"></span>
       </div>
 
-      <div class="slbl" style="font-weight:600;margin:0 0 6px" data-i18n="models_self_hosted_title">Self-hosted OpenAI-compatible server</div>
-      <div id="models-selfhosted-env" class="slbl" style="display:none;color:var(--warn)" role="alert"></div>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-        <input id="models-sh-url" type="url" autocomplete="off"
-               placeholder="https://host:8000  ·  http://127.0.0.1:8080"
-               aria-label="Server base URL"
-               style="flex:2;min-width:220px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
-        <input id="models-sh-model" type="text" autocomplete="off"
-               placeholder="model name" aria-label="Model name"
-               style="flex:1;min-width:140px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
-        <input id="models-sh-ctx" type="number" min="256" step="1024"
-               placeholder="context" aria-label="Context limit (tokens)" title="Context limit (tokens)"
-               style="width:110px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
-        <input id="models-sh-timeout" type="number" min="5" step="5"
-               placeholder="timeout s" aria-label="Timeout (seconds)" title="Timeout (seconds)"
-               style="width:100px;background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
+      <div id="models-selfhosted-section"
+           style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin:0 0 14px">
+        <div class="slbl" style="font-weight:600;font-size:13px;color:var(--text);margin:0 0 4px"
+             data-i18n="models_self_hosted_title">🖧 Self-hosted OpenAI-compatible server</div>
+        <p class="slbl" style="margin:0 0 10px" data-i18n="models_sh_desc">
+          Use a model server you run yourself — llama.cpp, vLLM, Ollama, LM
+          Studio… — on this machine, a LAN GPU box, or a private server. This
+          app only sends requests to it; the model does not need to be
+          installed here.</p>
+        <div id="models-selfhosted-env" class="slbl" style="display:none;color:var(--warn);margin:0 0 8px" role="alert"></div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end">
+          <label style="display:flex;flex-direction:column;gap:4px;flex:2;min-width:230px">
+            <span class="slbl" data-i18n="models_sh_url_label">Base URL</span>
+            <input id="models-sh-url" type="url" autocomplete="off"
+                   placeholder="http://192.168.1.50:8000/v1  ·  https://llm.example.com/v1"
+                   aria-label="Server base URL"
+                   style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
+          </label>
+          <label style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:160px">
+            <span class="slbl" data-i18n="models_sh_model_label">Model name</span>
+            <input id="models-sh-model" type="text" autocomplete="off"
+                   list="models-sh-datalist" placeholder="qwen2.5-14b-instruct"
+                   aria-label="Model name"
+                   style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
+            <datalist id="models-sh-datalist"></datalist>
+          </label>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;margin-top:8px">
+          <label style="display:flex;flex-direction:column;gap:4px;flex:2;min-width:230px">
+            <span class="slbl" data-i18n="models_sh_key_label">API key (optional — kept in the OS credential store, never in files)</span>
+            <input id="models-sh-key" type="password" autocomplete="off"
+                   placeholder="sk-…" aria-label="Self-hosted server API key"
+                   style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
+          </label>
+          <span id="models-sh-key-state" class="slbl" role="status" aria-live="polite"></span>
+          <button id="models-sh-key-remove" class="btn btn-ghost btn-sm" style="display:none"
+                  data-i18n="models_sh_key_remove">Remove key</button>
+          <label style="display:flex;flex-direction:column;gap:4px;width:120px">
+            <span class="slbl" data-i18n="models_sh_ctx_label">Context (tokens)</span>
+            <input id="models-sh-ctx" type="number" min="256" step="1024"
+                   placeholder="8192" aria-label="Context limit (tokens)"
+                   style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
+          </label>
+          <label style="display:flex;flex-direction:column;gap:4px;width:110px">
+            <span class="slbl" data-i18n="models_sh_timeout_label">Timeout (s)</span>
+            <input id="models-sh-timeout" type="number" min="5" step="5"
+                   placeholder="120" aria-label="Timeout (seconds)"
+                   style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:inherit">
+          </label>
+        </div>
+        <label style="display:flex;gap:6px;align-items:center;margin:10px 0" class="slbl">
+          <input type="checkbox" id="models-sh-insecure">
+          <span data-i18n="models_insecure_lan">Allow insecure HTTP on private LAN
+            (10.x / 172.16–31.x / 192.168.x only — traffic is unencrypted;
+            localhost never needs this)</span>
+        </label>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <button id="models-sh-save" class="btn btn-primary btn-sm" data-i18n="models_save_server">Save server</button>
+          <button id="models-sh-test" class="btn btn-ghost btn-sm" data-i18n="models_test">Test connection</button>
+          <button id="models-sh-clear" class="btn btn-ghost btn-sm" data-i18n="models_sh_clear">Clear / disable</button>
+          <span id="models-sh-state" role="status" aria-live="polite"></span>
+        </div>
       </div>
-      <label style="display:flex;gap:6px;align-items:center;margin:8px 0" class="slbl">
-        <input type="checkbox" id="models-sh-insecure">
-        <span data-i18n="models_insecure_lan">Allow insecure HTTP on private LAN
-          (10.x / 172.16–31.x / 192.168.x only — traffic is unencrypted;
-          localhost never needs this)</span>
-      </label>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-        <button id="models-sh-save" class="btn btn-primary btn-sm" data-i18n="models_save_server">Save server</button>
-        <button id="models-sh-test" class="btn btn-ghost btn-sm" data-i18n="models_test">Test connection</button>
-        <span id="models-sh-state" role="status" aria-live="polite"></span>
-      </div>
-      <p class="slbl" style="margin:8px 0 14px" data-i18n="models_sh_key_hint">
-        If the server needs an API key, save it below under “Self-hosted
-        server” — it is kept in the OS credential store.</p>
 
       <div class="slbl" style="font-weight:600;margin:0 0 6px" data-i18n="models_managed_title">Import a local model</div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
@@ -789,7 +821,7 @@
 <script src="/static/privacy-ui.js?v=2026.07.05.1"></script>
 <script src="/static/sidebar.js?v=2026.07.05.1"></script>
 <script src="/static/ocr-canvas.js?v=2026.06.14.1"></script>
-<script src="/static/app.js?v=2026.07.06.1"></script>
+<script src="/static/app.js?v=2026.07.06.2"></script>
 <script src="/static/chat.js?v=2026.06.14.1"></script>
 <script>
 // Fetch current user and populate navbar; redirect to login if session expired
